@@ -1,0 +1,160 @@
+% This is the Reed College LaTeX thesis template. Most of the work 
+% for the document class was done by Sam Noble (SN), as well as this
+% template. Later comments etc. by Ben Salzberg (BTS). Additional
+% restructuring and APA support by Jess Youngberg (JY).
+% Your comments and suggestions are more than welcome; please email
+% them to cus@reed.edu
+%
+% See http://web.reed.edu/cis/help/latex.html for help. There are a 
+% great bunch of help pages there, with notes on
+% getting started, bibtex, etc. Go there and read it if you're not
+% already familiar with LaTeX.
+%
+% Any line that starts with a percent symbol is a comment. 
+% They won't show up in the document, and are useful for notes 
+% to yourself and explaining commands. 
+% Commenting also removes a line from the document; 
+% very handy for troubleshooting problems. -BTS
+
+% As far as I know, this follows the requirements laid out in 
+% the 2002-2003 Senior Handbook. Ask a librarian to check the 
+% document before binding. -SN
+
+%%
+%% Preamble
+%%
+% \documentclass{<something>} must begin each LaTeX document
+\documentclass[12pt,twoside]{reedthesis}
+% Packages are extensions to the basic LaTeX functions. Whatever you
+% want to typeset, there is probably a package out there for it.
+% Chemistry (chemtex), screenplays, you name it.
+% Check out CTAN to see: http://www.ctan.org/
+%%
+\usepackage{graphicx,latexsym} 
+\usepackage{amssymb,amsthm,amsmath}
+\usepackage{longtable,booktabs,setspace} 
+\usepackage{chemarr} %% Useful for one reaction arrow, useless if you're not a chem major
+\usepackage[hyphens]{url}
+\usepackage{rotating}
+\usepackage{natbib}
+% Comment out the natbib line above and uncomment the following two lines to use the new 
+% biblatex-chicago style, for Chicago A. Also make some changes at the end where the 
+% bibliography is included. 
+%\usepackage{biblatex-chicago}
+%\bibliography{thesis}
+
+% \usepackage{times} % other fonts are available like times, bookman, charter, palatino
+
+\title{Multi-Input Functional Encryption and Obfuscation}
+\author{Sage R. Michaels}
+% The month and year that you submit your FINAL draft TO THE LIBRARY (May or December)
+\date{May 2018}
+\division{Mathematics and Natural Sciences}
+\advisor{Dylan McNamee}
+%If you have two advisors for some reason, you can use the following
+%\altadvisor{Your Other Advisor}
+%%% Remember to use the correct department!
+\department{Mathematics}
+% if you're writing a thesis in an interdisciplinary major,
+% uncomment the line below and change the text as appropriate.
+% check the Senior Handbook if unsure.
+%\thedivisionof{The Established Interdisciplinary Committee for}
+% if you want the approval page to say "Approved for the Committee",
+% uncomment the next line
+%\approvedforthe{Committee}
+
+\setlength{\parskip}{0pt}
+%%
+%% End Preamble
+%%
+%% The fun begins:
+\begin{document}
+
+  \maketitle
+  \frontmatter % this stuff will be roman-numbered
+  \pagestyle{empty} % this removes page numbers from the frontmatter
+
+% Acknowledgements (Acceptable American spelling) are optional
+% So are Acknowledgments (proper English spelling)
+    \chapter*{Acknowledgements}
+	I want to thank a few people.
+
+% The preface is optional
+% To remove it, comment it out or delete it.
+    \chapter*{Abstract}
+	This is an example of a thesis setup to use the reed thesis document class.
+	
+
+    \tableofcontents
+% if you want a list of tables, optional
+%    \listoftables
+% if you want a list of figures, also optional
+ %   \listoffigures
+    
+ 
+  \mainmatter % here the regular arabic numbering starts
+  \pagestyle{fancyplain} % turns page numbering back on   
+    
+     \chapter*{Introduction}
+         \addcontentsline{toc}{chapter}{Introduction}
+	\chaptermark{Introduction}
+	\markboth{Introduction}{Introduction}
+	    
+    \chapter{Motivation}    
+    
+    \section{Classical Encryption}
+    \section{Circuits}
+    \section{Secure Computation}
+    
+    
+    \chapter{Background}
+    \section{Functional Encryption}
+    \section{Black Box Obfuscation}
+    \section{Diffie-Hellman Key Exchange}
+    
+    \chapter{Multi-Linear Maps}
+    \section{Definition}
+    \section{Intuition}
+    \section{Construction Outline}
+    \section{Candidate Goups/Quotient Rings/Fields}
+    
+    
+    
+    \chapter{Indistinguishability Obfuscation}
+    \section{Definition}
+    \section{Construction}
+    \section{Usage, Limitations, and Goals}
+    
+    
+    
+    
+    \chapter{Multi-Party Input Functional Encryption}
+    \section{Scheme}
+    \section{Construction}
+    \section{Limitations and Goals}
+    
+    
+    
+    \chapter{ A Brief Introduction to the 5-GenC library}
+    \section{ The DSL}
+    \section{Circuits and Branching Programs}
+    \section{Base and MMaps}
+    
+    \chapter{Experiments}
+    \section{Comparison Circuit}
+    \section{Runtime Evaluation}
+    
+    
+    \chapter{Conclusion} 
+    
+    
+    
+    
+
+ \bibliographystyle{APA/apa-good}  % or
+ \bibliography{thesis}
+ % Comment the above two lines and uncomment the next line to use biblatex-chicago.
+ %\printbibliography[heading=bibintoc]
+
+% Finally, an index would go here... but it is also optional.
+\end{document}

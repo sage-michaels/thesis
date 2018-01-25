@@ -1,0 +1,31 @@
+\contentsline {chapter}{Introduction}{1}
+\contentsline {chapter}{Chapter 1: Motivation}{3}
+\contentsline {section}{\numberline {1.1}Classical Encryption}{3}
+\contentsline {section}{\numberline {1.2}Circuits}{3}
+\contentsline {section}{\numberline {1.3}Secure Computation}{3}
+\contentsline {chapter}{Chapter 2: Background}{5}
+\contentsline {section}{\numberline {2.1}Functional Encryption}{5}
+\contentsline {section}{\numberline {2.2}Black Box Obfuscation}{5}
+\contentsline {section}{\numberline {2.3}Diffie-Hellman Key Exchange}{5}
+\contentsline {chapter}{Chapter 3: Multi-Linear Maps}{7}
+\contentsline {section}{\numberline {3.1}Definition}{7}
+\contentsline {section}{\numberline {3.2}Intuition}{7}
+\contentsline {section}{\numberline {3.3}Construction Outline}{7}
+\contentsline {section}{\numberline {3.4}Candidate Goups/Quotient Rings/Fields}{7}
+\contentsline {chapter}{Chapter 4: Indistinguishability Obfuscation}{9}
+\contentsline {section}{\numberline {4.1}Definition}{9}
+\contentsline {section}{\numberline {4.2}Construction}{9}
+\contentsline {section}{\numberline {4.3}Usage, Limitations, and Goals}{9}
+\contentsline {chapter}{Chapter 5: Multi-Party Input Functional Encryption}{11}
+\contentsline {section}{\numberline {5.1}Scheme}{11}
+\contentsline {section}{\numberline {5.2}Construction}{11}
+\contentsline {section}{\numberline {5.3}Limitations and Goals}{11}
+\contentsline {chapter}{Chapter 6: A Brief Introduction to the 5-GenC library}{13}
+\contentsline {section}{\numberline {6.1} The DSL}{13}
+\contentsline {section}{\numberline {6.2}Circuits and Branching Programs}{13}
+\contentsline {section}{\numberline {6.3}Base and MMaps}{13}
+\contentsline {chapter}{Chapter 7: Experiments}{15}
+\contentsline {section}{\numberline {7.1}Comparison Circuit}{15}
+\contentsline {section}{\numberline {7.2}Runtime Evaluation}{15}
+\contentsline {chapter}{Chapter 8: Conclusion}{17}
+\contentsline {chapter}{References}{19}
