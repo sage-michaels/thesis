@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  24 JAN 2018 17:53
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  28 JAN 2018 15:46
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -327,12 +327,13 @@ Non-PDF special ignored!
 
 ] [3] [4
 
-] (./thesis.toc [5])
+] (./thesis.toc)
 \tf@toc=\write3
 \openout3 = `thesis.toc'.
 
- [6] [1
+ [5] [6
 
+] [1
 
 ]
 [2
@@ -363,24 +364,20 @@ Chapter 6.
 
 ]
 Chapter 7.
-[15] [16
+(./thesis.bbl [15] [16
 
-]
-Chapter 8.
-(./thesis.bbl [17] [18
-
-] [19])
+] [17])
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 14.49998pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[20] (./thesis.aux) ) 
+[18] (./thesis.aux) ) 
 Here is how much of TeX's memory you used:
  3400 strings out of 493014
  44697 string characters out of 6133351
- 111140 words of memory out of 5000000
+ 110172 words of memory out of 5000000
  6860 multiletter control sequences out of 15000+600000
  10990 words of font info for 43 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -391,10 +388,10 @@ onts/cm/cmr12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfon
 ts/cm/cmsl12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfont
 s/cm/cmti12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmtt12.pfb>
-Output written on thesis.pdf (30 pages, 82950 bytes).
+Output written on thesis.pdf (28 pages, 82535 bytes).
 PDF statistics:
- 120 PDF objects out of 1000 (max. 8388607)
- 82 compressed objects within 1 object stream
+ 114 PDF objects out of 1000 (max. 8388607)
+ 78 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
