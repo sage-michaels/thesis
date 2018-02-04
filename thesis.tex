@@ -178,7 +178,7 @@ The only functionality of public key encryption is fully decoding the message so
 \begin{definition}[Functional Encryption Scheme]
 A Functional Encryption Scheme $\Pi$ is defined to be the following algorithms:
 
-$$\text{setup}: \Z \rightarrow K \times K$$
+$$\text{Setup}: \Z \rightarrow K \times K$$
 Defined: For $\lambda \in \Z,$ setup($\lambda) \rightarrow (pk,mk)$, generates a public key and master key
 $$\text{Gen}: K \times C \rightarrow K $$
 Defined: For $c\in C_{ase}, mk \in K$, Gen$(mk,c) \rightarrow sk$ which is kept secret and is the secret key of functionality $c$.
@@ -192,17 +192,75 @@ Defined: For $ek \in K$ and $c \in C_{ipher}, \Dec(k,c) \rightarrow n$ where $n 
 
 
 If the notion of a Functionality was confusing before, the use of it in generating the secret key should make it clear.
+
+\par Suppose Alice wants to store some text files ($\{m_1,m_2,\cdots, m_n \}$) on Bob's Cloud Storage to retrieve at some later date.
+ Bob, owner of Bob's Cloud Storage, has a strong dislike for cats and doesn't want anything stored on
+  his cloud with the word "cat" in it. Alice and Bob contact Janet, impartial third party, and share their desired functionalities: Alice wants to be able to fully decrypt (i.e. identity functionality), Bob wants to be able to check if the word "cat" is in anything stored on his server (we call this function checking for the word "cat" $f$). Janet runs Setup$(\lambda)\rightarrow (mk, pk)$ and publishes the public key, and also runs Keygen$(mk,0) \rightarrow sk_{id}$ and Keygen$(mk,1) \rightarrow sk_f$ for functionality:
+$$F(c,m) = \begin{cases}
+f(m) \text{ if } k = 0 \\
+id(m) \text{ if } k = 1
+\end{cases} $$
+Then Janet securely sends $sk_{id}$ to Alice and $sk_{f}$ to Bob. Now Alice encrypts her text files Enc$_{pk}(m_1) \rightarrow c_1,$Enc$_{pk}(m_2 \rightarrow c_2, \cdots $,Enc$_{pk}(m_n) \rightarrow c_n,$, and sends $\{c_1,c_2, \cdots, c_n \}$ to Bob for storage. Bob then runs $\Dec_{sk_f}(c_1) \rightarrow b_1 , \cdots, \Dec_{sk_f}(c_n) \rightarrow b_n $ and allows storage of all $c_i$ that indicate the word "cat" is not being stored.  This interaction is illustrated in the diagram below:
+
+\begin{center}
+
+\textbf{ insert sick diagram of Alice Bob and Janet executing the exchange discussed above!}
+\end{center}
+
+\par It should be noted that the impartial 3rd party does not need to be fully trusted since Janet doesn't have any of Alice's cipher text's to decrypt, but it is important that Janet is impartial since otherwise should could collaborate with Alice to store a Cat Encyclopedia on Bob's Servers or could collaborate with Bob to learn more about what Alice is storing than what Alice and Bob have agreed upon.
+
+
 \par Functional Encryption is at the early stages of development now, but is an extremely powerful tool. From Functional Encryption we can easily describe variations like Attribute Based Encryption, Identity Based Encryption, and Multi Input Functional Encryption.
 
 
-    \section{Black Box Obfuscation}
-    Later on we will get into the details of the current notion of Obfuscation, known as Indistinguishability
-    Obfuscation. However, to understand its importance and it's limitations it's important to understand
-    where it evolved from. 
-    \section{Diffie-Hellman Key Exchange}
+    \section{Obfuscation}
+    
+    \subsection{Black Box Obfuscation}
+    In short, circuit (and program) Obfuscation is a Cryptographic method that seeks to make a circuit
+    unintelligible to anyone looking at only its obfuscation. Black Box Obfuscation was first defined by
+    \textbf{(INSERT CITATION)}. The goal of Black Box Obfuscation is that a circuit that has been Black Box Obfuscated should reveal no more about it's inner workings than a table of inputs and outputs of the that circuit (we call this table an Oracle since).
+    
+    \begin{definition}
+    Given any circuit $C$ and an Oracle $\mathcal{O}_c(\cdot)$ with the same functionality of $C$, an obfuscater $\mathcal{O}(\cdot)$, and any adversary $\mathcal{A}$. We say $\mathcal{O}$ is a Black Box obfuscater if $\mathcal{A}$ given access to $\mathcal{O}(C)(\cdot)$ can determine just as much about the inner workings of $C$ as if $\mathcal{A}$ had been given access to $\mathcal{O}_c(\cdot)$.
+   
+    
+    \end{definition}
+    
+    \begin{center}
+    \textbf{ FIND A BETTER DEFINITION OF BLACK BOX OBFUSCATION}
+    \end{center}
+    
+    \par While Black Box Obfuscation has been proven impossible for general circuits and programs (\textbf{insert citation and perhaps some more details as to what exactly has been proven impossible}) Let's take a moment to talk about why Cryptographers would want Black Box Obfuscation as a tool. Currently Public Key Encryption relies on expensive computations, since the private keys are just 
+    inverses of public keys in some group so the groups and the keys have to be extremely large, however private key encryption is much more efficient since it's just running some sort of permutation on the message using the key and then descrambling the cipher text with the same key. Using Black 
+    Box Obfuscation if would be possible to obfuscate an encryption function with a secret key, $sk$, baked in $\mathcal{O}(\Enc_{sk}(\cdot) \rightarrow \Enc(\cdot)$ where $\Enc(\cdot)$ can be made public without risk of anyone learning $sk$ keeping the ability to decrypt in the hands of those who started off with the secret key.
+    
+    \subsection{Indistinguishability Obfuscation}
+    While Black Box Obfuscation was proved impossible, Cryptographers weakened their definition of Obfuscation to try and see what \textit{is} possible in the field of obfuscation. This led to a new notion of Obfuscation called Indistinguishability Obfuscation. 
+    \newcommand{\iO}[0]{\textit{i}\mathcal{O}}
+    
+    
+    \begin{definition}[Indistinguishability Obfuscation]
+    Given circuits $C_0,\ C_1$ where $|C_0| \approx |C_1|, C_0(x) = C_1(x)$ for all valid $x$, and an obfuscater $\iO(\cdot)$; we say that $\iO$ is an \textbf{indistinguishability obfuscater} if for all Distinguishers $\mathcal{D}$
+    $$\Pr[\mathcal{D}(\iO(C_0)) = 1] -\Pr[\mathcal{D}(\iO(C_1)) = 1] \leq \text{negl}$$
+    \end{definition}
+    
+    \par This definition can be a little confusing to understand. In short, Indistinguishability Obfuscation guarantees that two circuits with the same functionality are indistinguishable from one another once run through an indistinguishability obfuscater. 
+    \par What can be more confusing is why this would be useful since the two circuits are functionally the same. The most obvious usage is in removing water marks from programs. Suppose Dan buys a fancy piece of software called Macrosoft Word for his company. Macrosoft is worried about their software being pirated so they put a watermark in Dan's copy of Macrosoft Word that doesn't change the functionality of his copy of the program. Suppose Dan wants to make Macrosoft Word free for everyone and decides to post it on a torrenting website. If Dan posts his copy as is, Macrosoft and their Copyright lawyers will be able to see that it was Dan who illegally shared his software. Instead, if Dan first runs his copy of Macrosoft word through an Indistinguishability Obfuscater and post that, Macrosoft and their lawyers will be unable to tell if it was Dan's copy that was posted, or another customer's.
+    \par This might seem like a weak definition, but Indistinguishability Obfuscation has become a powerful cryptographic tool, and has proven to be as good as the best possible obfuscation, the proof is short and eloquent so we will show it here but it was originally formulated by (\textbf{INSERT CITATION HERE})
+    
+    \newcommand{\Oh}[0]{\mathcal{O}}
+    \begin{proof}
+    Let $\iO(\cdot)$ be an indistinguishability obfuscater, $\Oh(\cdot)$ the best obfuscater possible, and $C$ a circuit. Then by definition of Indistinguishability Obfuscation, $\iO(C)$ is indistinguishable from $\Oh(C)$. Thus Indistinguishability Obfuscation is at least as good as any other type of Obfuscation.
+    \end{proof}
+    
+    Because of this, Cryptographers often treat Indistinguishability Obfuscation the same as Black Box Obfuscation. This could lead to issues in the future and there is lots of room for work to be done in quantifying levels of Obfuscation.
+    
+    
+    
     
     \chapter{Multi-Linear Maps}
     \section{Definition}
+    
     \section{Intuition}
     \section{Construction Outline}
     \section{Candidate Goups/Quotient Rings/Fields}
@@ -210,7 +268,6 @@ If the notion of a Functionality was confusing before, the use of it in generati
     
     
     \chapter{Indistinguishability Obfuscation}
-    \section{Definition}
     \section{Construction}
     \section{Usage, Limitations, and Goals}
     
