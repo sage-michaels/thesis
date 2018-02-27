@@ -32,7 +32,9 @@
 %%
 \usepackage{graphicx,latexsym} 
 \usepackage{amssymb,amsthm,amsmath}
-\usepackage{longtable,booktabs,setspace} 
+\usepackage{longtable,booktabs,setspace}
+\usepackage{tikz}
+\usetikzlibrary{tikzmark,calc}
 \usepackage{chemarr} %% Useful for one reaction arrow, useless if you're not a chem major
 \usepackage[hyphens]{url}
 \usepackage{rotating}
@@ -44,6 +46,8 @@
 %\bibliography{thesis}
 
 \newtheorem{definition}{Definition}
+
+\newtheorem{assumption}{Hardness Assumption}
 % \usepackage{times} % other fonts are available like times, bookman, charter, palatino
 
 \title{Multi-Input Functional Encryption and Obfuscation}
@@ -63,6 +67,12 @@
 % if you want the approval page to say "Approved for the Committee",
 % uncomment the next line
 %\approvedforthe{Committee}
+
+\newcommand{\coloneqq}[0]{:=}
+\newcommand{\gen}[0]{\text{Gen}}
+\newcommand{\enc}[0]{\text{Enc}}
+\newcommand{\dec}[0]{\text{Dec}}
+\newcommand{\Z}[0]{\mathbb{Z}}
 
 \setlength{\parskip}{0pt}
 %%
@@ -104,26 +114,29 @@
     
     \chapter{Background}
     \section{Encryption}
-    In plain English, Encryption a way to share a message so that only the intended recipient(s) of
-    that message are able to read it. Historically this was done by means of obscurity, in the sense that correspondents
-    assumed only they knew the specific method by which messages between them would be encrypted. The problem
-    with Encryption by obscurity is that as soon as a method of obscurity becomes popular, it immediately becomes
-    obsolete.
+    Encryption a way to share a message so that only the intended recipient(s) of
+    that message are able to read it. Historically this was done by means of obscurity, in the sense that correspondents assumed only they knew the specific method by which messages between them would be encrypted. The problem with encryption via obscurity is that as soon as a method of encryption becomes popular, it immediately becomes obsolete.
     \subsection{Classical Encryption}
-    Now, Cryptographers work to develop encryption schemes that are computationally infeasible for adversaries to break even if the method of encryption is known (this is known as Kerckhoff's Principle). To do this, Encryption functions are made public but take an extra parameter that is kept secret, we call this secret a key, and the best keys are ones that are chosen randomly, since they are nearly impossible to guess. In defining an encryption scheme it is important to note that there exists a keyspace $K$ which is the set of all valid keys, a message space $M$ made up of all valid messages, and a cipher space $C$ the set of all valid cipher-texts (encryptions of messages).
- \\ \\
-  We define an encryption scheme $\Pi$ to be the following three functions:
+    Now, cryptographers work to develop encryption schemes that are computationally infeasible for adversaries to break even if the method of encryption is known (this is known as Kerckhoff's Principle). To do this, encryption functions are made public but take an extra parameter that is kept secret, we call this secret a key. The best keys are ones that are decently long, so that every possible key can't be attempted by an adversary; and chosen randomly, so they are nearly impossible to guess. 
+    \par In defining an encryption scheme we call the set of all valid keys $K$ called a key space, a set of all valid messages $M$ called the message space, and a set of all valid cipher texts (encrypted messages) $C$ called a cipher space.
+ \\
+
+\begin{definition}[Classical Encryption Scheme]
      
  
  $$\text{Gen}:\mathbb{Z} \rightarrow K \times K$$
- Defined to be for $\lambda \in \mathbb{Z}$, Gen($\lambda ) \rightarrow (pk,sk)$ where $pk$ and $sk$ are seemingly random keys of length $\lambda$.
+ Defined to be for $\lambda \in \mathbb{Z}$, Gen($\lambda ) \rightarrow (pk,sk)$ where $pk$ and $sk$ are random keys of length $\lambda$.
  
   $$\text{Enc}:K \times M \rightarrow C$$
-Defined to be for key $pk\in K$ and message $m\in M$ Enc$_pk(m) \rightarrow c$ for some cipher text $c\in C$
+Defined for key $pk\in K$ and message $m\in M$; to be Enc$_{pk}(m) \rightarrow c$ for some cipher text $c\in C$
  
  $$\text{Dec}:K \times C \rightarrow M$$
- Defined to be for key $sk \in K$ and cipher text $c\in C$ Dec$_sk(c) \rightarrow m$ for some message $m\in M$
-\par It is important to note that if $sk = pk$ this is called a symmetric or private key encryption scheme meaning only the correspondents know the key and they keep it secret. If $sk \not= pk$ then this is called an asymmetric or public key encryption scheme where $sk$ is a secret key and $pk$ is a public key. In a public key encryption scheme anyone can encrypt a message since the public key is public, but only people with the secret key are able to decrypt.
+ Defined for key $sk \in K$ and cipher text $c\in C$; to be Dec$_sk(c) \rightarrow m$ for some message $m\in M$
+ 
+ \end{definition}
+ 
+ 
+\par If $sk = pk$ this is called a symmetric or private key encryption scheme meaning only the correspondents know the key and they keep it secret. If $sk \not= pk$ then this is called an asymmetric or public key encryption scheme where $sk$ is a secret key and $pk$ is a public key. In a public key encryption scheme anyone can encrypt a message since the public key is public, but only people with the secret key are able to decrypt.
 
 
 \begin{definition}[Correctness]
@@ -134,20 +147,32 @@ $$\text{Dec}_{sk}(\text{Enc}_{pk}(m)) = m$$
 
 
 \par Suppose Alice and wants to send Bob a secret message $m$. To do this Bob would have to run Gen$(n) \rightarrow pk, sk$ and then send $pk$ to Alice. Then Alice gets $c:= $Enc$_{pk}(m)$ and sends $c$ over to Bob. Finally Bob gets $m':= $Dec$_{sk}(c)$. If the scheme is correct then $m' = m$ and Bob is able to read Alice's message. The above interaction is represented in the following diagram.
-\begin{center}
-\textbf{insert sick diagram of Alice interacting with Bob}
-\end{center}
 
 
-\newcommand{\Enc}[0]{Enc}
-\newcommand{\Dec}[0]{Dec}
+\begin{table}[ht]
+  \centering
+  \fbox{
+  \begin{tabular}{c c c}
+    Bob & & Alice \\ 
+    $\gen(\lambda) \rightarrow (sk,pk)$ &&\\
+    & $\xrightarrow{\quad pk \quad}$ & \\
+    & & $\enc_{pk}(m) \rightarrow c$ \\
+    & $\xleftarrow{\quad c \quad}$& \\
+    $m' \coloneqq \dec_{pk}(c)$ && \\
+  \end{tabular}
+  }
+   \caption{Public Key Encryption Protocol}
+  \end{table}
+
+
+
 \subsection{Functional Encryption}
 
 With classical encryption, decryption is all or nothing, either you have the secret key and can find out the message, or you don't have the secret key so you can't. With functional encryption we broaden the possibilities of what is communicated between senders in an encryption scheme. We start with a definition and then show the formal construction.
 \begin{definition}[Correctness]
-A Functional Encryption Scheme $\Pi$ is \textbf{correct} if for $m \in M$, some predetermined function $f$ with $M$ as it's domain, and appropriate $(pk,ek)\in K$ generated by $\Pi$'s key generation algorithm:
+A Functional Encryption Scheme $\Pi$ is \textbf{correct} if for $m \in M$, some predetermined function $f$ with $M$ as its domain, and appropriate public key and \textit{evaluation} key $(pk,ek)\in K$ from $\Pi$'s key generation algorithm:
 
-$$\Dec_{ek}(\Enc_{pk}(m)) = f(m) $$
+$$\dec_{ek}(\enc_{pk}(m)) = f(m) $$
 \end{definition}
 
 It's easy to see that this definition encapsulates the older definition of correctness by making $f$ the identity function $f(m) = m$, but this syntax covers many other cryptographic primitives as well like Attribute Based Encryption and Identity Based Encryption. To see how these primitives are sub cases of Functional Encryption. Lets formalize our idea of a Functional Encryption Scheme. 
@@ -159,8 +184,8 @@ It's easy to see that this definition encapsulates the older definition of corre
 
 
 \begin{definition}[Functionality]
-Given a case space $C_ase \cup \{\epsilon\}$, message space $M$ we define the functionality $F$ to be 
-$$F:C_ase \times M \rightarrow M$$
+Given a case space $C_{ase} \cup \{\epsilon\}$, message space $M$ we define the functionality $F$ to be 
+$$F:C_{ase} \times M \rightarrow M$$
 \end{definition}
 
 \par Functionality describes what the possible outputs are. In public key encryption, knowing the secret key $sk$ allows for the message to be read in full, but without the secret key, only the length of the message can be discerned from the cipher text. To write this in the syntax of a functionality we define
@@ -174,20 +199,19 @@ $$
 The only functionality of public key encryption is fully decoding the message so this is our primary case $(c = 1)$, however we also account for the information learned without the public key which is an unavoidable rather than built in case $(c = \epsilon)$.
 
 
-\newcommand{\Z}[0]{\mathbb{Z}}
 \begin{definition}[Functional Encryption Scheme]
-A Functional Encryption Scheme $\Pi$ is defined to be the following algorithms:
+A Functional Encryption Scheme $\Pi$ is defined to be the following four algorithms:
 
 $$\text{Setup}: \Z \rightarrow K \times K$$
-Defined: For $\lambda \in \Z,$ setup($\lambda) \rightarrow (pk,mk)$, generates a public key and master key
+Defined for $\lambda \in \Z$; to be setup($\lambda) \rightarrow (pk,mk)$, generates a public key and master key
 $$\text{Gen}: K \times C \rightarrow K $$
-Defined: For $c\in C_{ase}, mk \in K$, Gen$(mk,c) \rightarrow sk$ which is kept secret and is the secret key of functionality $c$.
+Defined for $c\in C_{ase}, mk \in K$; to be Gen$(mk,c) \rightarrow sk$ which is kept secret and is the secret key of functionality $c$.
 
-$$\Enc: K \times M \rightarrow C_{ipher}$$
-Defined: For $pk\in K$ and $m \in M, \Enc_{pk}(m) \rightarrow c$
+$$\enc: K \times M \rightarrow C_{ipher}$$
+Defined: For $pk\in K$ and $m \in M;$ to be $\enc_{pk}(m) \rightarrow c$
 
-$$\Dec:K \times C_{ipher} \rightarrow M$$
-Defined: For $ek \in K$ and $c \in C_{ipher}, \Dec(k,c) \rightarrow n$ where $n = F(k,m)$ for some functionality $F$. 
+$$\dec:K \times C_{ipher} \rightarrow M$$
+Defined for $ek \in K$ and $c \in C_{ipher};$ to be $\dec(k,c) \rightarrow n$ where $n = F(k,m)$ for some functionality $F$. 
 \end{definition}
 
 
@@ -195,23 +219,52 @@ If the notion of a Functionality was confusing before, the use of it in generati
 
 \par Suppose Alice wants to store some text files ($\{m_1,m_2,\cdots, m_n \}$) on Bob's Cloud Storage to retrieve at some later date.
  Bob, owner of Bob's Cloud Storage, has a strong dislike for cats and doesn't want anything stored on
-  his cloud with the word "cat" in it. Alice and Bob contact Janet, impartial third party, and share their desired functionalities: Alice wants to be able to fully decrypt (i.e. identity functionality), Bob wants to be able to check if the word "cat" is in anything stored on his server (we call this function checking for the word "cat" $f$). Janet runs Setup$(\lambda)\rightarrow (mk, pk)$ and publishes the public key, and also runs Keygen$(mk,0) \rightarrow sk_{id}$ and Keygen$(mk,1) \rightarrow sk_f$ for functionality:
+  his cloud with the word "cat" in it. Alice and Bob contact Janet, an impartial third party, and share their desired functionalities: Alice wants to be able to fully decrypt (i.e. identity functionality), Bob wants to be able to check if the word "cat" is in anything stored on his server (we call this function checking for the word "cat" $f$). Janet runs Setup$(\lambda)\rightarrow (mk, pk)$ and publishes the public key, and also runs Keygen$(mk,0) \rightarrow sk_{id}$ and Keygen$(mk,1) \rightarrow sk_f$ for functionality:
 $$F(c,m) = \begin{cases}
 f(m) \text{ if } k = 0 \\
 id(m) \text{ if } k = 1
 \end{cases} $$
-Then Janet securely sends $sk_{id}$ to Alice and $sk_{f}$ to Bob. Now Alice encrypts her text files Enc$_{pk}(m_1) \rightarrow c_1,$Enc$_{pk}(m_2 \rightarrow c_2, \cdots $,Enc$_{pk}(m_n) \rightarrow c_n,$, and sends $\{c_1,c_2, \cdots, c_n \}$ to Bob for storage. Bob then runs $\Dec_{sk_f}(c_1) \rightarrow b_1 , \cdots, \Dec_{sk_f}(c_n) \rightarrow b_n $ and allows storage of all $c_i$ that indicate the word "cat" is not being stored.  This interaction is illustrated in the diagram below:
+Then Janet securely sends $sk_{id}$ to Alice and $sk_{f}$ to Bob. Now Alice encrypts her text files Enc$_{pk}(m_1) \rightarrow c_1,$Enc$_{pk}(m_2) \rightarrow c_2, \cdots $,Enc$_{pk}(m_n) \rightarrow c_n,$ and sends $\{c_1,c_2, \cdots, c_n \}$ to Bob for storage. Bob then runs $\dec_{sk_f}(c_1) \rightarrow b_1 , \cdots, \dec_{sk_f}(c_n) \rightarrow b_n $ and allows storage of all $c_i$ that indicate the word "cat" is not being stored.  This interaction is illustrated in the diagram below:
 
-\begin{center}
+\begin{table}[ht]
+\newcommand{\Enc}[0]{\text{ Enc}}
+\newcommand{\Dec}[0]{\text{ Dec}}
+  \centering
+  \fbox{
+  \begin{tabular}{c c c c c}
+    Bob & & Janet &  & Alice \\ 
+    & & Setup$(\lambda) \rightarrow (mk,pk)$ & & \\
+    &$\xrightarrow{\quad f \quad}$ & & $\xleftarrow{\quad id \quad} $&\\ 
+    & $\xleftarrow{\quad pk \quad}$ & & $\xrightarrow{\quad pk \quad}$ & \\
+    & & $F(c,x) =
+    \begin{cases}
+    id(x) \text{ if } c = 0 \\
+    f(x)  \text{ if } c = 1
+    \end{cases}
+    $
+       & & \\
+  & & KeyGen$(0,mk) \rightarrow sk_{id} $ & & \\
+  & & KeyGen$(1,mk) \rightarrow sk_f$ & & \\
+  & $\xleftarrow{\quad sk_f \quad}$ & securely sends & $\xrightarrow{\quad sk_{id}} $ & \\
+  & & & & $\Enc_{sk_{id}}(m_1)\rightarrow c_1$ \\
+   & & & & $\vdots$ \\
+   & & & & $\Enc_{sk_{id}}(m_n)\rightarrow c_n$ \\
+   \end{tabular}
+  }
+  \caption{Public Key Encryption Protocol}
+\end{table}
+  
 
-\textbf{ insert sick diagram of Alice Bob and Janet executing the exchange discussed above!}
-\end{center}
+
+
 
 \par It should be noted that the impartial 3rd party does not need to be fully trusted since Janet doesn't have any of Alice's cipher text's to decrypt, but it is important that Janet is impartial since otherwise should could collaborate with Alice to store a Cat Encyclopedia on Bob's Servers or could collaborate with Bob to learn more about what Alice is storing than what Alice and Bob have agreed upon.
 
 
-\par Functional Encryption is at the early stages of development now, but is an extremely powerful tool. From Functional Encryption we can easily describe variations like Attribute Based Encryption, Identity Based Encryption, and Multi Input Functional Encryption.
+\par Research into Functional Encryption is currently at early stages, later we will describe the details of how it works, and where it's currently limited. Even at such an early stage Cryptographic research, Functional Encryption has proven to be a powerful tool giving us a variety of functionaries with only small alterations of syntax such as Attribute Based Encryption \textbf{CITATION NEEDED}, Identity Based Encryption \textbf{CITATION NEEDED}, and Multi-Party Input Functional Encryption \textbf{CITATION NEEDED} which we will actually work with later on. 
 
+    
+    
 
     \section{Obfuscation}
     
@@ -230,12 +283,11 @@ Then Janet securely sends $sk_{id}$ to Alice and $sk_{f}$ to Bob. Now Alice encr
     \textbf{ FIND A BETTER DEFINITION OF BLACK BOX OBFUSCATION}
     \end{center}
     
-    \par While Black Box Obfuscation has been proven impossible for general circuits and programs (\textbf{insert citation and perhaps some more details as to what exactly has been proven impossible}) Let's take a moment to talk about why Cryptographers would want Black Box Obfuscation as a tool. Currently Public Key Encryption relies on expensive computations, since the private keys are just 
-    inverses of public keys in some group so the groups and the keys have to be extremely large, however private key encryption is much more efficient since it's just running some sort of permutation on the message using the key and then descrambling the cipher text with the same key. Using Black 
-    Box Obfuscation if would be possible to obfuscate an encryption function with a secret key, $sk$, baked in $\mathcal{O}(\Enc_{sk}(\cdot) \rightarrow \Enc(\cdot)$ where $\Enc(\cdot)$ can be made public without risk of anyone learning $sk$ keeping the ability to decrypt in the hands of those who started off with the secret key.
+    \par While Black Box Obfuscation has been proven impossible for general circuits and programs (\textbf{insert citation and perhaps some more details as to what exactly has been proven impossible}) 
+    \par Let's take a moment to talk about why Cryptographers would want Black Box Obfuscation as a tool. Currently Public Key Encryption relies on expensive computations, (For Example in RSA the private keys are just inverses of public keys in some group large enough for this to be difficult to compute). However, private key encryption is much more efficient since it's just running some sort of permutation on the message using the secret key and then descrambling the cipher text with the same secret key. Using Black Box Obfuscation if would be possible to obfuscate a private key encryption function with a secret key $sk$ baked in $\mathcal{O}(\enc_{sk}(\cdot) \rightarrow \enc(\cdot)$ where $\enc(\cdot)$ can be made public without risk of anyone learning $sk$ keeping the ability to decrypt in the hands of those who started off with the secret key. Thus Black Box Obfuscation would make efficient private key encryption into efficient public key encryption.
     
     \subsection{Indistinguishability Obfuscation}
-    While Black Box Obfuscation was proved impossible, Cryptographers weakened their definition of Obfuscation to try and see what \textit{is} possible in the field of obfuscation. This led to a new notion of Obfuscation called Indistinguishability Obfuscation. 
+    While Black Box Obfuscation was proved impossible \textbf{CITATION}, Cryptographers weakened their definition of Obfuscation to try and see what \textit{is} possible in the field of obfuscation. This led to a new notion of Obfuscation called Indistinguishability Obfuscation. 
     \newcommand{\iO}[0]{\textit{i}\mathcal{O}}
     
     
@@ -245,29 +297,129 @@ Then Janet securely sends $sk_{id}$ to Alice and $sk_{f}$ to Bob. Now Alice encr
     \end{definition}
     
     \par This definition can be a little confusing to understand. In short, Indistinguishability Obfuscation guarantees that two circuits with the same functionality are indistinguishable from one another once run through an indistinguishability obfuscater. 
-    \par What can be more confusing is why this would be useful since the two circuits are functionally the same. The most obvious usage is in removing water marks from programs. Suppose Dan buys a fancy piece of software called Macrosoft Word for his company. Macrosoft is worried about their software being pirated so they put a watermark in Dan's copy of Macrosoft Word that doesn't change the functionality of his copy of the program. Suppose Dan wants to make Macrosoft Word free for everyone and decides to post it on a torrenting website. If Dan posts his copy as is, Macrosoft and their Copyright lawyers will be able to see that it was Dan who illegally shared his software. Instead, if Dan first runs his copy of Macrosoft word through an Indistinguishability Obfuscater and post that, Macrosoft and their lawyers will be unable to tell if it was Dan's copy that was posted, or another customer's.
+    \par What can be more confusing is why this would be useful since the two circuits are functionally the same. The most simple usage is in removing water marks from programs. Suppose Dan buys a fancy piece of software called Macrosoft Word for his company. Macrosoft is worried about their software being pirated so they put a watermark in Dan's copy of Macrosoft Word that doesn't change the functionality of his copy of the program, indicating that this is Dan's copy. Suppose Dan wants to make Macrosoft Word free for everyone and decides to post it on a torrenting website. If Dan posts his copy as is, Macrosoft and their Copyright lawyers will be able to see that it was Dan who illegally shared his copy of their software. Instead, if Dan first runs his copy of Macrosoft word through an Indistinguishability Obfuscater and post that, Macrosoft and their lawyers will be unable to tell if it was Dan's copy that was posted, or another customer's.
     \par This might seem like a weak definition, but Indistinguishability Obfuscation has become a powerful cryptographic tool, and has proven to be as good as the best possible obfuscation, the proof is short and eloquent so we will show it here but it was originally formulated by (\textbf{INSERT CITATION HERE})
     
     \newcommand{\Oh}[0]{\mathcal{O}}
     \begin{proof}
-    Let $\iO(\cdot)$ be an indistinguishability obfuscater, $\Oh(\cdot)$ the best obfuscater possible, and $C$ a circuit. Then by definition of Indistinguishability Obfuscation, $\iO(C)$ is indistinguishable from $\Oh(C)$. Thus Indistinguishability Obfuscation is at least as good as any other type of Obfuscation.
+    Let $\iO(\cdot)$ be an indistinguishability obfuscater, $\Oh(\cdot)$ the best obfuscater possible, and $C$ a circuit. Then by definition of Indistinguishability Obfuscation, $\iO(C)$ is indistinguishable from $\iO(\Oh(C))$. Thus Indistinguishability Obfuscation is at least as good as any other type of Obfuscation.
     \end{proof}
     
-    Because of this, Cryptographers often treat Indistinguishability Obfuscation the same as Black Box Obfuscation. This could lead to issues in the future and there is lots of room for work to be done in quantifying levels of Obfuscation.
+    Because of this, Cryptographers often treat Indistinguishability Obfuscation the same as Black Box Obfuscation. This could lead to issues in the future and there is lots of room for work to be done in quantifying degrees of Obfuscation.
     
     
+    \section{Bilinear Maps}
     
+    Lastly we give a brief introduction to Bilinear maps, which we will later generalize to Multilinear maps.
     
-    \chapter{Multi-Linear Maps}
-    \section{Definition}
+    \subsection{Definition}
+    
+    \begin{definition}{Bilinear Maps}
+    Let $G_1,G_2,G_3$ be cyclic groups of prime order $p$. Then we say a map $e:G_1 \times G_2 \rightarrow G_3$ is bilinear if
+    
+    \begin{enumerate}
+    \item For all $g_1 \in G_1, g_2\in G_2,$ and $ \alpha \in \Z_p, e(\alpha\cdot g_1,g_2) =e( g_1,\alpha\cdot g_2) = \alpha\cdot e(g_1,g_2) $
+    \item For generators $g_1\in G_1$ and $g_2 \in G_2,\; e(g_1,g_2) = g_3$ a generator of $G_3$. 
+    \end{enumerate}    
+    \end{definition}
     
     \section{Intuition}
-    \section{Construction Outline}
+    \newcommand{\params}[0]{\textbf{params}}
+    The most accessible example of Bilinear Map is in Tripartite Diffie-Hellman Key Exchange. Here the Bilinear Map $e:G_1 \times G_1 \rightarrow G_2$ is defined $e(g_1^a,g_1^b) \rightarrow g_2^{a\cdot b}$ for generators $g_1\in G_1$ and $g_2 \in G_2$. Here we can think of $a$ and $b$ as secrets encoded by making them a power of a generator. Using the map $e$ we can multiply secrets and by multiplying encodings $g^a\cdot g^b = g^{a+b}$ we can also add secret elements. 
+\par Suppose Alice, Bob and Carol wish to agree upon a single secret key for the three of them. To do so Alice would run InstGen$(\lambda, 2) \to (\params,g_1)$ where $g_1$ generates $G_1$. Then she would choose a secret $a \in \Z_p$ and broadcast $(e \in \params, g_1, pk_a = g_1^a)$. Then Bob would choose $b\in \Z_p$ and broadcast $pk_b = g_1^b$ and Alice would do the same broadcasting $pk_c = g_1^c$. For each party to learn the secret key they would need to run:
+\begin{align*}
+\text{Alice:} & \; e(pk_b,pk_c)^a = e(g_1^b,g_1^c)^a = ( g_2^{b\cdot c} )^a = g_2^{a\cdot b \cdot c} = sk\\
+\text{Bob:} &\; e(pk_a,pk_c)^b = g_2^{a \cdot b \cdot c} = sk \\
+\text{Carol:}& \; e(pk_a,pk_b)^c = g_2^{a \cdot b \cdot c} = sk
+\end{align*}
+
+\par The important thing to understand is that this 2-Linear Map makes it possible for 3 parties to share a secret without risk of an eavesdropper also being able to know the secret. To generalize, a $k$-multilinear map allows us to encode $k$ secrets easily, so if each party involved in the exchange knows a secret this allows for $k+1$ non interactive key exchange.
+    
+    \chapter{Multi-Linear Maps}
+    
+    \section{Cryptographic Multilinear Maps}
+    
+    Before we can construct Indistinguishability Obfuscation or Functional Encryption, we must understand a central tool in both called Multilinear Maps.
+    
+    \begin{definition}{Cryptographic Multilinear Map}
+    Let $G_1,G_2, \cdots, G_k,G_T$ be cyclic groups each of the same prime order $p$ with generators $g_1,g_2,\cdots g_k$ respectively.. Then we say a map $e:G_1 \times G_2 \times \cdots \times G_k \rightarrow G_T$ is a k-multilinear map if
+    
+    \begin{enumerate}
+    \item For $g_i \in G_i \: \forall i \in [K]$ where $[K]$ is the set $\{1,2,\cdots,k \}$, and $\alpha \in \mathbb{Z}_p$ then $e(g_1, g_2, \cdots, \alpha \cdot g_\ell , \cdots , g_k) =\alpha \cdot e(g_1, g_2, \cdots, g_\ell , \cdots , g_k) \\$
+    \item if $g_i$ generates $G_i$ then $e(g_1,g_2,\cdots , g_k)$ generates $G_T$. We say that $e$ is \textbf{non-degenerate} if this property holds.
+    \end{enumerate}
+    \end{definition}
+    
+    This definition is just a generalization of the one we gave for Bilinear Maps. While we have efficient constructions of Bilinear Maps, we don't have such efficiency with generalized Multilinear Maps \textbf{CONFIRM THIS STATEMENT AND GET A CITATION}.
+    
+            
+    
+    \section{Graded Encoding Schemes}
+    
+    \subsection{Definition}
+    \begin{definition}{k-Graded Encoding Scheme}
+    \par A k-Graded Encoding System consists of a ring $R$ and a system of sets $\mathcal{S}= \{S_i^{(\alpha)} \subset \{0,1\}*| \alpha \in R, \; 0 \leq i \leq k \}$, such that:
+    \begin{enumerate}
+    \item For every fixed index i, the sets $\{S_i^{(\alpha)}| \alpha \in R \}$ are disjoint (meaning they form a partition of $S_v := \cup_\alpha S_v^{(\alpha)}$
+    
+    \item There is an associative binary operation '$ + $' and a self-inverse unary operation '$-$' such that $\forall \alpha_1,\alpha_2 \in R$, index $i\leq k$, and $u_1 \in S_i^{(\alpha_1)}$ and $u_2 \in S_i^{(\alpha_2)}$, it holds that 
+    $$u_1 + u_2 \in S_i^{(\alpha_1 + \alpha_2)} \text{ and } -u_1 \in S_i^{(-\alpha_1)}$$
+    where $\alpha_1 + \alpha_2$ and $-\alpha_1$ are addition and negation in $R$.
+    
+    \item There is an associative binary operation '$\times$' ( on $\{ 0,1 \}*$) such that for every $\alpha_1,\alpha_2 \in R$ every $i_1,i_2$ with $i_1+i_2 \leq k$ and every $u_1 \in S_{i_1}^{(\alpha_1)}$ and $u_2 \in S_{i_2}^{(\alpha_2)}$ it holds that 
+    $$u_1 \times u_2 \in S_{i_1 + i_2}^{(\alpha_1 \cdot \alpha_2)} $$
+    Where $\alpha_1 \cdot \alpha_2$ is multiplication in $R$, and $i_1 + i_2$ is integer addition.
+    
+    
+    \end{enumerate}
+    
+    
+    \end{definition}
+    
+    At first glance, it can be difficult to see how this definition of a Graded Encoding Scheme relates to Multilinear Maps.    
+    
+    
+    \section{Intuiton}
+    
+    \subsection{Structural Intuition}
+    
+    In practice, cryptographers use Graded Encoding Schemes (also known as Approximate Multilinear Maps) as a means for doing computation on multiple secrets. To give an intuition into the structure of Graded Encoding Schemes we give the simplified definition below.
+    
+    \begin{definition}{k-Graded Encoding Scheme (simplified)} 
+    
+    \par Given cyclic groups $G_1,G_2, \cdots , G_k$ of prime order $p$. We call the family of bilinear maps $$e_{i,j}:G_i \times G_j \rightarrow G_{i+j} \text{ for all } 0 \leq i,j \leq k \text{ where } i+j \leq k$$
+    a simplified Graded Encoding Scheme. For any secret $\alpha \in \Z_p$ and generator $g_i$ of $G_i$ we call $g_i^\alpha$ a level i encoding of $\alpha$. 
+    \end{definition}
+    
+    In this Encoding Scheme, secrets $\alpha_1,\alpha_2, \cdots \in \Z_p$ are initially encoded as they were with bilinear maps, by taking a generator $g_1\in G_i$ and raising it to the $\alpha_1$ so that it looks like $g_1^{\alpha_1}$. As stated in the definition we call this a level one encoding.
+    \par For a level one encoding of elements, computation on secrets is the same as before, but now if we have $e_{1,1}(g_1^{\alpha_1},g_1^{\alpha_2})=g_2^{\alpha_1\cdot \alpha_2}$ and want to continue to computations on the new secret $\alpha_1 \cdot \alpha_2$ with another secret $\alpha_3$ we can 'multiply' the level one encoding $\alpha_3$ with a level one encoding of 1 to get $e_{1,1}(g_1^{\alpha_3},g_1^1) = g_2^{\alpha_3}$ and continue to do operations as before.
+    \par So using this scheme, we can do computations on multiple secrets as long as there are at most $k$ multiplications.
+    
+    \subsection{Encodings}
+    
+    In our simplified definition, encodings were of the form $g_i^\alpha$. In practice cryptographers use sets (i.e. the $S_{i}$ from the full definition of graded encoding schemes) that allow for multiple different encodings of the same secret at any level. 
+       
+    
+    
+    
     \section{Candidate Goups/Quotient Rings/Fields}
     
     
     
     \chapter{Indistinguishability Obfuscation}
+    
+    
+    \section{Notes}
+    
+    \begin{itemize}
+     \item IO scheme for (polynomial size) NC1 circuits is built using some candidate graded encoding schemes. The latter is an algebraic structure, introduced by Garg et al. [35], that enables homomorphically evaluating certain polynomials over encoded ring elements and testing whether the output is zero.
+     
+     \item a bootstrapping theorem transforms an IO scheme for NC1 into one for P/poly, assuming the LWE assumption
+     
+     
+    
+    \end{itemize}
+    
     \section{Construction}
     \section{Usage, Limitations, and Goals}
     
