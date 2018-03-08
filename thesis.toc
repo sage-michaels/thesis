@@ -3,34 +3,37 @@
 \contentsline {section}{\numberline {1.1}Encryption}{3}
 \contentsline {subsection}{\numberline {1.1.1}Classical Encryption}{3}
 \contentsline {subsection}{\numberline {1.1.2}Functional Encryption}{4}
-\contentsline {section}{\numberline {1.2}Obfuscation}{7}
-\contentsline {subsection}{\numberline {1.2.1}Black Box Obfuscation}{7}
-\contentsline {subsection}{\numberline {1.2.2}Indistinguishability Obfuscation}{7}
-\contentsline {section}{\numberline {1.3}Bilinear Maps}{8}
-\contentsline {subsection}{\numberline {1.3.1}Definition}{8}
-\contentsline {section}{\numberline {1.4}Intuition}{9}
-\contentsline {chapter}{Chapter 2: Multi-Linear Maps}{11}
-\contentsline {section}{\numberline {2.1}Cryptographic Multilinear Maps}{11}
-\contentsline {section}{\numberline {2.2}Graded Encoding Schemes}{11}
-\contentsline {subsection}{\numberline {2.2.1}Definition}{11}
-\contentsline {section}{\numberline {2.3}Intuiton}{12}
-\contentsline {subsection}{\numberline {2.3.1}Structural Intuition}{12}
-\contentsline {subsection}{\numberline {2.3.2}Encodings}{13}
-\contentsline {section}{\numberline {2.4}Candidate Goups/Quotient Rings/Fields}{13}
-\contentsline {chapter}{Chapter 3: Indistinguishability Obfuscation}{15}
-\contentsline {section}{\numberline {3.1}Notes}{15}
-\contentsline {section}{\numberline {3.2}Construction}{15}
-\contentsline {section}{\numberline {3.3}Usage, Limitations, and Goals}{15}
-\contentsline {chapter}{Chapter 4: Multi-Party Input Functional Encryption}{17}
-\contentsline {section}{\numberline {4.1}Scheme}{17}
-\contentsline {section}{\numberline {4.2}Construction}{17}
-\contentsline {section}{\numberline {4.3}Limitations and Goals}{17}
-\contentsline {chapter}{Chapter 5: A Brief Introduction to the 5-GenC library}{19}
-\contentsline {section}{\numberline {5.1} The DSL}{19}
-\contentsline {section}{\numberline {5.2}Circuits and Branching Programs}{19}
-\contentsline {section}{\numberline {5.3}Base and MMaps}{19}
-\contentsline {chapter}{Chapter 6: Experiments}{21}
-\contentsline {section}{\numberline {6.1}Comparison Circuit}{21}
-\contentsline {section}{\numberline {6.2}Runtime Evaluation}{21}
-\contentsline {chapter}{Chapter 7: Conclusion}{23}
-\contentsline {chapter}{References}{25}
+\contentsline {section}{\numberline {1.2}Obfuscation}{8}
+\contentsline {subsection}{\numberline {1.2.1}Black Box Obfuscation}{8}
+\contentsline {subsection}{\numberline {1.2.2}Indistinguishability Obfuscation}{8}
+\contentsline {section}{\numberline {1.3}Bilinear Maps}{9}
+\contentsline {subsection}{\numberline {1.3.1}Definition}{9}
+\contentsline {subsection}{\numberline {1.3.2}Intuition}{10}
+\contentsline {subsection}{\numberline {1.3.3}Hardness Assumption}{10}
+\contentsline {chapter}{Chapter 2: Multi-Linear Maps}{13}
+\contentsline {section}{\numberline {2.1}Cryptographic Multilinear Maps}{13}
+\contentsline {subsection}{\numberline {2.1.1}Dream Definition}{13}
+\contentsline {subsection}{\numberline {2.1.2}Hardness Assumption}{14}
+\contentsline {section}{\numberline {2.2}Graded Encoding Schemes}{14}
+\contentsline {subsection}{\numberline {2.2.1}Intuition}{14}
+\contentsline {subsection}{\numberline {2.2.2}Encodings}{15}
+\contentsline {subsection}{\numberline {2.2.3}Definition}{15}
+\contentsline {subsection}{\numberline {2.2.4}Procedures}{16}
+\contentsline {subsection}{\numberline {2.2.5}Hardness Assumptions}{16}
+\contentsline {chapter}{Chapter 3: Indistinguishability Obfuscation}{17}
+\contentsline {section}{\numberline {3.1}Notes}{17}
+\contentsline {section}{\numberline {3.2}Construction}{17}
+\contentsline {section}{\numberline {3.3}Usage, Limitations, and Goals}{17}
+\contentsline {chapter}{Chapter 4: Multi-Party Input Functional Encryption}{19}
+\contentsline {section}{\numberline {4.1}Scheme}{19}
+\contentsline {section}{\numberline {4.2}Construction}{19}
+\contentsline {section}{\numberline {4.3}Limitations and Goals}{19}
+\contentsline {chapter}{Chapter 5: A Brief Introduction to the 5-GenC library}{21}
+\contentsline {section}{\numberline {5.1} The DSL}{21}
+\contentsline {section}{\numberline {5.2}Circuits and Branching Programs}{21}
+\contentsline {section}{\numberline {5.3}Base and MMaps}{21}
+\contentsline {chapter}{Chapter 6: Experiments}{23}
+\contentsline {section}{\numberline {6.1}Comparison Circuit}{23}
+\contentsline {section}{\numberline {6.2}Runtime Evaluation}{23}
+\contentsline {chapter}{Chapter 7: Conclusion}{25}
+\contentsline {chapter}{References}{27}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  27 FEB 2018 00:31
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  7 MAR 2018 19:56
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -491,7 +491,27 @@ File: tikzlibrarytopaths.code.tex 2008/06/17 v3.0.1a (rcs-revision 1.2)
 (/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
 s/tikzlibrarycalc.code.tex
 File: tikzlibrarycalc.code.tex 2013/07/15 v3.0.1a (rcs-revision 1.9)
-) (./chemarr.sty
+)
+(/usr/local/texlive/2016/texmf-dist/tex/latex/tikz-cd/tikz-cd.sty
+Package: tikz-cd 2014/10/30 v0.9e Commutative diagrams with tikz
+
+(/usr/local/texlive/2016/texmf-dist/tex/generic/tikz-cd/tikzlibrarycd.code.tex
+(/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
+s/tikzlibrarymatrix.code.tex
+File: tikzlibrarymatrix.code.tex 2013/07/12 v3.0.1a (rcs-revision 1.4)
+)
+(/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
+s/tikzlibraryquotes.code.tex
+File: tikzlibraryquotes.code.tex 2014/03/21 v3.0.1a (rcs-revision 1.4)
+)
+(/usr/local/texlive/2016/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.
+meta.code.tex
+File: pgflibraryarrows.meta.code.tex 2015/05/13 v3.0.1a (rcs-revision 1.13)
+\pgfarrowinset=\dimen174
+\pgfarrowlength=\dimen175
+\pgfarrowwidth=\dimen176
+\pgfarrowlinewidth=\dimen177
+))) (./chemarr.sty
 Package: chemarr 2001/06/22 v1.1 Chemical reaction arrows (HO)
 )
 (/usr/local/texlive/2016/texmf-dist/tex/latex/url/url.sty
@@ -522,28 +542,28 @@ LaTeX Info: Redefining \cite on input line 694.
  (./thesis.aux)
 \openout1 = `thesis.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 82.
-LaTeX Font Info:    ... okay on input line 82.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 82.
-LaTeX Font Info:    ... okay on input line 82.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 82.
-LaTeX Font Info:    ... okay on input line 82.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 82.
-LaTeX Font Info:    ... okay on input line 82.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 82.
-LaTeX Font Info:    ... okay on input line 82.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 82.
-LaTeX Font Info:    ... okay on input line 82.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
 (/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count133
-\scratchdimen=\dimen174
+\scratchdimen=\dimen178
 \scratchbox=\box44
 \nofMPsegments=\count134
 \nofMParguments=\count135
 \everyMPshowfont=\toks41
 \MPscratchCnt=\count136
-\MPscratchDim=\dimen175
+\MPscratchDim=\dimen179
 \MPnumerator=\count137
 \makeMPintoPDFobject=\count138
 \everyMPtoPDFconversion=\toks42
@@ -595,17 +615,17 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 ABD: EveryShipout initializing macros
-LaTeX Font Info:    Try loading font information for U+lasy on input line 84.
+LaTeX Font Info:    Try loading font information for U+lasy on input line 85.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/base/ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
-LaTeX Font Info:    Try loading font information for U+msa on input line 84.
+LaTeX Font Info:    Try loading font information for U+msa on input line 85.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 84.
+LaTeX Font Info:    Try loading font information for U+msb on input line 85.
 
 (/usr/local/texlive/2016/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -625,20 +645,23 @@ Non-PDF special ignored!
 
 ] [3] [4
 
-] (./thesis.toc [5])
+] (./thesis.toc
+Underfull \vbox (badness 1502) has occurred while \output is active []
+
+ [5])
 \tf@toc=\write4
 \openout4 = `thesis.toc'.
 
- [6] [1
+
+[6] [1
 
 
-]
-[2
+] [2
 
 ]
 Chapter 1.
 
-Underfull \hbox (badness 10000) in paragraph at lines 121--123
+Underfull \hbox (badness 10000) in paragraph at lines 122--124
 
  []
 
@@ -649,53 +672,69 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[4] [5] [6] [7] [8] [9] [10
+[4] [5]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [6]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [7]
+[8] [9] [10] [11] [12
 
 ]
 Chapter 2.
 
-Underfull \hbox (badness 10000) in paragraph at lines 348--349
+Overfull \hbox (5.04147pt too wide) in paragraph at lines 367--369
+[]\OT1/cmr/bx/n/12 Definition 11. []\OT1/cmr/m/it/12 Cryp-to-graphic Mul-ti-lin
+-ear Map Let $\OML/cmm/m/it/12 G[]; G[]; []  ; G[]; G[]$ \OT1/cmr/m/it/12 be cy
+clic groups
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 371--372
 
  []
 
-[11] [12] [13] [14
+[13] [14] [15]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 461.
 
-]
-Chapter 3.
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 415.
-
-(/usr/local/texlive/2016/texmf-dist/tex/latex/base/omscmr.fd
+ (/usr/local/texlive/2016/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 415.
- [15] [16
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 461.
+
+[16]
+Chapter 3.
+[17
+
+] [18
 
 ]
 Chapter 4.
-[17] [18
-
-]
-Chapter 5.
 [19] [20
 
 ]
-Chapter 6.
+Chapter 5.
 [21] [22
 
 ]
-Chapter 7.
-(./thesis.bbl [23] [24
+Chapter 6.
+[23] [24
 
-] [25]) [26] (./thesis.aux) ) 
+]
+Chapter 7.
+(./thesis.bbl [25] [26
+
+] [27]) [28] (./thesis.aux) ) 
 Here is how much of TeX's memory you used:
- 13414 strings out of 493014
- 259066 string characters out of 6133351
- 303194 words of memory out of 5000000
- 16651 multiletter control sequences out of 15000+600000
- 13276 words of font info for 50 fonts, out of 8000000 for 9000
+ 14586 strings out of 493014
+ 295028 string characters out of 6133351
+ 335995 words of memory out of 5000000
+ 17802 multiletter control sequences out of 15000+600000
+ 14027 words of font info for 54 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,21n,54p,996b,293s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 56i,21n,84p,996b,954s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2016/texmf-dist/fonts/type1/pu
 blic/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/pub
 lic/amsfonts/cm/cmbxti10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/pu
@@ -712,10 +751,10 @@ m/cmsy10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm
 mti12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cm
 tt12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/symbol
 s/msbm10.pfb>
-Output written on thesis.pdf (36 pages, 204986 bytes).
+Output written on thesis.pdf (38 pages, 221753 bytes).
 PDF statistics:
- 183 PDF objects out of 1000 (max. 8388607)
- 128 compressed objects within 2 object streams
+ 192 PDF objects out of 1000 (max. 8388607)
+ 135 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 
