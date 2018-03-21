@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  7 MAR 2018 19:56
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  20 MAR 2018 19:16
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -538,7 +538,8 @@ LaTeX Info: Redefining \cite on input line 694.
 \c@NAT@ctr=\count130
 )
 \c@definition=\count131
-\c@assumption=\count132
+\c@theorem=\count132
+\c@assumption=\count133
  (./thesis.aux)
 \openout1 = `thesis.aux'.
 
@@ -556,16 +557,16 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 83.
 LaTeX Font Info:    ... okay on input line 83.
 (/usr/local/texlive/2016/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count133
+\scratchcounter=\count134
 \scratchdimen=\dimen178
 \scratchbox=\box44
-\nofMPsegments=\count134
-\nofMParguments=\count135
+\nofMPsegments=\count135
+\nofMParguments=\count136
 \everyMPshowfont=\toks41
-\MPscratchCnt=\count136
+\MPscratchCnt=\count137
 \MPscratchDim=\dimen179
-\MPnumerator=\count137
-\makeMPintoPDFobject=\count138
+\MPnumerator=\count138
+\makeMPintoPDFobject=\count139
 \everyMPtoPDFconversion=\toks42
 ) (/usr/local/texlive/2016/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2016/05/10 v0.21 Utility functions of pdfTeX for LuaTeX (HO
@@ -645,26 +646,18 @@ Non-PDF special ignored!
 
 ] [3] [4
 
-] (./thesis.toc
-Underfull \vbox (badness 1502) has occurred while \output is active []
-
- [5])
+] (./thesis.toc [5])
 \tf@toc=\write4
 \openout4 = `thesis.toc'.
 
+ [6] [1
 
-[6] [1
 
-
-] [2
+]
+[2
 
 ]
 Chapter 1.
-
-Underfull \hbox (badness 10000) in paragraph at lines 122--124
-
- []
-
 [3]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -672,89 +665,114 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[4] [5]
+[4]
+Underfull \vbox (badness 1552) has occurred while \output is active []
+
+ [5]
+Underfull \hbox (badness 10000) in paragraph at lines 223--224
+
+ []
+
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [6]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [7]
-[8] [9] [10] [11] [12
-
-]
+[7] [8] [9] [10]
 Chapter 2.
 
-Overfull \hbox (5.04147pt too wide) in paragraph at lines 367--369
-[]\OT1/cmr/bx/n/12 Definition 11. []\OT1/cmr/m/it/12 Cryp-to-graphic Mul-ti-lin
+Overfull \hbox (5.04147pt too wide) in paragraph at lines 334--336
+[]\OT1/cmr/bx/n/12 Definition 10. []\OT1/cmr/m/it/12 Cryp-to-graphic Mul-ti-lin
 -ear Map Let $\OML/cmm/m/it/12 G[]; G[]; []  ; G[]; G[]$ \OT1/cmr/m/it/12 be cy
 clic groups
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 371--372
+Underfull \hbox (badness 10000) in paragraph at lines 338--339
 
  []
 
-[13] [14] [15]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 461.
+[11
+
+] [12] [13]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 432.
 
  (/usr/local/texlive/2016/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 461.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 432.
 
-[16]
-Chapter 3.
-[17
-
-] [18
+[14]
+LaTeX Font Info:    Font shape `U/lasy/b/n' in size <8> not available
+(Font)              Font shape `U/lasy/m/n' tried instead on input line 459.
+LaTeX Font Info:    Font shape `U/lasy/b/n' in size <6> not available
+(Font)              Font shape `U/lasy/m/n' tried instead on input line 459.
+ [15] [16
 
 ]
-Chapter 4.
+Chapter 3.
+[17]
+Overfull \hbox (6.93515pt too wide) in paragraph at lines 531--532
+\OT1/cmr/m/n/12 The first at-tempt of mak-ing in-dis-tin-guisha-bil-ity ob-fus-
+ca-tion out for ran-dom-ized branch-
+ []
+
+[18]
+Overfull \hbox (5.05138pt too wide) in paragraph at lines 536--537
+[]\OT1/cmr/m/n/12 Unfortunately, Kil-ian's pro-to-col alone is bro-ken. How-eve
+r we can fur-ther strengthen
+ []
+
 [19] [20
 
 ]
+Chapter 4.
+LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <12> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 559.
+[21] [22]
 Chapter 5.
-[21] [22
+[23
+
+] [24
 
 ]
 Chapter 6.
-[23] [24
+[25] [26
 
 ]
 Chapter 7.
-(./thesis.bbl [25] [26
+(./thesis.bbl [27] [28
 
-] [27]) [28] (./thesis.aux) ) 
+]) [29] (./thesis.aux) ) 
 Here is how much of TeX's memory you used:
- 14586 strings out of 493014
- 295028 string characters out of 6133351
- 335995 words of memory out of 5000000
- 17802 multiletter control sequences out of 15000+600000
- 14027 words of font info for 54 fonts, out of 8000000 for 9000
+ 14579 strings out of 493014
+ 294536 string characters out of 6133351
+ 338413 words of memory out of 5000000
+ 17788 multiletter control sequences out of 15000+600000
+ 17841 words of font info for 70 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 56i,21n,84p,996b,954s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2016/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/pub
-lic/amsfonts/cm/cmbxti10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmex10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/pub
-lic/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/publ
-ic/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmr12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/ams
-fonts/cm/cmr6.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmr8.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmsl12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmsy10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmsy8.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mti12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-tt12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/symbol
-s/msbm10.pfb>
-Output written on thesis.pdf (38 pages, 221753 bytes).
+ 56i,21n,84p,1049b,886s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2016/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmbx12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmbxti10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmex10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmmi12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmmi6.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmmi8.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmmib10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmr12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmr6.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmr8.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+sl12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cms
+y10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
+8.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12
+.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.
+pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/symbols/msb
+m10.pfb>
+Output written on thesis.pdf (39 pages, 251209 bytes).
 PDF statistics:
- 192 PDF objects out of 1000 (max. 8388607)
- 135 compressed objects within 2 object streams
+ 199 PDF objects out of 1000 (max. 8388607)
+ 140 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 
