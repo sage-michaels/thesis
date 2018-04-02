@@ -191,8 +191,8 @@ Defined for $f \in \mathcal{F}, MSK \in K$; to be Gen$(mk,c) \rightarrow SK_f$ w
 $$\enc: K \times M \rightarrow C$$
 Defined: For $PP\in K$ and $m \in M;$ to be $\enc_{PP}(m) \rightarrow c$
 
-$$\dec:K \times C_{ipher} \rightarrow M$$
-Defined for $SK_f \in K$ and $c \in C;$ to be $\dec(k,c) \rightarrow m'$ if the scheme is correct then $m' = f(m)$ for some previously encrypted $m$ and some $f\in \mathcal{F}$.
+$$\dec:K \times C \rightarrow M$$
+Defined for $SK_f \in K$ and $c \in C;$ to be $\dec(SK_f,c) \rightarrow m'$ if the scheme is correct then $m' = f(m)$ for some previously encrypted $m$ and some $f\in \mathcal{F}$.
 
 \end{definition}
 
@@ -330,9 +330,10 @@ $\\$
     
     \subsection{Dream Definition}
     
-    In order to construct indistinguishability obfuscation or functional encryption, we need to be able to do computations on encoded secrets securely. Specifically, we want to be able to encode, add, multiply and negate secrets. In the previous chapter, we saw that bilinear maps allow us to multiply two encoded secrets securely, but if we want to be able to securely do more complex computations involving multiple multiplications, or sums of products, or products of sums, we need a new cryptographic tool that allows for greater functionality.
+    In order to construct indistinguishability obfuscation or functional encryption, we need to be able to do computations in public on encoded secrets in such a way that only information about the final output can be discerned. Computationally, we want to be able to encode, add, multiply and negate secrets. 
+    \par In the previous chapter, we saw that bilinear maps allow us to multiply two encoded secrets securely, but if we want to be able to do more complex computations involving multiple multiplications, or sums of products, or products of sums, we need a new cryptographic tool that allows for greater functionality.
     \begin{definition}{Cryptographic Multilinear Map}
-    Let $G_1,G_2, \cdots, G_k,G_T$ be cyclic groups each of the same prime order $p$ with generators $g_1,g_2,\cdots g_k$ respectively.. Then we say a map $e:G_1 \times G_2 \times \cdots \times G_k \rightarrow G_T$ is a k-multilinear map if
+    \par Let $G_1,G_2, \cdots, G_k,G_T$ be cyclic groups each of the same prime order $p$ with generators $g_1,g_2,\cdots g_k$ respectively.. Then we say a map $e:G_1 \times G_2 \times \cdots \times G_k \rightarrow G_T$ is a k-multilinear map if
     
     \begin{enumerate}
     \item For $g_i \in G_i \: \forall i \in [K]$ where $[K]$ is the set $\{1,2,\cdots,k \}$, and $\alpha \in \mathbb{Z}_p$ then $e(g_1, g_2, \cdots,g_\ell^\alpha , \cdots , g_k) =e(g_1, g_2, \cdots, g_\ell , \cdots , g_k)^\alpha \\$
@@ -340,7 +341,7 @@ $\\$
     \end{enumerate}
     \end{definition}
        
-       As before we can think of $\alpha \cdot g_i$ to be $g_i^\alpha$ for $g_i \in G_i$ and $\alpha \in \Z_p$. In this setting, we would use the map $e$ to do $k$ multiplications of encodings in our secure computation. For example for $a,b,c,d,e,f,h \in \Z_p$ and generators $g_1 \in G_1, g_2\in G_2, g_3\in G_3$ and $g_4 \in G_4$we could compute $(a+b)\cdot(c+d)\cdot(e+f+h)$ with the $3$-linear map $e:G_1\times G_2 \times G_3 \to G_4$ with 
+       For $g_i \in G_i$ and $\alpha \in \Z_p$, we can think of $g_i^\alpha$ as a public encoding of secret $\alpha$. In this setting, we would use the map $e$ to do $k$ multiplications of encodings in our secure computation. For example for $a,b,c,d,e,f,h \in \Z_p$ and generators $g_1 \in G_1, g_2\in G_2, g_3\in G_3$ and $g_4 \in G_4$we could compute $(a+b)\cdot(c+d)\cdot(e+f+h)$ with the $3$-linear map $e:G_1\times G_2 \times G_3 \to G_4$ with 
  \begin{align*}      
  e(g_1^a \cdot g_1^b,g_2^c\cdot g_2^d,g_3^e\cdot g_3^f \cdot g_3^h)&=e(g_1^{a +b},g_2^{c+d},g_3^{e+f+h})\\
  &= e(g_1,g_2,g_3)^{(a+b)(c+d)(e+f+h)} \\
@@ -349,26 +350,28 @@ $\\$
  
  \subsection{Hardness Assumption}
  
- As before we would like to formalize what is being assumed to be difficult in order to be able to discuss the security of using multilinear maps to do computations on secrets in the clear. The first is just an extension of the bilinear discrete logarithm problem.
+ As before we would like to formalize what is being assumed to be difficult in order to be able to discuss the security of using multilinear maps to do computations on secrets in the clear. They are just an extensions of the bilinear discrete logarithm problem and decisional Diffie-Hellman problem.
  
- \begin{definition}{Multilinear Discrete-Log}
+ \begin{definition}{Multilinear Discrete-Log} \par
  The same as for the Bilinear DL problem except an adversary is also given the index $i<k$ to know which group they are working in.
  \end{definition}
  
- and the other is
  
- \begin{definition}{Multilinear Decisional Diffie-Hellman Problem}
+ \begin{definition}{Multilinear Decisional Diffie-Hellman Problem} 
 \par Let $\alpha,\alpha_1,\alpha_2,\cdots \alpha_k, \alpha_{k+1} \in \Z_p$ be chosen uniformly. The MDDH problem is: given $G_1,G_2, \cdots, G_k,G_T$ cyclic groups each of the same prime order $p$ with generators $g_1,g_2,\cdots, g_k$ respectively, $g_1^{\alpha_1}, g_2^{\alpha_2}, \cdots, g_i^{\alpha_i} , g_i^{\alpha_{i+1}},\cdots g_k^{\alpha_{k+1}}$ and multilinear map $e$; distinguish 
 $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad \alpha \cdot e(g_1,g_2,\cdots ,g_k)$$
  \end{definition}    
-    
+  
+
+\par We assume both of these problems to be hard.
+
             
     
     \section{Graded Encoding Schemes}
     
       
     \subsection{Intuition}
-    To help build an intuition for how Graded Encoding Schemes work, we begin with a simplified definition, and then we'll build up to the actual definition from there.    
+    To help build an intuition for how Graded Encoding Schemes work, we begin with a simplified definition, that allows us to use familiar syntax, and then we'll build up to the actual definition from there.    
     
     \begin{definition}{k-Graded Encoding Scheme (simplified)} 
     \par Given cyclic groups $G_1,G_2, \cdots , G_k$ of prime order $p$. We call the family of bilinear maps $$e_{i,j}:G_i \times G_j \rightarrow G_{i+j} \text{ for all } 0 \leq i,j \leq k \text{ where } i+j \leq k$$
@@ -376,36 +379,39 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
     \end{definition}
     
     In this Encoding Scheme, secrets $\alpha_1,\alpha_2, \cdots \in \Z_p$ are initially encoded as they were with bilinear maps, by taking a generator $g_1\in G_i$ and raising it to the $\alpha_1$ so that it looks like $g_1^{\alpha_1}$. As stated in the definition we call this a level one encoding.
-    \par For a level one encoding of elements, computation on secrets is the same as before, but now if we have $e_{1,1}(g_1^{\alpha_1},g_1^{\alpha_2})=g_2^{\alpha_1\cdot \alpha_2}$ for generator $g_2$ of $G_2$ and want to continue to do computations on the new secret $\alpha_1 \cdot \alpha_2$ with another secret $\alpha_3$ we can 'multiply' the level one encoding $\alpha_3$ with a level one encoding of 1 to get $e_{1,1}(g_1^{\alpha_3},g_1^1) = g_2^{\alpha_3}$ and continue to do operations as before. So using this scheme, we can do computations on multiple secrets as long as there are at most $k$ multiplications.
+    \par For a level one encoding of elements, computation on secrets is the same as before, but now if we have $e_{1,1}(g_1^{\alpha_1},g_1^{\alpha_2})=g_2^{\alpha_1\cdot \alpha_2}$ for generator $g_2$ of $G_2$ and want to continue to do computations on the new secret $\alpha_1 \cdot \alpha_2$ with another secret $\alpha_3$ we can `multiply' the level one encoding $\alpha_3$ with a level one encoding of 1 to get $e_{1,1}(g_1^{\alpha_3},g_1^1) = g_2^{\alpha_3}$ and continue to do operations as before such as $e_{2,2}(g_2^{\alpha_3},g_2^{\alpha_1\cdot \alpha_2 }) = g_4^{\alpha_3\cdot \alpha_1 \alpha_2}$ for $g_4$ generator of $G_4$. So using this scheme, we can do computations on multiple secrets as long as there are at most $k$ multiplications.
     
     
     \subsection{Encodings}
-    As we said in the beginning of this section, we gave a simplified definition of graded encoding schemes in order to give intuition into the tiered structure of the scheme. In our simplified definition, encodings are unique and of the form $g_i^\alpha$. In practice there are sets of valid encodings for a secret $\alpha \in \Z_p$ at any level, we denote the set of valid encodings of $\alpha$ at level $i: S_i^{(\alpha)}$.
+    As we said in the beginning of this section, we gave a simplified definition of graded encoding schemes in order to give intuition into the \textit{graded} structure of the scheme. In our simplified definition, encodings are unique and of the form $g_i^\alpha$. In practice there are sets of randomized valid encodings for a secret $\alpha \in \Z_p$ at any level, we denote the set of valid encodings of $\alpha$ at level $i: S_i^{(\alpha)}$.
     
     
-    \begin{definition} 
-    $\\$ Let $R$ be a cyclotomic ring, $R_q = R/qR$ for prime $q, \; g\in R_q$ be small, $z \in R_q$ chosen randomly (so it won't be small), and $I = \langle g\rangle$ the principal prime ideal of $g$. We define a valid level $i$ encoding of $\alpha \in R_g \cong \Z_p$ to be anything in the set
+    \begin{definition}{Level $i$ Encoding}
+    \par Let $R$ be a cyclotomic ring, $R_q = R/qR$ for prime $q, \; g\in R_q$ be small, $z \in R_q$ chosen randomly (so it won't be small), and $I = \langle g\rangle$ the principal prime ideal of $g$. We define a valid level $i$ encoding of $\alpha \in R_g \cong \Z_p$ to be anything in the set
     $$S_i^\alpha =\bigg\{\bigg[\frac{a}{z^i} \bigg]_q \bigg| \; a \in \alpha + I \text{ and $a$ is small}\bigg\}$$
     \end{definition}
-    For more details into the definition of short, long, and why it is safe to assume $z$ is invertible in this ring, see \textbf{CITATION}, we will instead show how this encoding allows us to achieve multilinear map like functionality. 
+    For more details into the definition of short, long, and why it is safe to assume $z$ is invertible in this ring, see [\cite{GGH13}], we will instead show how this encoding allows us to achieve multilinear map like functionality. 
     \par Let $a \in S_0^\alpha$ and $b \in S_0^\beta$. Then 
     
-    \newcommand{\encode}[2]{\bigg[ \frac{#2}{z^{#1}}\bigg]_q}
+    \newcommand{\Encode}[2]{\bigg[ \frac{#2}{z^{#1}}\bigg]_q}
     $$
-    \encode{i}{a} \cdot \encode{j}{b} = \encode{i+j}{a \cdot b}
+    \Encode{i}{a} \cdot \Encode{j}{b} = \Encode{i+j}{a \cdot b}
    $$
-   So multiplication of a level $i$ encoding with a level $j$ encoding gives a level $i+j$ encoding of their product. Also
+   So multiplication of a level $i$ encoding with a level $j$ encoding gives a level $i+j$ encoding of their product.
    
-   $$\encode{i}{a} + \encode{i}{b} = \encode{i}{a+b}$$
    
-   So this encoding gives us the properties we were looking for in a graded encoding scheme. 
+   $$\Encode{i}{a} + \Encode{i}{b} = \Encode{i}{a+b}$$
    
-   \subsection{Public and Private Parameters/Zero Test}
-  
-    
-     \subsection{Definition}
-     If this is your first time reading this paper, it is recommended to read the following definition, but not expect to understand much of it, then after reading the intuition and construction section, reread the formal definition and it should be much clearer.
-    
+   Thus this encoding gives us the properties we were looking for in a graded encoding scheme. 
+   \newcommand{\encode}[2]{\big[ \frac{#2}{z^{#1}}\big]_q}
+   
+   
+   
+   
+   \subsection{Definition}
+   
+   \par Now we are ready for the formal definition of graded encoding schemes, after which we will formalize the procedures that we expect along with such a graded encoding scheme.
+         
     \begin{definition}{k-Graded Encoding Scheme}
     \par A k-Graded Encoding System consists of a ring $R$ and a system of sets $\mathcal{S}= \{S_i^{(\alpha)} \subset \{0,1\}*| \alpha \in R, \; 0 \leq i \leq k \}$, such that:
     \begin{enumerate}
@@ -418,28 +424,58 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
     \item There is an associative binary operation '$\times$' ( on $\{ 0,1 \}*$) such that for every $\alpha_1,\alpha_2 \in R$ every $i_1,i_2$ with $i_1+i_2 \leq k$ and every $u_1 \in S_{i_1}^{(\alpha_1)}$ and $u_2 \in S_{i_2}^{(\alpha_2)}$ it holds that 
     $$u_1 \times u_2 \in S_{i_1 + i_2}^{(\alpha_1 \cdot \alpha_2)} $$
     Where $\alpha_1 \cdot \alpha_2$ is multiplication in $R$, and $i_1 + i_2$ is integer addition.
-    
-    
     \end{enumerate}
-    
-    
     \end{definition}
+
     
+ 
+  
     
+     
+         
     
     \subsection{Procedures}
     \begin{itemize}
     \item \textbf{Instance Generation}: 
     	\begin{itemize}
     \item Inputs: $\lambda$, our security parameter, and $k$ the maximum number of multiplication our computation might need (note how this will end up being the degree of our $k$-graded encoding scheme)  
-    \item Outputs: $\mathcal{S}$, the description of a $k$ graded encoding scheme as described above, and $p_{zt}$ a level $k$ zero-test parameter.
+    \item Outputs: $\mathcal{S}$, the description of a $k$ graded encoding scheme as described above, and $p_{zt}$ a level $k$ zero-test parameter which we will explain with some detail in the next section.
     	\end{itemize}  
 	\item \textbf{Ring Sampler}: takes $\mathcal{S}$ as input and outputs a level-zero encoding $a \in S_0^{(\alpha)}$ for uniform $\alpha \in R$. The details of how this procedure is constructed is important, but outside the scope of this thesis. What is important to understand is that because this gives an encoding of a uniform \textit{plaintext} element of R without  indicating what that plaintext element is, there is a negligible probability that an adversary would be able to get and recognize a plaintext encoding of 1 or something else that would compromise the security of the multilinear map. However this does give companions of the party that ran the Instance Generation the ability to participate in $k$-nary key exchange by running the Ring Sampler, saving their plaintext encoding, and then publicizing a higher level encoding.
 	\item \textbf{Encoding}: takes as input $\mathcal{S}$, the level zero encoding $a\in S_0^{(\alpha)}$, and $i$ and then outputs $u\in S_i^{(\alpha)}$, a level $i$ encoding of $a$
 	\item \textbf{Addition, negation, multiplication}: all as we've already described
-	\item \textbf{Zero-test}: takes as inputs $\mathcal{S}$ and $u$, outputs 1 if $u \in S_k^{(0)}$ and 0 otherwise. When used with subtraction this gives us the ability to do equality checking. Note that the zero test only works with level $k$ encodings meaning we can only get information about the encoded elements at the last step of a computation. This is where multilinear maps and graded encoding schemes are different from encrypted computation methods like fully homomorphic encryption. With graded encoding schemes we can only check if the \textit{result} of a computation is what we expect, while with FHE any and all steps of the computation can be decrypted in full even the initial values. This is why graded encoding schemes are a crucial tool for functional encryption where we want this exact property.
-	\item \textbf{Extraction}:?????
+	%\item \textbf{Zero-test}: takes as inputs $\mathcal{S}$ and $u$, outputs 1 if $u \in S_k^{(0)}$ and 0 otherwise. When used with subtraction this gives us the ability to do equality checking. Note that the zero test only works with level $k$ encodings meaning we can only get information about the encoded elements at the last step of a computation. This is where multilinear maps and graded encoding schemes are different from encrypted computation methods like fully homomorphic encryption. With graded encoding schemes we can only check if the \textit{result} of a computation is what we expect, while with FHE any and all steps of the computation can be decrypted in full even the initial values. This is why graded encoding schemes are a crucial tool for functional encryption where we want this exact property.
+	%\item \textbf{Extraction}:?????
     \end{itemize}
+    
+    
+    \subsection{Zero Test}
+   \par It is important to note that while randomizing encodings makes the scheme harder to break in many ways, it also makes getting information from encoded values much more difficult. In fact it makes it so much more difficult to get information from encoded values that we can only check to see if it is or isn't zero. In other words, we need a way to determine wether or not $\encode{k}{u}$ is in $0 + I = I = \langle g \rangle$. We call this operation the zero test. To do this we need to define a new \textit{zero test} parameter which we will denote $p_{zt}$.
+   
+   \begin{definition}{Zero Test}
+   \par Let $R$ be a cyclotomic ring, $R_q = R/qR$ for prime $q, \; g, h \in R_q$ be small, $z \in R_q$ chosen randomly (so it won't be small), and $I = \langle g\rangle$ the principal prime ideal of $g$. Define the zero test parameter to be
+      
+   $$p_{zt} = \bigg[\frac{h \cdot z^k}{g}\bigg]_q $$
+   
+   Now for arbitrary level $k$ encoding $u_k$ of some unknown plaintext $u$ we define the zero test to be 1 if $p_{zt}\cdot u_k$ is small and 0 if $p_{zt}\cdot u_k$ is large.
+   \end{definition}
+   
+   As before we won't go into the details of small and large, but the designation of small or large in the zero test sense is consistent with our earlier usages of those terms. Below is how we are able to link our earlier usages of the words small and large with the zero test. 
+   
+   \begin{align*} 
+   p_{zt}\cdot u_k  &=  \bigg[\frac{h \cdot z^k}{g}\bigg]_q  \cdot \Encode{k}{u} \text{ since $u_k  \in u + I$ defined to be small $r$ must be small} \\
+   &=  \bigg[ \frac{h\cdot (u + r \cdot g ) }{g} \bigg]_q 
+   \intertext{If $u_k$ is an encoding of zero then}
+   &=\bigg[ \frac{h\cdot (0 + r \cdot g ) }{g} \bigg]_q \\
+   &= \big[ h \cdot r \big]_q \intertext{where both $h$ and $r$ are small so $h\cdot r$ is small.}
+   \end{align*}
+   Otherwise if $u_k$ is not an encoding of zero then
+   $$\bigg[ \frac{h\cdot (u + r \cdot g ) }{g} \bigg]_q \approx \bigg[ \frac{h\cdot u }{g} \bigg]_q$$
+   Where $h$ and $g$ are small and $u$ is probably not small so $$\bigg[ \frac{h\cdot u }{g} \bigg]_q$$
+   is big.
+
+    
+    
     
     \subsection{Hardness Assumptions}
     
@@ -457,10 +493,10 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
     8. & \text{ Set $\bar{u}\leftarrow$ encode$(\mathcal{S},k,\bar{a})$} &&\text{\# level-$k$ encoding of random element} \\
     9. & \boldsymbol{u} \leftarrow \{\tilde{u},\bar{u} \} \text{ chosen uniformly} &&
     \end{align*}
-    \par Given $\mathcal{S},u_1,u_2,\cdots,u_{k+1},$ and $\boldsymbol{u}$, determine if $\boldsymbol{u}$ is the level $k$ encoding of the product of $u_1,u_2,\cdots, u_{k+1}$ or the level $k$ encoding of a random element.
+    \par Given $\mathcal{S},u_1,u_2,\cdots,u_{k+1},$ and $\boldsymbol{u}$, determine if $\boldsymbol{u}$ is $\tilde{u}$ or $\bar{u}$.
     \end{definition}
     
-    As with our other DDH definitions, when we assume this is hard, we are really saying that in a $k$-graded encoding scheme, it is hard to determine the product of $k+1$ level one encodings. We won't go much into how \textit{good} this assumption is, we will say that this encoding scheme is far less studied than, say, RSA and so the cryptanalysis as much less extensive. However there has been some cryptanalysis done on graded encoding schemes and overall, it seems that depending on what type of security is needed, different variations on the scheme can be used to protect against different attacks.     
+    As with our other DDH definitions, when we assume this is hard, we are really saying that in a $k$-graded encoding scheme, it is hard to determine the product of $k+1$ level one encodings. We won't go much into how \textit{good} this assumption is, we will say that this encoding scheme is far less studied than, say, RSA and so the cryptanalysis is much less extensive. However there has been some cryptanalysis done on graded encoding schemes [\cite{GGH13}] and overall, it seems that depending on what type of security is needed, different variations on the scheme can be used to protect against different attacks.     
     
     
     
@@ -470,13 +506,13 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
     
     \section{Circuit Representation}
     While multilinear maps are a central tool used for the obfuscation of circuits, it is difficult to see how when most of us think of circuits as boolean expressions of the form
-    $$f(x,y,z) = (x \cdot y) + z $$
-    which denotes the circuit ($x$ and $y$) or $z$. A first thought might be to encode $x,y$ and $z$ with a $k$-graded encoding scheme, however this wouldn't hide the operations used in $f$, only the values of the starting parameters. For circuit obfuscation we want it to be hard to determine what $f$ is.
+    $$C(x,y,z) = (x \cdot y) + z $$
+    which denotes the circuit ($x$ and $y$) or $z$. A first thought might be to encode $x,y$ and $z$ with a $k$-graded encoding scheme, however this would not hide the operations used in $C$, only the values of the starting parameters. For circuit obfuscation we want it to be hard to determine what $C$ is.
     
     \subsection{Branching Programs}
     
-    \par We want to find another way of representing a circuit $C$ that will allow us to obscure it's inner workings. To do this we work with variations of a data structure called a branching program, which we first give an intuition to how it works with the following example.
-      \par For inputs $x_1,x_2,x_3,x_4\in \{ 0 ,1\}$  a branching comparison program to see if $x_1x_2 > x_3x_4$ is
+    \par We want to find another way of representing a circuit $C$ that will allow us to obscure its inner workings. To do this we work with variations of a data structure called a branching program. We start with an example of a branching program to help give an intuition, note that $\theta$ and $I$ indicate the output of the program to be 0 and 1 respectively.
+      \par For inputs $x_1,x_2,x_3,x_4\in \{ 0 ,1\}$  a branching comparison program for $x_1x_2 > x_3x_4$ is given by:
     \begin{align*}
     i &&\text{ inp}(i) &&\text{if inp}(i)=0 \text{ go to} &&\text{if inp}(i)=1 \text{ go to} \\
     1. &&1 &&2 &&3 \\
@@ -486,7 +522,7 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
     5. &&4 &&I &&\theta
     \end{align*}
     
-    In the above program, the first column $i$ gives us the index of which step of the program we are at, the second column inp$(i)$ gives us which index of the input we are looking at (i.e. inp$(1)$ indicates we are looking at $x_1$). The third and fourth columns give us either the next step of the program to go to depending on the value of inp$(i)$ or a terminal value where $I$ indicates the program output is 1 or $\theta$ indicating the terminal output is 0.
+    In the above program, the first column $i$ indicates the current line of the program we are at, the second column inp$(i)$ indicates the index of the input to focus on (i.e. inp$(1)$ indicates to focus on $x_1$). The third and fourth columns give us either the next step of the program to go to depending on the value of inp$(i)$; or an output value $\theta$ or $I$.
     \par With this intuition we formalize a variant of branching programs that uses matrices rather than line numbers to get the same functionality.
 
     
@@ -532,23 +568,137 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
      \par Suppose Alice is the obfuscater and Bob is the evaluator. Alice wants to obfuscate circuit $C\in \mathcal{C}$ where $\mathcal{C}$ is the circuit family of all circuits with the same domain and codomain as $C$. Alice starts with a universal circuit $U$ \textbf{say more about this or have a citation ready} that can describe any circuit in $\mathcal{C}$ and $x$ the corresponding input into $U$ such that $U(x,\cdot) = C(\cdot)$. Alice then gets the randomized branching program of 
      $$U = \mathcal{RBP}_U = (\inp(i),\tilde{A_{i,0}},\tilde{A_{i,1}})_{i=1}^n$$
      Then Alice selects all $\tilde{A}_{i,x_{\inp(i)}}$ for all $i$ with $\inp(i)$ corresponding to a bit in $x$. Once this is done Alice sends the partially selected random branching program to Bob who selects matrices corresponding to his input $y$. 
-     \par It's worth thinking about why this is a good start for obfuscation. When Bob receives the branching program he has no way of knowing which of the two matrices Alice selected, all he sees of the matrices corresponding to her inputs are $\tilde{A}_i$, just the matrix itself and its order in the product.
+     \par It's worth thinking about why this is a good start for obfuscation. When Bob receives the branching program he has no way of knowing which of the two matrices Alice selected, all he sees of the matrices corresponding to her inputs are $\tilde{A}_i$, just the matrix itself and its order in the product. Also, the randomization prevents Bob from being able to reorder the matrices of the branching program 
      \par Unfortunately, Kilian's protocol alone is broken. However we can further strengthen this scheme using a graded encoding scheme. 
     
     \subsection{Encoded Random Branching Programs}
     
-    \par Our first potential fix for Kilian's protocol uses the tool described in chapter 2, graded encoding schemes. As before Alice has a random branching program of a universal circuit, she selects the matrices corresponding to her input $x$ that describes the functionality of $C$. However, now she generates a $n$-graded encoding scheme, (where $n= 4^d$ and $d$ is the depth of her original circuit $C$) and then replaces the entries of each matrix with there level-1 encoding. Now, when Bob multiplies the encoded random branching program together, Alice can send over a level $k$ encoding of the identity matrix so that Bob can zero test to see if the output of his computation is $0$ or $1$ on his input. 
+    \par Our first potential fix for Kilian's protocol uses the tool described in chapter 2, graded encoding schemes. As before Alice has a random branching program of a universal circuit, she selects the matrices corresponding to her input $x$ that describes the functionality of $C$; but now she generates a $n$-graded encoding scheme $\mathcal{S}$ with maps $e_{i,j}$, (where $n= 4^d$ and $d$ is the depth of her original circuit $C$) and replaces the entries of each matrix with there level-1 encoding. Now, when Bob multiplies the encoded random branching program together, Alice can send over a level $k$ encoding of the identity matrix so that Bob can zero test to see if the output of his computation is $0$ or $1$ on his input. 
+    \par For example, in Killian's Protocol $A_{i,\inp(i)}$ might be of the form
+    $$ A_{i,\inp(i)} = 
+    \begin{bmatrix}
+    1 &0 &0 &1 &0\\
+    0 &1 &0 &0 &0\\
+    0 &0 &1 &0 &0\\
+    0 &0 &0 &0 &0\\
+    0 &0 &0 &0 &1\\
+    \end{bmatrix}
+    $$
+    but in the encoded random branching programs construction
+    \newcommand{\e}[1]{\leftarrow S_1^{#1}}
     
     
-    \textbf{delete this eventually} \cite{Garg:2013} \cite{GGH13} \cite{5genc}
+    $$
+    A_{i,\inp(i)} = 
+    \begin{bmatrix}
+    a_{1,1} \e{1} & a_{1,2}\e{0} & a_{1,3}\e{0} & a_{1,4}\e{1} & a_{1,5}\e{0}\\
+    a_{2,1} \e{0} & a_{2,2}\e{1} & a_{2,3} \e{0} & a_{2,4} \e{0} &a_{2,5}\e{0}\\
+    a_{3,1} \e{0}  &a_{3,2}\e{0}  &a_{3,3}\e{1} &a_{3,4}\e{0}  &a_{3,5}\e{0} \\
+    a_{4,1}\e{0} &a_{4,2}\e{0} &a_{4,3}\e{0} &a_{4,4}\e{0} &a_{4,5}\e{0}\\
+    a_{5,1}\e{0} &a_{5,2}\e{0} &a_{5,3}\e{0} &a_{5,4}\e{0} &a_{5,5}\e{1}\\
+    \end{bmatrix}
+    $$
+    where each $a_{i,j}$ is chosen uniformly from all small elements of $S_1^{b}$.
+    \par At a first glance, this might seem like all we need to obfuscate a circuit. However it doesn't quite hold up against partial evaluation attacks which take advantage of the ordering of circuit representations or mixed input attacks where an adversary might choose matrices $A_{i,\inp(i)}$ inconsistently in the sense that the $j$th bit of the input might be treated as 1 the first time $\inp(i)=j$ and then 0 the next time $\inp(i) = j$. Defenses against both of these attacks rely heavily on randomization techniques involving the adding of ``Bookends'' and ``Multiplicative Bundling'' both of which, while important to constructing $i\mathcal{O}$, are highly technical and don't add much to understanding $i\mathcal{O}$. For our purposes we will acknowledge that our given scheme is not totally complete, but that fixes do exist and are described in detail in [\cite{Garg:2013}].
+    
+    
+   
      
    
     
-    \section{Construction}
-    \section{Usage, Limitations, and Goals}
+    \section{Obfuscation for Poly-sized Circuits}
+    In this section we use the construction of indistinguishability obfuscation for Nick's Class along with Fully Homomorphic Encryption (FHE) to get obfuscation for polynomial sized circuits. 
+    
+    \subsection{Fully Homomorphic Encryption}
+    We won't get into much detail as to how FHE is constructed, instead we will describe what is expected of a FHE scheme. Like with our previously described forms of encryption, a FHE scheme is a 4-tuple of algorithms containing the standard key generation, encryption, and decryption functions that we know and love. However, with FHE we include another function \textit{evaluate} that takes as input a public key, a function, and a collection of ciphertexts and outputs the encrypted value of the function run on the encrypted input messages. 
+    
+    \begin{definition}{Fully Homomorphic Encryption}
+    \par For message space $\mathcal{M}$, cipher space $C$, key space $K$, and circuit family $\mathcal{F}$ we define a Fully Homomorphic Encryption scheme to be the following functions:
+     
+     \newcommand{\fhe}[0]{_\text{FHE}}
+     
+     \begin{itemize}
+     \item KeyGen$_\text{FHE}:\Z \to K \times K$ \\
+     Defined KeyGen$_\text{FHE}(\lambda)\to (pk,sk)$ where $\lambda$ is the security parameter and $pk,sk$ are a public and secret key respectively 
+     \item Enc$_\text{FHE}:K \times \mathcal{M}\to C$ \\
+     Defined Enc$_\text{FHE}(pk,m) \to c$ meaning anyone with the public key can encrypt a message and get back a cipher text
+     \item Dec$_\text{FHE}:K \times C \to \mathcal{M}$ \\
+     Defined Dec$_\text{FHE}(sk,c) \to m$ and it is expected that FHE schemes respect the public key encryption definition of correctness so Dec$_\text{FHE}(sk,$Enc$_\text{FHE}(pk,m))=m$ and where the running time of Dec$_\text{FHE}$ depends only on the security parameter $\lambda$ and not the input.
+     \item Eval$_\text{FHE}:K \times \mathcal{F} \times C \times C \times \cdots \times C \to C$ \\
+     Defined Eval$\fhe(pk,f,c_1,c_2,\cdots,c_\ell) = c_f$ for $f\in \mathcal{F}$.
+    \end{itemize}
+    \par We say a FHE scheme is correct if for $c_1 =$Enc$\fhe(pk,m_1), \cdots, c_\ell =$ Enc$\fhe(pk,m_\ell)$,
+    $$\text{$\dec(sk,$ Eval$\fhe(pk,f,c_1,c_2, \cdots, c_\ell)) = f(m_1,m_2,\cdots,m_\ell)$ }$$ 
+    \end{definition}
+    
+    \par As opposed to the notion of functional encryption introduced in the first chapter, with FHE decryption is all or nothing just like with classical encryption. A good use for FHE would be if Alice wants to have a large amount of data on a server, and be able to do computations on it. If Alice encrypts her data using a FHE scheme, she can then run Eval commands on the data, download the output of the evaluation command, and decrypt to find it's value. This works well because Alice doesn't need to download all the data onto her computer, decrypt, and then run the computation, but she can still use her data and feel confident that it is staying private.
+    \par FHE would not be good for Alice if she wants to give her friend Bob access to a function of the data (like an average or the median) but does not want Bob to be able to see \textit{all} the data. If encrypted using an FHE scheme, giving Bob the secret key would not only allow him to evaluate the average and then decrypt (Dec$_\text{FHE}(sk,$Eval$(pk,\text{average},c_1,\cdots,c_\ell))$, but also decrypt any piece of data he wants (Dec$_\text{FHE}(sk,c)$ for any $c$) thus compromising the security of Alice's data.
     
     
+    \subsection{Toward Poly-sized Circuit Obfuscation}
     
+    \newcommand{\ionc}[0]{i\mathcal{O}_\text{NC}}
+     \newcommand{\fhe}[0]{_\text{FHE}}
+
+    \par For our construction of circuit obfuscation for polynomial sized circuits, we assume that we have an indistinguishability obfuscater for Nick's Class which we will denote $\ionc$, and a fully homomorphic encryption scheme $($Setup$_\text{FHE},$ Encrypt$_\text{FHE},$ Eval$_\text{FHE},$ Decrypt$_\text{FHE})$ where we can assume Decrypt$\fhe$ can be realized by a family of circuits in NC \textbf{FOR MORE INFORMATION SEE (CITATION TO JOSH'S THESIS)}. Last we also assume we have access to $\{ U_\lambda\}$ where each $U_\lambda \in \{ U_\lambda \}$ is a universal circuit polynomial in the size of $\lambda$ and where $U_\lambda(C,m) = C(m)$ for circuit $C\in \{C_\lambda\}$ and message $m$.
+    \par Our scheme consists of two functions, Obfuscate and Evaluate. Informally, to obfuscate we will get FHE encryption of our circuit encoding for $C$ which we will call $g$, then to evaluate the encrypted circuit on a message $m$ we run the FHE evaluate function on a universal circuit $U_\lambda$ with $m$ built in to get $U_\lambda(g,m)$ which by correctness of FHE should decrypt to $C(m)$. More formally we construct Obfuscate and Evaluate as follows:
+    $\\$
+        \par Obfuscate($\lambda, C \in \mathcal{C}_\lambda$) where $\mathcal{C}_\lambda$ are all circuits with size polynomial to $\lambda$.
+    \begin{enumerate}
+    \item Generate $(PK\fhe,SK\fhe) \leftarrow $ Setup$\fhe(\lambda)$
+    \item Get FHE of circuit $C$, $g=$ Encrypt$\fhe(PK\fhe,C)$
+    \item Define the program $P(\cdot) = $ Decrypt$\fhe(SK\fhe,\cdot)$, the decryption algorithm with the secret key in it and then obfuscate it $\mathcal{P} = \ionc(P)$, note that we are relying on \textbf{CITATION CITATION} that Decrypt$\fhe\in$ NC
+    \item Public Parameters $PP = (\mathcal{P},PK\fhe,g)$
+    \end{enumerate}    
+    
+    \par Evaluate($PP,m$) for valid message $m$.
+    \begin{enumerate}
+    \item Compute $e=\;$ Eval$\fhe(PK\fhe,U_\lambda(\cdot,m),g) = U_\lambda(g,m) =$ Encrypt$\fhe(PK\fhe,U_\lambda(C,m))$ by correctness of FHE
+    \item Output $\mathcal{P}(e)=\ionc($Decrypt$\fhe(SK\fhe, e)) = C(m)$
+    \end{enumerate}
+
+    
+    \par At first glance the construction above might appear to yield indistinguishability obfuscation for poly-sized circuits, after all we have implicitly assumed our FHE scheme is correct and secure, so the circuit encrypted to get $g$ should be well hidden. Unfortunately the current scheme is not quite secure under our definition of indistinguishability obfuscation. 
+    \par Suppose an adversary $\mathcal{A}$ gives us circuits $C_0,C_1 \in \{ C_\lambda\}$ where 
+   \begin{center}
+    $C_0(X = x_0||x_1) = x_0 \text{ or } x_1$\\
+    \text{and} \\
+   $C_1(X =x_0||x_1) = x_1 \text{ or } x_0$
+    \end{center}
+    Where $C_0 = C_1$ since `or' is commutative, so these are valid circuits to test if our scheme meets the indistinguishability obfuscation definition. Now let the encodings of $C_0$ and $C_1$ both be of length $\ell = p(\lambda)$ for some polynomial $p$, and let them be written in the same ordering specified above where the first $k$ bits of the encoding of $C_0$ represents the term ``$x_0$" and likewise the first $k' \approx k$ bits of the encoding of $C_1$ represent the term ``$x_1$". Then if we run Obfuscate$(C_0)\to PP_0$ and Obfuscate$(C_1) \to PP_1$ and give $PP_b$ to the adversary $\mathcal{A}$ for $b \leftarrow \{0,1\}$ chosen uniformly, consider the following attack.
+    \par Upon receiving $PP_b =(\mathcal{P}_b,PK\fhe^b,g_b),\; \mathcal{A}$ wants to differentiate $PP_0$ from $PP_1$ by which bit appears first in the encoding of their associated circuits. To do this $\mathcal{A}$ generates a mask $w$ of length $\ell$ such that the first $k$ bits of the mask are all 1 and the last $\ell - k$ bits are all 0 so that it's of the form $w = 11\cdots 100 \cdots 0$. Then $\mathcal{A}$ encrypts the mask $w_\enc =$ Encrypt$\fhe(PK\fhe^b, w)$ and then multiplies the encrypted circuit $g_b$ by the encrypted mask by getting $g_b' =$Eval$\fhe(PK\fhe,\prod,w_\enc,g_b)$ and then for message $m=01$ output $\mathcal{P}_b($Eval$\fhe(PK\fhe,U_\lambda(\cdot,m),g_b')\to b'$. Note that if $b' = 0$ then $x_0$ appears first in the encoding giving away that $\mathcal{A}$ got an obfuscation of $C_0$, and similarly $b'=1$ implies that $\mathcal{A}$ got an obfuscation of $C_1$. Thus this construction doesn't meet our security definition of indistinguishability obfuscation.
+       \par To fix this construction we need a way of ensuring that evaluation is run \textit{only} on $g$ without any alterations. In order to do this we need another cryptographic primitive.
+       
+       \subsection{Low Depth Non Interactive Zero Knowledge Proofs}
+       
+       Non interactive zero knowledge (hence forth abbreviated NIZK) proofs are a cryptographic primitive between the \textit{prover} and then the \textit{verifier}. We won't give any sort of formal construction of how NIZK proofs are made, rather we focus on what they ensure. Informally, we expect a NIZK proof to work as follows:
+       \par Let Peggy be our prover and Victer be our verifier. Given a statement and a witness to that statement a Peggy should be able to generate a proof $\pi$ such that when $\pi$ is given to Victer, he is convinced that $\pi$ is a valid proof and yet anyone given $\pi$ should be unable to use $\pi$ to gain any information about the witness to the statement.
+       \par More formally a NIZK proof is a one time interaction between a prover and verifier of sending a proof $\pi$ from the prover to the verifier where $\pi$ has the following properties:
+       \begin{itemize}
+       \item Perfect Completeness: A proof system is perfectly complete if an honest prover can generate a proof $\pi$ that $x$ exists in language $L$ such that an honest verifier is always convinced that $\pi \implies x\in L$.
+       \item Statistical Soundness: A proof system is sound if it is infeasible for a prover to generate a false proof that convinces an honest verifier
+       \item Computational Zero Knowledge: A proof system is computational zero-knowledge if the proof does not reveal any information about the witness to any adversary.
+       \item Low Depth: We say a proof is low depth if the verifier can be implemented in NC.
+         \end{itemize}
+    
+    
+    \par Rough details into how a low depth NIZK proof system could be constructed can be found in appendix B of [\cite{Garg:2013}], for our purposes we only need to know that such proof systems exist and guarantee the above properties.
+    
+    \subsection{Obfuscation for Poly-Sized Circuits}
+    
+    \par How might we use low depth NIZK proofs to fix our previous construction of $i\mathcal{O}_p$? As stated at the end of section 3.3.2, we need a way of ensuring that our decryption program only decrypts cipher texts where the message has been \textit{fully} evaluated by our encrypted circuit $g$.
+    \par We begin our edits of the previous scheme by first revising how our program $P$ runs. We define $P$ to be a function that not only takes a cipher text $e$ as before, but now also takes a proof $\pi$ and a message $m$ such that for $(PK\fhe,SK\fhe) \leftarrow$ Setup$\fhe(\lambda)$:
+    
+   
+   \par$P(e,m,\pi) =$
+   \begin{itemize}
+   \item First we check if $\pi$ is a valid low-depth proof that
+   $$e =\text{Eval}\fhe(PK\fhe,U_\lambda(\cdot,m),g) $$
+   \item If the check fails output $\perp$ indicating the inputs are invalid; otherwise output Decrypt$\fhe(e,SK\fhe)$
+   \end{itemize}
+    
+    \par In essence, the evaluator acts as a prover for the statement ``Did you appropriately generate your cipher text?" and the program $P$ acts as the verifier for proofs $\pi$ of that statement. Here ``appropriately generated" means the entire encrypted circuit $g$ was run on the specified message $m$. Since we know indistinguishability obfuscation is the best possible obfuscation we can assume that any adversary with $\ionc(P)$ can't alter the hard coded $g$ in $P$.
+    \par The only other thing we need to check is that our program $P\in$NC so that we can use $\ionc$ on it. As before we know/assume Decrypt$\in$NC, and if we use a low-depth NIZK proof system for step 1 then the verifier$\in$NC so $P\in$NC. Thus we have constructed $i\mathcal{O}_P$ an indistinguishability obfuscater for poly-size circuits.
     
     \chapter{Functional Encryption}
     \section{Definition}
@@ -581,7 +731,10 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
     
     
     
+    
     \chapter{ A Brief Introduction to the 5-GenC library}
+     \textbf{delete this eventually} \cite{5genc}
+     
     \section{ The DSL}
     \section{Circuits and Branching Programs}
     \section{Base and MMaps}

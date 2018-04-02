@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  20 MAR 2018 19:16
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  1 APR 2018 17:56
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -680,76 +680,99 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 [7] [8] [9] [10]
 Chapter 2.
 
-Overfull \hbox (5.04147pt too wide) in paragraph at lines 334--336
-[]\OT1/cmr/bx/n/12 Definition 10. []\OT1/cmr/m/it/12 Cryp-to-graphic Mul-ti-lin
--ear Map Let $\OML/cmm/m/it/12 G[]; G[]; []  ; G[]; G[]$ \OT1/cmr/m/it/12 be cy
-clic groups
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 338--339
+Underfull \hbox (badness 10000) in paragraph at lines 339--340
 
  []
 
 [11
 
 ] [12] [13]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 432.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 439.
 
  (/usr/local/texlive/2016/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 432.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 439.
 
 [14]
 LaTeX Font Info:    Font shape `U/lasy/b/n' in size <8> not available
-(Font)              Font shape `U/lasy/m/n' tried instead on input line 459.
+(Font)              Font shape `U/lasy/m/n' tried instead on input line 495.
 LaTeX Font Info:    Font shape `U/lasy/b/n' in size <6> not available
-(Font)              Font shape `U/lasy/m/n' tried instead on input line 459.
- [15] [16
+(Font)              Font shape `U/lasy/m/n' tried instead on input line 495.
+ [15] [16]
+Chapter 3.
+[17
 
 ]
-Chapter 3.
-[17]
-Overfull \hbox (6.93515pt too wide) in paragraph at lines 531--532
+Overfull \hbox (6.93515pt too wide) in paragraph at lines 567--568
 \OT1/cmr/m/n/12 The first at-tempt of mak-ing in-dis-tin-guisha-bil-ity ob-fus-
 ca-tion out for ran-dom-ized branch-
  []
 
 [18]
-Overfull \hbox (5.05138pt too wide) in paragraph at lines 536--537
+Overfull \hbox (5.05138pt too wide) in paragraph at lines 572--573
 []\OT1/cmr/m/n/12 Unfortunately, Kil-ian's pro-to-col alone is bro-ken. How-eve
 r we can fur-ther strengthen
  []
 
-[19] [20
-
-]
-Chapter 4.
+[19]
 LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 559.
-[21] [22]
-Chapter 5.
-[23
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 621.
+ [20]
+Overfull \hbox (14.2409pt too wide) in paragraph at lines 630--631
+[]\OT1/cmr/m/it/12 We say a FHE scheme is cor-rect if for $\OML/cmm/m/it/12 c[]
+ \OT1/cmr/m/n/12 =$\OT1/cmr/m/it/12 Enc$[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 pk;
+ m[]\OT1/cmr/m/n/12 )\OML/cmm/m/it/12 ; []  ; c[] \OT1/cmr/m/n/12 =$ \OT1/cmr/m
+/it/12 Enc$[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 pk; m[]\OT1/cmr/m/n/12 )$\OT1/cm
+r/m/it/12 , 
+ []
 
-] [24
+
+Underfull \hbox (badness 10000) in paragraph at lines 644--646
+
+ []
+
+[21]
+Overfull \hbox (48.0693pt too wide) in paragraph at lines 656--657
+[]\OT1/cmr/m/n/12 Compute $\OML/cmm/m/it/12 e \OT1/cmr/m/n/12 = $ Eval$[](\OML/
+cmm/m/it/12 PK[]; U[]\OT1/cmr/m/n/12 (\OMS/cmsy/m/n/12 ^^A\OML/cmm/m/it/12 ; m\
+OT1/cmr/m/n/12 )\OML/cmm/m/it/12 ; g\OT1/cmr/m/n/12 ) = \OML/cmm/m/it/12 U[]\OT
+1/cmr/m/n/12 (\OML/cmm/m/it/12 g; m\OT1/cmr/m/n/12 ) =$ Encrypt$[](\OML/cmm/m/i
+t/12 PK[]; U[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 C; m\OT1/cmr/m/n/12 ))$
+ []
+
+[22]
+Overfull \hbox (7.51302pt too wide) in paragraph at lines 680--681
+[]\OT1/cmr/m/n/12 Computational Zero Knowl-edge: A proof sys-tem is com-pu-ta-t
+ional zero-knowledge
+ []
+
+[23] [24]
+Chapter 4.
+[25
+
+] [26]
+Chapter 5.
+[27
+
+] [28
 
 ]
 Chapter 6.
-[25] [26
+[29] [30
 
 ]
 Chapter 7.
-(./thesis.bbl [27] [28
+(./thesis.bbl [31] [32
 
-]) [29] (./thesis.aux) ) 
+]) [33] (./thesis.aux) ) 
 Here is how much of TeX's memory you used:
- 14579 strings out of 493014
- 294536 string characters out of 6133351
- 338413 words of memory out of 5000000
- 17788 multiletter control sequences out of 15000+600000
- 17841 words of font info for 70 fonts, out of 8000000 for 9000
+ 14583 strings out of 493014
+ 294563 string characters out of 6133351
+ 338410 words of memory out of 5000000
+ 17792 multiletter control sequences out of 15000+600000
+ 18190 words of font info for 71 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  56i,21n,84p,1049b,886s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/
@@ -766,13 +789,14 @@ ts/cm/cmr12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts
 sl12.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cms
 y10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
 8.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12
-.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.
-pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/symbols/msb
-m10.pfb>
-Output written on thesis.pdf (39 pages, 251209 bytes).
+.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.p
+fb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pf
+b></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm1
+0.pfb>
+Output written on thesis.pdf (43 pages, 281375 bytes).
 PDF statistics:
- 199 PDF objects out of 1000 (max. 8388607)
- 140 compressed objects within 2 object streams
+ 216 PDF objects out of 1000 (max. 8388607)
+ 152 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 

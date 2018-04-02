@@ -1,0 +1,46 @@
+This is BibTeX, Version 0.99d (TeX Live 2016)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: thesis.aux
+The style file: APA/apa-good.bst
+Database file #1: thesis.bib
+You've used 6 entries,
+            2804 wiz_defined-function locations,
+            631 strings with 6058 characters,
+and the built_in function-call counts, 4765 in all, are:
+= -- 383
+> -- 225
+< -- 6
++ -- 83
+- -- 76
+* -- 384
+:= -- 704
+add.period$ -- 24
+call.type$ -- 6
+change.case$ -- 71
+chr.to.int$ -- 5
+cite$ -- 6
+duplicate$ -- 340
+empty$ -- 336
+format.name$ -- 97
+if$ -- 960
+int.to.chr$ -- 2
+int.to.str$ -- 1
+missing$ -- 72
+newline$ -- 39
+num.names$ -- 30
+pop$ -- 149
+preamble$ -- 1
+purify$ -- 48
+quote$ -- 0
+skip$ -- 124
+stack$ -- 0
+substring$ -- 194
+swap$ -- 211
+text.length$ -- 5
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 54
+warning$ -- 0
+while$ -- 36
+width$ -- 0
+write$ -- 93
