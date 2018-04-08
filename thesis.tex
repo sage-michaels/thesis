@@ -526,7 +526,7 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
     \par With this intuition we formalize a variant of branching programs that uses matrices rather than line numbers to get the same functionality.
 
     
-    \begin{definition}{(Oblivious) Branching Program}
+    \begin{definition}{(Oblivious) Matrix Branching Program}
     \par  An oblivious branching program of length-$n$ for $\ell$-bit inputs is a sequence
     $$BP = ((\text{inp}(i),A_{i,0},A_{i,1}))_{i=1}^n $$
     Where the $A_{i,b}$'s are permutation matrices in $\{0,1\}^{5 \times 5}$, and inp$(i)\in [\ell]$ is the input bit position examined at step $i$ of the branching program. The function computed by this branching program is
@@ -536,15 +536,8 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
     \end{cases}$$
     \end{definition}
     
-     \par As opposed to the example branching program, one of two matrices $A_{i,0}$ or $A_{i,1}$ is chosen based on the bit value of the input indicated by inp$(i)$. Also, note that we can randomize these branching programs in the following way
-    
-    \begin{definition}{Randomized Branching Programs}
-      \newcommand{\inp}[0]{\text{inp}}
-     \par Given a branching program $\mathcal{BP} = (\inp(i),A_{i,0},A_{i,1})_{i=1}^n$ and $n$ random $5 \times 5$ invertible matrices $R_1,R_2,\cdots, R_n$. A random branching program is the branching program made up of $\tilde{A_{i,b}} = R_{i-1}\cdot A_{i,b}\cdot R_i^{-1}$ of the form 
-      $$\mathcal{RBP} = (\inp(i),\tilde{A_{i,0}},\tilde{A_{i,1}})_{i=1}^n$$
-     \end{definition}
-
-\par Not only does randomization help to obscure the underlying circuit, it also prevents any sort of attack that involves reordering the matrices, since matrix multiplication isn't commutative.
+     \par Where in the example the program chose one of two line numbers to jump to depending on the value of the bit at inp$(i)$, in matrix branching programs one of two matrices is chosen: $A_{i,0}$ or $A_{i,1}$.
+         
       
        
             
@@ -558,22 +551,37 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
       \end{theorem}
       
       
-     \par Note that in order to keep these branching programs efficient we need our circuit to have logarithmic depth, so this confines us to circuits in Nick's Class (NC$^1$) although later we will talk about generalizing to polynomial sized circuits. 
+     \par Note that in order to keep these branching programs efficient we need our circuit to have logarithmic depth, so this confines us to circuits in Nick's Class (NC$^1$) although later we will generalize to polynomial sized circuits. 
      
      \section{Approaching Obfuscation for NC$^1$}
      \newcommand{\inp}[0]{\text{inp}}
      
+     Now that we understand how circuits can be represented as a product of matrices, we can start to outline how we use branching programs and graded encoding schemes to create circuit obfuscation for circuits in NC.
+     
+     \subsection{Randomized Branching Programs}
+     
+     An easy first step in obfuscating a branching program is to randomize it.
+     
+     \begin{definition}{Randomized Branching Programs}
+     \par Given a branching program $\mathcal{BP} = (\inp(i),A_{i,0},A_{i,1})_{i=1}^n$ and $n$ random $5 \times 5$ invertible matrices $R_1,R_2,\cdots, R_n$. A random branching program is the branching program made up of $\tilde{A_{i,b}} = R_{i-1}\cdot A_{i,b}\cdot R_i^{-1}$ of the form 
+      $$\mathcal{RBP} = (\inp(i),\tilde{A_{i,0}},\tilde{A_{i,1}})_{i=1}^n$$
+     \end{definition}
+
+\par Not only does randomization help to obscure the underlying circuit, it also prevents any sort of attack that involves reordering the matrices, since matrix multiplication isn't commutative.
+     
      \subsection{Kilian's Protocol}
+      %\newcommand{\inp}[0]{\text{inp}}
      The first attempt of making indistinguishability obfuscation out for randomized branching programs was Kilian's protocol described below. 
-     \par Suppose Alice is the obfuscater and Bob is the evaluator. Alice wants to obfuscate circuit $C\in \mathcal{C}$ where $\mathcal{C}$ is the circuit family of all circuits with the same domain and codomain as $C$. Alice starts with a universal circuit $U$ \textbf{say more about this or have a citation ready} that can describe any circuit in $\mathcal{C}$ and $x$ the corresponding input into $U$ such that $U(x,\cdot) = C(\cdot)$. Alice then gets the randomized branching program of 
+     \par Suppose Alice is the obfuscater and Bob is the evaluator. Alice wants to obfuscate circuit $C\in \mathcal{C}$ where $\mathcal{C}$ is the circuit family of all circuits with the same domain and codomain as $C$. Alice starts with a universal circuit $U(\cdot, \cdot)$ which has the property that given the encoding of a circuit $C \in \mathcal{C}$, $U(C,m) = C(m)$ for all valid messages $m$.
+     \par Alice then gets the randomized branching program of 
      $$U = \mathcal{RBP}_U = (\inp(i),\tilde{A_{i,0}},\tilde{A_{i,1}})_{i=1}^n$$
-     Then Alice selects all $\tilde{A}_{i,x_{\inp(i)}}$ for all $i$ with $\inp(i)$ corresponding to a bit in $x$. Once this is done Alice sends the partially selected random branching program to Bob who selects matrices corresponding to his input $y$. 
+     Then Alice selects all $\tilde{A}_{i,x_{\inp(i)}}$ for all $i$ with $\inp(i)$ corresponding to a bit in the encoding of $C$. Once this is done Alice sends the partially selected random branching program to Bob who selects matrices corresponding to his input $y$. 
      \par It's worth thinking about why this is a good start for obfuscation. When Bob receives the branching program he has no way of knowing which of the two matrices Alice selected, all he sees of the matrices corresponding to her inputs are $\tilde{A}_i$, just the matrix itself and its order in the product. Also, the randomization prevents Bob from being able to reorder the matrices of the branching program 
      \par Unfortunately, Kilian's protocol alone is broken. However we can further strengthen this scheme using a graded encoding scheme. 
     
     \subsection{Encoded Random Branching Programs}
     
-    \par Our first potential fix for Kilian's protocol uses the tool described in chapter 2, graded encoding schemes. As before Alice has a random branching program of a universal circuit, she selects the matrices corresponding to her input $x$ that describes the functionality of $C$; but now she generates a $n$-graded encoding scheme $\mathcal{S}$ with maps $e_{i,j}$, (where $n= 4^d$ and $d$ is the depth of her original circuit $C$) and replaces the entries of each matrix with there level-1 encoding. Now, when Bob multiplies the encoded random branching program together, Alice can send over a level $k$ encoding of the identity matrix so that Bob can zero test to see if the output of his computation is $0$ or $1$ on his input. 
+    \par Our first potential fix for Kilian's protocol uses the tool described in chapter 2, graded encoding schemes. As before Alice has a random branching program of a universal circuit, she selects the matrices corresponding to her input (i.e. the encoding of $C$); but now she generates a $n$-graded encoding scheme $\mathcal{S}$ with maps $e_{i,j}$, (where $n= 4^d$ and $d$ is the depth of her original circuit $C$) and replaces the entries of each matrix with there level-1 encoding. Now, when Bob multiplies the encoded random branching program together, Alice can send over a level $k$ encoding of the identity matrix so that Bob can zero test to see if the output of his computation is $0$ or $1$ on his input. 
     \par For example, in Killian's Protocol $A_{i,\inp(i)}$ might be of the form
     $$ A_{i,\inp(i)} = 
     \begin{bmatrix}
@@ -610,7 +618,7 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
     In this section we use the construction of indistinguishability obfuscation for Nick's Class along with Fully Homomorphic Encryption (FHE) to get obfuscation for polynomial sized circuits. 
     
     \subsection{Fully Homomorphic Encryption}
-    We won't get into much detail as to how FHE is constructed, instead we will describe what is expected of a FHE scheme. Like with our previously described forms of encryption, a FHE scheme is a 4-tuple of algorithms containing the standard key generation, encryption, and decryption functions that we know and love. However, with FHE we include another function \textit{evaluate} that takes as input a public key, a function, and a collection of ciphertexts and outputs the encrypted value of the function run on the encrypted input messages. 
+    We won't get into much detail as to how FHE is constructed, instead we will describe what is expected of a FHE scheme. Like with our previously described forms of encryption, a FHE scheme is a 4-tuple of algorithms containing the standard key generation, encryption, and decryption functions. However, with FHE we include another function \textit{evaluate} that takes as input a public key, a function, and a collection of ciphertexts and outputs the encrypted value of the function run on the encrypted input messages. 
     
     \begin{definition}{Fully Homomorphic Encryption}
     \par For message space $\mathcal{M}$, cipher space $C$, key space $K$, and circuit family $\mathcal{F}$ we define a Fully Homomorphic Encryption scheme to be the following functions:
@@ -631,8 +639,8 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
     $$\text{$\dec(sk,$ Eval$\fhe(pk,f,c_1,c_2, \cdots, c_\ell)) = f(m_1,m_2,\cdots,m_\ell)$ }$$ 
     \end{definition}
     
-    \par As opposed to the notion of functional encryption introduced in the first chapter, with FHE decryption is all or nothing just like with classical encryption. A good use for FHE would be if Alice wants to have a large amount of data on a server, and be able to do computations on it. If Alice encrypts her data using a FHE scheme, she can then run Eval commands on the data, download the output of the evaluation command, and decrypt to find it's value. This works well because Alice doesn't need to download all the data onto her computer, decrypt, and then run the computation, but she can still use her data and feel confident that it is staying private.
-    \par FHE would not be good for Alice if she wants to give her friend Bob access to a function of the data (like an average or the median) but does not want Bob to be able to see \textit{all} the data. If encrypted using an FHE scheme, giving Bob the secret key would not only allow him to evaluate the average and then decrypt (Dec$_\text{FHE}(sk,$Eval$(pk,\text{average},c_1,\cdots,c_\ell))$, but also decrypt any piece of data he wants (Dec$_\text{FHE}(sk,c)$ for any $c$) thus compromising the security of Alice's data.
+    \par As opposed to the notion of functional encryption introduced in the first chapter, with FHE decryption is all or nothing just like with classical encryption. A good use for FHE would be if Alice wants to have a large amount of data on a server, and be able to do computations on it. If Alice encrypts her data using a FHE scheme, she can then run Eval commands on the data, download the output of the evaluation command, and decrypt to find it's value. This works well because Alice doesn't need to download all the data onto her computer, decrypt, and then run the computation, she can decrypt her data before the overall computation is complete if she is curious about a sub result, and her data is kept secure since she is the only one able to decrypt with the secret key.
+    \par FHE would not be good for Alice if she wants to give her friend Bob access to a function of the data (like an average or the median) but does not want Bob to be able to see sub results of the computation. In fact, if encrypted using an FHE scheme, giving Bob the secret key would not only allow him to evaluate the average and then decrypt (Dec$_\text{FHE}(sk,$Eval$(pk,\text{average},c_1,\cdots,c_\ell))$, but also decrypt any sub result of the computation he wants (Dec$_\text{FHE}(sk,c)$ for any $c$) including the raw data itself thus compromising the security of Alice's data.
     
     
     \subsection{Toward Poly-sized Circuit Obfuscation}
@@ -647,7 +655,7 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
     \begin{enumerate}
     \item Generate $(PK\fhe,SK\fhe) \leftarrow $ Setup$\fhe(\lambda)$
     \item Get FHE of circuit $C$, $g=$ Encrypt$\fhe(PK\fhe,C)$
-    \item Define the program $P(\cdot) = $ Decrypt$\fhe(SK\fhe,\cdot)$, the decryption algorithm with the secret key in it and then obfuscate it $\mathcal{P} = \ionc(P)$, note that we are relying on \textbf{CITATION CITATION} that Decrypt$\fhe\in$ NC
+    \item Define the program $P(\cdot) = $ Decrypt$\fhe(SK\fhe,\cdot)$, the decryption algorithm with the secret key in it and then obfuscate it $\mathcal{P} = \ionc(P)$, note that we are relying on the fact that Decrypt$\fhe\in$ NC
     \item Public Parameters $PP = (\mathcal{P},PK\fhe,g)$
     \end{enumerate}    
     
@@ -658,7 +666,7 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
     \end{enumerate}
 
     
-    \par At first glance the construction above might appear to yield indistinguishability obfuscation for poly-sized circuits, after all we have implicitly assumed our FHE scheme is correct and secure, so the circuit encrypted to get $g$ should be well hidden. Unfortunately the current scheme is not quite secure under our definition of indistinguishability obfuscation. 
+    \par At first glance the construction above might appear to yield indistinguishability obfuscation for poly-sized circuits, after all we have implicitly assumed our FHE scheme is correct and secure, so the circuit encrypted to get $g$ should be ``well hidden". Unfortunately the current scheme is not quite secure under our definition of indistinguishability obfuscation. 
     \par Suppose an adversary $\mathcal{A}$ gives us circuits $C_0,C_1 \in \{ C_\lambda\}$ where 
    \begin{center}
     $C_0(X = x_0||x_1) = x_0 \text{ or } x_1$\\
@@ -666,12 +674,12 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
    $C_1(X =x_0||x_1) = x_1 \text{ or } x_0$
     \end{center}
     Where $C_0 = C_1$ since `or' is commutative, so these are valid circuits to test if our scheme meets the indistinguishability obfuscation definition. Now let the encodings of $C_0$ and $C_1$ both be of length $\ell = p(\lambda)$ for some polynomial $p$, and let them be written in the same ordering specified above where the first $k$ bits of the encoding of $C_0$ represents the term ``$x_0$" and likewise the first $k' \approx k$ bits of the encoding of $C_1$ represent the term ``$x_1$". Then if we run Obfuscate$(C_0)\to PP_0$ and Obfuscate$(C_1) \to PP_1$ and give $PP_b$ to the adversary $\mathcal{A}$ for $b \leftarrow \{0,1\}$ chosen uniformly, consider the following attack.
-    \par Upon receiving $PP_b =(\mathcal{P}_b,PK\fhe^b,g_b),\; \mathcal{A}$ wants to differentiate $PP_0$ from $PP_1$ by which bit appears first in the encoding of their associated circuits. To do this $\mathcal{A}$ generates a mask $w$ of length $\ell$ such that the first $k$ bits of the mask are all 1 and the last $\ell - k$ bits are all 0 so that it's of the form $w = 11\cdots 100 \cdots 0$. Then $\mathcal{A}$ encrypts the mask $w_\enc =$ Encrypt$\fhe(PK\fhe^b, w)$ and then multiplies the encrypted circuit $g_b$ by the encrypted mask by getting $g_b' =$Eval$\fhe(PK\fhe,\prod,w_\enc,g_b)$ and then for message $m=01$ output $\mathcal{P}_b($Eval$\fhe(PK\fhe,U_\lambda(\cdot,m),g_b')\to b'$. Note that if $b' = 0$ then $x_0$ appears first in the encoding giving away that $\mathcal{A}$ got an obfuscation of $C_0$, and similarly $b'=1$ implies that $\mathcal{A}$ got an obfuscation of $C_1$. Thus this construction doesn't meet our security definition of indistinguishability obfuscation.
-       \par To fix this construction we need a way of ensuring that evaluation is run \textit{only} on $g$ without any alterations. In order to do this we need another cryptographic primitive.
+    \par Upon receiving $PP_b =(\mathcal{P}_b,PK\fhe^b,g_b),\; \mathcal{A}$ wants to differentiate $PP_0$ from $PP_1$ by which bit appears first in the encoding of their associated circuits. To do this $\mathcal{A}$ generates a mask $w$ of length $\ell$ such that the first $k$ bits of the mask are all 1 and the last $\ell - k$ bits are all 0 so that it's of the form $w = 11\cdots 100 \cdots 0$. Then $\mathcal{A}$ encrypts the mask $w_\enc =$ Encrypt$\fhe(PK\fhe^b, w)$ and then multiplies the encrypted circuit $g_b$ by the encrypted mask by getting $g_b' =$Eval$\fhe(PK\fhe,\prod,w_\enc,g_b)$ and then for message $m=01$ output $\mathcal{P}_b($Eval$\fhe(PK\fhe,U_\lambda(\cdot,m),g_b')\to b'$. 
+    \par Note that if $b' = 0$ then $x_0$ appears first in the encoding giving away that $\mathcal{A}$ received an obfuscation of $C_0$, and similarly $b'=1$ implies that $\mathcal{A}$ received an obfuscation of $C_1$. Thus this construction doesn't meet our security definition of indistinguishability obfuscation. To fix this construction we need a way of ensuring that evaluation is run on $g$ and \textit{only} $g$ without any alterations. In order to do this we need another cryptographic primitive.
        
        \subsection{Low Depth Non Interactive Zero Knowledge Proofs}
        
-       Non interactive zero knowledge (hence forth abbreviated NIZK) proofs are a cryptographic primitive between the \textit{prover} and then the \textit{verifier}. We won't give any sort of formal construction of how NIZK proofs are made, rather we focus on what they ensure. Informally, we expect a NIZK proof to work as follows:
+       Non interactive zero knowledge (hence forth abbreviated NIZK) proofs are a cryptographic primitive between a \textit{prover} and a \textit{verifier}. We will not give any sort of formal construction of how NIZK proofs are made, rather we focus on what they ensure. Informally, we expect a NIZK proof to work as follows:
        \par Let Peggy be our prover and Victer be our verifier. Given a statement and a witness to that statement a Peggy should be able to generate a proof $\pi$ such that when $\pi$ is given to Victer, he is convinced that $\pi$ is a valid proof and yet anyone given $\pi$ should be unable to use $\pi$ to gain any information about the witness to the statement.
        \par More formally a NIZK proof is a one time interaction between a prover and verifier of sending a proof $\pi$ from the prover to the verifier where $\pi$ has the following properties:
        \begin{itemize}
@@ -711,25 +719,116 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
     \item Encrypt$_{FE}(PP,m) \to c$ takes Public Parameter and a message $m\in\mathcal{M}$ and outputs cipher text $c$
     \item Decrypt$_{FE}(SK_f,c)\to m'$ takes secret key and cipher text and outputs message $m'$
     \end{itemize}
-    \par We say a functional encryption scheme is correct if $$\text{Decrypt$(SK_f$,Encrypt$(PP,m))$ = $f(m)$}$$
+    \par We say a functional encryption scheme is correct if $$\forall m \in \mathcal{M}, \; \text{Decrypt$(SK_f$,Encrypt$(PP,m))$ = $f(m)$}$$
     \end{definition}
     
     \section{Construction}
     Here we give a simplified construction of the functional encryption scheme described in the previous section, a more detailed construction using non interactive zero knowledge proofs can be found in \cite{Garg:2013}. Here we assume that we have access to a public key encryption scheme with algorithms (Setup$_{\text{PKE}}$, Encrypt$_{\text{PKE}}$, Decrypt$_{\text{PKE}}$), then
     
     \begin{itemize}
-    \item Setup$_{ FE}(1^\lambda)$: Takes security parameter $\lambda$ and generates
+    \item Setup$_{ FE}(\lambda)$: Takes security parameter $\lambda$ and generates
      $$(PP, MSK) \leftarrow \text{Setup}_{\text{PKE}}(1^\lambda)$$
-     \item KeyGen$_\text{ FE}$(MSK,$f$): Outputs an obfuscation $SK_f := \mathcal{O}(P_f(MSK, \cdot))$ for the program $P_{f,MSK}(\cdot) :=$ Decrypt$_\text{PKE}(MSK,f(\cdot))$
-     \item Encrypt$_\text{ FE}$(PP, m$\in \{ 0,1 \}^n$): Outputs $c :=$ Encrypt$_\text{ PKE}(PP, m)$
-     \item Decrypt$_\text{ FE}(SK_f,c)$: Outputs $m'$ by running the obfuscated program $SK_f$ on $c$.
+     \item KeyGen$_\text{ FE}$(MSK,$f$): Outputs an obfuscation $SK_f := i\mathcal{O}(P_f(MSK, \cdot))$ for the program 
+     \\ $P_{f,MSK}(c,\pi)$=
+     \begin{itemize}
+     \item Check $\pi$ is a valid proof that $\exists m,r \in \mathcal{M}$ such that $c =$Encrypt$_\text{PKE}(PK,m;r)$ where $r$ is used to account for the randomization of our encryption function
+     \item if the check fails output $\perp$ otherwise output $f($Decrypt$_\text{PKE}(MSK,c))$
+     \end{itemize}
+     \item Encrypt$_\text{ FE}$(PP, m)$\in \{ 0,1 \}^n$): Outputs $c =$ Encrypt$_\text{ PKE}(PP, m)$ and $\pi$ a NIZK proof that $c$ was produced as just specified.
+     \item Decrypt$_\text{ FE}(SK_f,c)$: Outputs $m'$ by running $SK_f(c,\pi)$.
 
     
     \end{itemize}
-    \par It might take some rereading of the simplified construction above to understand what's going on. Essentially, our $SK_f$ is an obfuscated program which first fully decrypts a cipher text, then outputs the result of running $f$ on the decrypted message. The idea of fully decrypting the cipher text and then evaluating the function on the decrypted message is why we need obfuscation for this scheme to work since working with an obfuscated program should give no more information than just its input and output behaviors (at-least as we said before this is how indistinguishability obfuscation is often treated).
+    \par It might take some rereading of the simplified construction above to understand what is going on. Essentially, our $SK_f$ is an obfuscated program which first fully decrypts a cipher text, then outputs the result of running $f$ on the decrypted message. The idea of fully decrypting the cipher text and then evaluating the function on the decrypted message is why we need obfuscation for this scheme to work since working with an obfuscated program should give no more information than just its input and output behaviors (at-least as we said before this is how indistinguishability obfuscation is often treated).
     
     
+    \section{Application}
     
+    
+    In this section we talk a little more about use cases for functional encryption. Here we will discuss high level implementations of functional encryption for uses in the real world. As of now software, such as 5gen-C which we will be discussing in chapter 5, are limited to encrypting functions with low multi-linearity, we will get back to this later, but the point is some of these examples can not be feasible instantiated with the current notion of graded encoding schemes.    
+   
+    \subsection{Sealed-Bid First-Price Auction}
+    Here we describe how functional encryption can be used to implement fair and secure sealed-bid first-price auctions. A sealed-bid first-price (hereby referred to as SBFP) auction is an auction where each bidder submits a single bid where the amount is kept secret from the other bidders. Once all bids are submitted, the highest bidder pays their price and wins the auction. Often the seller at these auctions will have a predetermined floor price where if the winning bid is below this floor, the item doesn't sell. 
+    \par A common setting for SBFP auctions is when firms apply for government contracts, in this case a government agency announces that they are looking to contract for a certain service such as road repair, at which points firms bid the amount they would expect to be paid to do the road repairs, and then once all bids are submitted the government is required by law to contract to the ``lowest responsible'' bidder which means the lowest \textit{price}, qualified firm.
+    \par The auction setting we will set up a functional encryption scheme for is one where \textit{only} the highest bid should be known to the seller. Perhaps we could consider the case of a sensitive artist selling their own artwork at an auction, or friends bidding on another friend's artwork, some of which don't particularly like the art, but do not want to appear rude by bidding extremely low or not at all. Each of these situations is perfect for functional encryption since we only want the seller to be able to learn what the encrypted value of the highest valued cipher-text is. 
+    \newcommand{\sign}[0]{_\text{sign}}
+    \par We assume that we have access to a valid and binding digital signature scheme consisting of the polynomial time algorithms $$\big(\text{Gen$_\text{sign}(\lambda) \to (PK\sign,SK\sign),$ Sign$(SK\sign,m) \to \sigma,$ Verify$\sign(PK\sign,m,\sigma)\to \{0,1\}\big)$}$$
+    \textbf{Auction Initialization:}The auction coordinator, an impartial third party (probably some sort of web app), is chosen and initializes the auction as follows:
+    \begin{itemize}
+    \item Run Setup$_\text{FE}(\lambda)\to (PP,MSK)$ and make $PP$ public
+    \end{itemize}
+%
+%
+%
+    \textbf{Bidder Initialization:} Each bidder is expected to send their bid as an encryption of the bid, and encryption of a signature on that bid, the public key for the signature, and the bidder's name. More formally we expect a bidder to:
+     \begin{itemize}
+     \item Chosen a bid amount which we denote $b$
+     \item Run Gen$\sign(\lambda) \to (PK\sign,SK\sign)$
+     \item Generate a signature: Sign$(SK\sign,b)\to \sigma$
+     \item Run Encrypt$_\text{FE}(PP,b) \to \mathbf{c}_\text{bid} := (c_\text{bid},\pi_\text{bid})$
+     \item Run  Encrypt$_\text{FE}(PP,\sigma)\to \mathbf{c}\sign :=(c\sign,\pi\sign)$
+     \item To bid, send $m = (\mathbf{c}_\text{bid},\mathbf{c}\sign,PK\sign,$ Bidder's Name$)$ to the seller.
+     \end{itemize} 
+     
+     \par We require the bidder's signature to ensure that the bidder is honest about their bid amount (we will give more detail about this when describing the Auction phase), but also to ensure that no one can ``frame'' a bidder by potentially bidding an exorbitant amount in someone else's name.
+%
+%
+%
+    \\ \\ \textbf{Program Initialization:} The programs for obfuscation or to be used in functional encryption are as follows:
+    \begin{itemize}
+    \item $G(x,y)$ is a circuit that takes two integers encoded in binary and outputs  1 if $$x>y$$
+    \item $E(x,y)$ is a circuit that takes two integers encoded in binary and outputs 1 if $$
+    x==y$$
+    \end{itemize}
+    Then descriptions of $G,E$ and Verify$\sign$ are distributed to the bidders and seller, if a participant agrees with the functionality of the programs they sign each encoding and send the encoding and signature to the auction coordinator (hereby AC) who checks that all the signatures are valid. This ensures that all participants agree with what information about their bids can be learned from Decryption, once these programs are turned into functional encryption secret keys.
+       \textbf{Auction:} 
+        Then
+       \begin{itemize}
+       \item AC Generates KeyGen$_\text{FE}(MSK,G) \to SK_G$
+       \item AC Generates KeyGen$_\text{FE}(MSK,E) \to SK_E$
+       \item AC Generates KeyGen$_\text{FE}(MSK,$Verify$\sign) \to SK_\text{Verify}$
+       \item AC sends $SK_C$ and $SK_\text{Verify}$ to the seller
+       \item The seller runs the following FindWinner algorithm on $M = [m^1,m^2, \cdots , m^n]$ where $m^{n+1}$ is the seller's floor encoded as specified in Bidder Initialization, Note that for the sake of notation superscripts indicate the index in $M$ and subscripts describe the piece of $m^i$.
+       \par FindWinner($[m^1,m^2,\cdots,m^n,m^{n+1}]$) 
+       	\begin{itemize}
+	\item $i = 2$; max $= 1$; tie = False
+	\item While $i\leq n+1$:
+		\begin{itemize}
+		\item if Decrypt$_\text{FE}(SK_G,\mathbf{c}_\text{bid}^i,
+		\mathbf{c}_\text{bid}^\text{max}) == 1$ \# if $i$th bid is greater than current maximum bid
+			\begin{itemize}
+			\item max $= i$ \# the bid at $i$ is the new maximum bid
+			\item tie = False
+			\end{itemize}
+		\item if Decrypt$_\text{FE}(SK_E,\mathbf{c}_\text{bid}^i,
+		\mathbf{c}_\text{bid}^\text{max}) == 1$ \# if $i$th bid is equal to current maximum bid
+			\begin{itemize}
+			\item tie = True
+			\end{itemize}
+		\item i++
+		\end{itemize}
+	\item if Decrypt$_\text{FE}(SK_\text{Verify},PK\sign^\text{max}, \mathbf{c}_\text{bid}^\text{max},\mathbf{c}_\text{sign}^\text{max}) == 1$
+		\begin{itemize}
+		\item if tie == True
+			\begin{itemize}
+			\item print ``There was a tie, bid again''
+			\end{itemize}
+		\item else return max
+		\end{itemize}
+	\item else return $\perp$
+	\end{itemize}
+	
+	The above program uses $SK_G$ to find the maximum valued bid, and $SK_E$ to see if there are multiple maximal bids in which case there will need to be some type of tie breaker, probably in the form of another round of bids. 
+	\item Since $i\mathcal{O}$ is limited to binary outputs, we can not get the value of the bid out of the cipher text directly. Instead we have required bidders to also encrypt a signature so that we can use $SK_\text{Verify}$ to verify the validity of the signature and commit the bidder to their encrypted bid. For the seller to learn the value of the maximum bid, the seller must tell the winning bidder (whose name is encoded in $m^\text{max}$) that they are the winner and ask them to send over the value of their bid $b$. The seller then needs to verify that the bid amount $b$ is in fact the same amount that was encrypted in $\mathbf{c}^\text{max}_\text{bid}$ so the seller runs $$\text{ Decrypt$_\text{FE}\big(SK_\text{Verify},PK\sign^\text{max},$ Encrypt$_\text{FE}(PP, b),\mathbf{c}\sign^\text{max}$\big)} \to v $$
+Note: that we encrypt $b$ so that it is in the proper format for using $SK_\text{Verify}$
+
+\par If $v==1$ this means that $b$ is the amount of the maximum bid and so the seller knows with confidence that the winning bidder will pay the amount the bid. If $v == 0$ then the bidder has submitted a bid inconsistent with the bid encoded in $\mathbf{c}_\text{bid}^\text{max}$ at which point the max bidder will probably need to either submit a consistent bid value or be penalized in some way.
+       \end{itemize}
+       
+       \\
+       \\
+       \par A few things about this scheme should be noted. While bid amounts can only be revealed by having the bidder send in their bid after the auction, an ordering of the bids can easily be found by using $SK_G$ to sort the cipher texts by bid amount. This means that a seller can find out who bid the lowest which might not be optimal in the case of bidding on art that a bidder doesn't actually want.       
+     
     
     
     \chapter{ A Brief Introduction to the 5-GenC library}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  1 APR 2018 17:56
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  8 APR 2018 15:36
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -704,23 +704,23 @@ LaTeX Font Info:    Font shape `U/lasy/b/n' in size <6> not available
 Chapter 3.
 [17
 
-]
-Overfull \hbox (6.93515pt too wide) in paragraph at lines 567--568
+] [18]
+Overfull \hbox (6.93515pt too wide) in paragraph at lines 574--575
 \OT1/cmr/m/n/12 The first at-tempt of mak-ing in-dis-tin-guisha-bil-ity ob-fus-
 ca-tion out for ran-dom-ized branch-
  []
 
-[18]
-Overfull \hbox (5.05138pt too wide) in paragraph at lines 572--573
+
+Overfull \hbox (5.05138pt too wide) in paragraph at lines 580--581
 []\OT1/cmr/m/n/12 Unfortunately, Kil-ian's pro-to-col alone is bro-ken. How-eve
 r we can fur-ther strengthen
  []
 
 [19]
 LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 621.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 629.
  [20]
-Overfull \hbox (14.2409pt too wide) in paragraph at lines 630--631
+Overfull \hbox (14.2409pt too wide) in paragraph at lines 638--639
 []\OT1/cmr/m/it/12 We say a FHE scheme is cor-rect if for $\OML/cmm/m/it/12 c[]
  \OT1/cmr/m/n/12 =$\OT1/cmr/m/it/12 Enc$[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 pk;
  m[]\OT1/cmr/m/n/12 )\OML/cmm/m/it/12 ; []  ; c[] \OT1/cmr/m/n/12 =$ \OT1/cmr/m
@@ -728,13 +728,13 @@ Overfull \hbox (14.2409pt too wide) in paragraph at lines 630--631
 r/m/it/12 , 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 644--646
+[21]
+Underfull \hbox (badness 10000) in paragraph at lines 652--654
 
  []
 
-[21]
-Overfull \hbox (48.0693pt too wide) in paragraph at lines 656--657
+
+Overfull \hbox (48.0693pt too wide) in paragraph at lines 664--665
 []\OT1/cmr/m/n/12 Compute $\OML/cmm/m/it/12 e \OT1/cmr/m/n/12 = $ Eval$[](\OML/
 cmm/m/it/12 PK[]; U[]\OT1/cmr/m/n/12 (\OMS/cmsy/m/n/12 ^^A\OML/cmm/m/it/12 ; m\
 OT1/cmr/m/n/12 )\OML/cmm/m/it/12 ; g\OT1/cmr/m/n/12 ) = \OML/cmm/m/it/12 U[]\OT
@@ -743,7 +743,7 @@ t/12 PK[]; U[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 C; m\OT1/cmr/m/n/12 ))$
  []
 
 [22]
-Overfull \hbox (7.51302pt too wide) in paragraph at lines 680--681
+Overfull \hbox (7.51302pt too wide) in paragraph at lines 688--689
 []\OT1/cmr/m/n/12 Computational Zero Knowl-edge: A proof sys-tem is com-pu-ta-t
 ional zero-knowledge
  []
@@ -752,27 +752,45 @@ ional zero-knowledge
 Chapter 4.
 [25
 
-] [26]
-Chapter 5.
-[27
+]
+Overfull \hbox (6.51752pt too wide) in paragraph at lines 734--735
+[]\OT1/cmr/m/n/12 Check $\OML/cmm/m/it/12 ^^Y$ \OT1/cmr/m/n/12 is a valid proof
+ that $\OMS/cmsy/m/n/12 9\OML/cmm/m/it/12 m; r \OMS/cmsy/m/n/12 2 M$ \OT1/cmr/m
+/n/12 such that $\OML/cmm/m/it/12 c \OT1/cmr/m/n/12 =$Encrypt$[](\OML/cmm/m/it/
+12 PK; m\OT1/cmr/m/n/12 ; \OML/cmm/m/it/12 r\OT1/cmr/m/n/12 )$
+ []
 
-] [28
+[26]
+Overfull \hbox (14.54375pt too wide) detected at line 755
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 773--778
+
+ []
+
+[27] [28] [29] [30
+
+]
+Chapter 5.
+[31] [32
 
 ]
 Chapter 6.
-[29] [30
+[33] [34
 
 ]
 Chapter 7.
-(./thesis.bbl [31] [32
+(./thesis.bbl [35] [36
 
-]) [33] (./thesis.aux) ) 
+]) [37] (./thesis.aux) ) 
 Here is how much of TeX's memory you used:
- 14583 strings out of 493014
- 294563 string characters out of 6133351
+ 14588 strings out of 493014
+ 294632 string characters out of 6133351
  338410 words of memory out of 5000000
- 17792 multiletter control sequences out of 15000+600000
- 18190 words of font info for 71 fonts, out of 8000000 for 9000
+ 17796 multiletter control sequences out of 15000+600000
+ 18499 words of font info for 72 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  56i,21n,84p,1049b,886s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2016/texmf-dist/fonts/type1/public/
@@ -793,10 +811,10 @@ y10.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
 fb></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pf
 b></usr/local/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm1
 0.pfb>
-Output written on thesis.pdf (43 pages, 281375 bytes).
+Output written on thesis.pdf (47 pages, 293843 bytes).
 PDF statistics:
- 216 PDF objects out of 1000 (max. 8388607)
- 152 compressed objects within 2 object streams
+ 228 PDF objects out of 1000 (max. 8388607)
+ 160 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 
