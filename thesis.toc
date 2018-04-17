@@ -1,50 +1,49 @@
 \contentsline {chapter}{Introduction}{1}
-\contentsline {chapter}{Chapter 1: Background}{3}
-\contentsline {section}{\numberline {1.1}Encryption}{3}
-\contentsline {subsection}{\numberline {1.1.1}Classical Encryption}{3}
-\contentsline {subsection}{\numberline {1.1.2}Functional Encryption}{4}
-\contentsline {section}{\numberline {1.2}Obfuscation}{7}
-\contentsline {subsection}{\numberline {1.2.1}Black Box Obfuscation}{7}
-\contentsline {subsection}{\numberline {1.2.2}Indistinguishability Obfuscation}{7}
-\contentsline {section}{\numberline {1.3}Bilinear Maps}{8}
-\contentsline {subsection}{\numberline {1.3.1}Definition}{8}
-\contentsline {subsection}{\numberline {1.3.2}Intuition}{9}
-\contentsline {subsection}{\numberline {1.3.3}Hardness Assumption}{9}
-\contentsline {chapter}{Chapter 2: Multi-Linear Maps}{11}
-\contentsline {section}{\numberline {2.1}Cryptographic Multilinear Maps}{11}
-\contentsline {subsection}{\numberline {2.1.1}Dream Definition}{11}
-\contentsline {subsection}{\numberline {2.1.2}Hardness Assumption}{12}
-\contentsline {section}{\numberline {2.2}Graded Encoding Schemes}{12}
-\contentsline {subsection}{\numberline {2.2.1}Intuition}{12}
-\contentsline {subsection}{\numberline {2.2.2}Encodings}{13}
-\contentsline {subsection}{\numberline {2.2.3}Definition}{13}
-\contentsline {subsection}{\numberline {2.2.4}Procedures}{14}
-\contentsline {subsection}{\numberline {2.2.5}Zero Test}{14}
-\contentsline {subsection}{\numberline {2.2.6}Hardness Assumptions}{16}
-\contentsline {chapter}{Chapter 3: Indistinguishability Obfuscation}{17}
-\contentsline {section}{\numberline {3.1}Circuit Representation}{17}
-\contentsline {subsection}{\numberline {3.1.1}Branching Programs}{17}
-\contentsline {subsection}{\numberline {3.1.2}Barrington's Theorem}{18}
-\contentsline {section}{\numberline {3.2}Approaching Obfuscation for NC$^1$}{18}
-\contentsline {subsection}{\numberline {3.2.1}Randomized Branching Programs}{18}
-\contentsline {subsection}{\numberline {3.2.2}Kilian's Protocol}{19}
-\contentsline {subsection}{\numberline {3.2.3}Encoded Random Branching Programs}{19}
-\contentsline {section}{\numberline {3.3}Obfuscation for Poly-sized Circuits}{20}
-\contentsline {subsection}{\numberline {3.3.1}Fully Homomorphic Encryption}{20}
-\contentsline {subsection}{\numberline {3.3.2}Toward Poly-sized Circuit Obfuscation}{21}
-\contentsline {subsection}{\numberline {3.3.3}Low Depth Non Interactive Zero Knowledge Proofs}{23}
-\contentsline {subsection}{\numberline {3.3.4}Obfuscation for Poly-Sized Circuits}{24}
-\contentsline {chapter}{Chapter 4: Functional Encryption}{25}
-\contentsline {section}{\numberline {4.1}Definition}{25}
-\contentsline {section}{\numberline {4.2}Construction}{25}
-\contentsline {section}{\numberline {4.3}Application}{26}
-\contentsline {subsection}{\numberline {4.3.1}Sealed-Bid First-Price Auction}{26}
-\contentsline {chapter}{Chapter 5: A Brief Introduction to the 5-GenC library}{31}
-\contentsline {section}{\numberline {5.1} The DSL}{31}
-\contentsline {section}{\numberline {5.2}Circuits and Branching Programs}{31}
-\contentsline {section}{\numberline {5.3}Base and MMaps}{31}
-\contentsline {chapter}{Chapter 6: Experiments}{33}
-\contentsline {section}{\numberline {6.1}Comparison Circuit}{33}
-\contentsline {section}{\numberline {6.2}Runtime Evaluation}{33}
-\contentsline {chapter}{Chapter 7: Conclusion}{35}
-\contentsline {chapter}{References}{37}
+\contentsline {chapter}{Chapter 1: Background}{5}
+\contentsline {section}{\numberline {1.1}Encryption}{5}
+\contentsline {subsection}{\numberline {1.1.1}Standard Encryption}{5}
+\contentsline {subsection}{\numberline {1.1.2}Functional Encryption}{7}
+\contentsline {section}{\numberline {1.2}Obfuscation}{10}
+\contentsline {subsection}{\numberline {1.2.1}Black Box Obfuscation}{10}
+\contentsline {subsection}{\numberline {1.2.2}Indistinguishability Obfuscation}{11}
+\contentsline {section}{\numberline {1.3}Bilinear Maps}{12}
+\contentsline {subsection}{\numberline {1.3.1}Definition}{12}
+\contentsline {subsection}{\numberline {1.3.2}Intuition}{12}
+\contentsline {subsection}{\numberline {1.3.3}Hardness Assumption}{13}
+\contentsline {chapter}{Chapter 2: Multi-Linear Maps}{15}
+\contentsline {section}{\numberline {2.1}Cryptographic Multilinear Maps}{15}
+\contentsline {subsection}{\numberline {2.1.1}Dream Definition}{15}
+\contentsline {subsection}{\numberline {2.1.2}Hardness Assumption}{16}
+\contentsline {section}{\numberline {2.2}Graded Encoding Schemes}{16}
+\contentsline {subsection}{\numberline {2.2.1}Intuition}{17}
+\contentsline {subsection}{\numberline {2.2.2}Encodings}{17}
+\contentsline {subsection}{\numberline {2.2.3}Definition}{18}
+\contentsline {subsection}{\numberline {2.2.4}Procedures}{18}
+\contentsline {subsection}{\numberline {2.2.5}Zero Test}{19}
+\contentsline {subsection}{\numberline {2.2.6}Hardness Assumptions}{20}
+\contentsline {chapter}{Chapter 3: Indistinguishability Obfuscation}{23}
+\contentsline {section}{\numberline {3.1}Circuit Representation}{23}
+\contentsline {subsection}{\numberline {3.1.1}Branching Programs}{23}
+\contentsline {subsection}{\numberline {3.1.2}Barrington's Theorem}{24}
+\contentsline {section}{\numberline {3.2}Approaching Obfuscation for NC$^1$}{25}
+\contentsline {subsection}{\numberline {3.2.1}Randomized Branching Programs}{25}
+\contentsline {subsection}{\numberline {3.2.2}Kilian's Protocol}{25}
+\contentsline {subsection}{\numberline {3.2.3}Encoded Branching Programs}{26}
+\contentsline {section}{\numberline {3.3}Obfuscation for Poly-sized Circuits}{26}
+\contentsline {subsection}{\numberline {3.3.1}Fully Homomorphic Encryption}{27}
+\contentsline {subsection}{\numberline {3.3.2}Toward Poly-sized Circuit Obfuscation}{28}
+\contentsline {subsection}{\numberline {3.3.3}Low Depth Non Interactive Zero Knowledge Proofs}{29}
+\contentsline {subsection}{\numberline {3.3.4}Obfuscation for Poly-Sized Circuits}{30}
+\contentsline {chapter}{Chapter 4: Functional Encryption}{31}
+\contentsline {section}{\numberline {4.1}Definition}{31}
+\contentsline {section}{\numberline {4.2}Construction}{32}
+\contentsline {section}{\numberline {4.3}Application}{32}
+\contentsline {subsection}{\numberline {4.3.1}Sealed-Bid First-Price Auction}{33}
+\contentsline {subsection}{\numberline {4.3.2}Auction Construction}{33}
+\contentsline {chapter}{Chapter 5: 5Gen-C}{37}
+\contentsline {section}{\numberline {5.1}5Gen-C Overview}{37}
+\contentsline {subsection}{\numberline {5.1.1}libmmap}{37}
+\contentsline {subsection}{\numberline {5.1.2}CXS}{37}
+\contentsline {subsection}{\numberline {5.1.3}mio}{38}
+\contentsline {section}{\numberline {5.2}Experiments}{39}
+\contentsline {chapter}{References}{41}

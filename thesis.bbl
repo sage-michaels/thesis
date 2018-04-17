@@ -1,4 +1,4 @@
-\begin{thebibliography}{6}
+\begin{thebibliography}{12}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \expandafter\ifx\csname url\endcsname\relax
   \def\url#1{{\tt #1}}\fi
@@ -12,6 +12,14 @@ Barak, B., Goldreich, O., Impagliazzo, R., Rudich, S., Sahai, A., Vadhan, S.,
 \newblock In J.~Kilian (Ed.), {\em Advances in Cryptology --- CRYPTO 2001\/},
   (pp. 1--18). Berlin, Heidelberg: Springer Berlin Heidelberg.
 
+\bibitem[{Barrington(1986)}]{Barrington:1986:BPB:12130.12131}
+Barrington, D.~A. (1986).
+\newblock Bounded-width polynomial-size branching programs recognize exactly
+  those languages in nc1.
+\newblock In {\em Proceedings of the Eighteenth Annual ACM Symposium on Theory
+  of Computing\/}, STOC '86, (pp. 1--5). New York, NY, USA: ACM.
+\urlprefix\url{http://doi.acm.org/10.1145/12130.12131}
+
 \bibitem[{Boneh et~al.(2011)Boneh, Sahai, \& Waters}]{funcenc}
 Boneh, D., Sahai, A., \& Waters, B. (2011).
 \newblock Functional encryption: Definitions and challenges.
@@ -24,6 +32,19 @@ Carmer, B., Malozemoff, A.~J., \& Raykova, M. (2017).
   arithmetic circuits.
 \newblock Cryptology ePrint Archive, Report 2017/826.
 \newblock \url{https://eprint.iacr.org/2017/826}.
+
+\bibitem[{Coron et~al.(2013)Coron, Lepoint, \& Tibouchi}]{CLT13}
+Coron, J.-S., Lepoint, T., \& Tibouchi, M. (2013).
+\newblock Practical multilinear maps over the integers.
+\newblock In R.~Canetti, \& J.~A. Garay (Eds.), {\em Advances in Cryptology --
+  CRYPTO 2013\/}, (pp. 476--493). Berlin, Heidelberg: Springer Berlin
+  Heidelberg.
+
+\bibitem[{Gancher(2016)}]{FHE}
+Gancher, J. (2016).
+\newblock Fully homomorphic encryption.
+\newblock Reed College Electronic Theses.
+\urlprefix\url{https://rdc.reed.edu/c/etheses/s/r?_pp=20&query=fully%20homomorphic%20encryption&s=5dce75f4a8c2af56899bce985b0e871fa2c150d5&p=1&pp=1}
 
 \bibitem[{Garg et~al.(2013{\natexlab{a}})Garg, Gentry, \& Halevi}]{GGH13}
 Garg, S., Gentry, C., \& Halevi, S. (2013{\natexlab{a}}).
@@ -48,5 +69,24 @@ Goldwasser, S., \& Rothblum, G.~N. (2007).
 \newblock In {\em Proceedings of the 4th Conference on Theory of
   Cryptography\/}, TCC'07, (pp. 194--213). Berlin, Heidelberg: Springer-Verlag.
 \urlprefix\url{http://dl.acm.org/citation.cfm?id=1760749.1760765}
+
+\bibitem[{Katz \& Lindell(2007)}]{Katz:2007:IMC:1206501}
+Katz, J., \& Lindell, Y. (2007).
+\newblock {\em Introduction to Modern Cryptography (Chapman \& Hall/Crc
+  Cryptography and Network Security Series)\/}.
+\newblock Chapman \& Hall/CRC.
+
+\bibitem[{Kilian(1988)}]{Kilian:1988:FCO:62212.62215}
+Kilian, J. (1988).
+\newblock Founding crytpography on oblivious transfer.
+\newblock In {\em Proceedings of the Twentieth Annual ACM Symposium on Theory
+  of Computing\/}, STOC '88, (pp. 20--31). New York, NY, USA: ACM.
+\urlprefix\url{http://doi.acm.org/10.1145/62212.62215}
+
+\bibitem[{Langlois et~al.(2014)Langlois, Stehle, \& Steinfeld}]{GGHLite}
+Langlois, A., Stehle, D., \& Steinfeld, R. (2014).
+\newblock Gghlite: More efficient multilinear maps from ideal lattices.
+\newblock Cryptology ePrint Archive, Report 2014/487.
+\newblock \url{https://eprint.iacr.org/2014/487}.
 
 \end{thebibliography}
