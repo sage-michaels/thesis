@@ -117,17 +117,15 @@
          \addcontentsline{toc}{chapter}{Introduction}
 	\chaptermark{Introduction}
 	\markboth{Introduction}{Introduction}
-	        Historically, encryption has been the cryptographic primitive that allows for two (or more) parties to exchange private information through untrusted channels. That is to say, if Alice wishes to send Bob an invitation to a party, but does not want anyone else to see it, Alice could encrypt the invitation in such a way that only Bob can decrypt it, and then send it over to Bob. If the message is properly encrypted then Alice can sends the message through any convenient means without worrying who else might see the message, since \textit{only} Bob can make sense of it through decryption. Indeed we use this type of encryption all the time for sending emails, sms text messages, and even some phone calls so long as we are using the correct apps and settings.
-	        \par However, in a world where individuals store much of their data on the cloud, the method of encryption just described might be either too limiting or give away too much information. For example, suppose Alice has so many digital photos that she has to store them on Amazing Cloud Services. While Alice likes Amazing Cloud Services, she does not want them to be able to look through all her photos, so she encrypts each photo, along with their affiliated information such as location and date taken, before uploading it to the cloud. Perhaps one day Alice wants to look at all her photos taken in 2008, how should she go about getting these photos from Amazing? Since all the photos are encrypted, Amazing cannot actually look and see which photos were taken when. With the standard notion of encryption, Alice either needs to sacrifice her privacy and teach Amazing Cloud Services how to decrypt her photos so they can send her the ones from 2008, or she would need to download and decrypt each photo in order to determine when it was taken; which would be difficult since her computer space is limited. For situations like this Alice would want to be able to come up with another way to decrypt that gives Amazing the ability to see if an encrypted photo is from 2008 or not, but nothing else. We call encryption schemes that can decrypt to functions of messages rather than just messages, functional encryption schemes.
+	        Historically, encryption has been the cryptographic primitive that allows for two (or more) parties to exchange private information through untrusted channels. That is to say, if Alice wishes to send Bob an invitation to a party, but does not want anyone else to see it, Alice could encrypt the invitation in such a way that only Bob could decrypt it, and then send it over to Bob. If the message is properly encrypted then Alice can sends the message by any convenient means without worrying who else might see the message, since \textit{only} Bob can make sense of it through decryption. Indeed we use this type of encryption all the time for sending emails, sms text messages, online shopping, and e-banking so long as we are using the correct apps and settings.
+	        \par However, in a world where individuals store much of their data on the cloud, the method of encryption just described might be either too limiting or give away too much information. For example, suppose Alice has so many digital photos that she has to store them on Amazing Cloud Services. While Alice likes Amazing Cloud Services, she does not want them to be able to look through all her photos, so she encrypts each photo, along with their affiliated information such as location and date taken, before uploading it to the cloud. Perhaps one day Alice wants to look at all her photos taken in 2008, how should she go about getting these photos from Amazing? Since all the photos are encrypted, Amazing cannot actually look and see which photos were taken when. With the standard notion of encryption, Alice either needs to sacrifice her privacy and teach Amazing Cloud Services how to decrypt her photos so they can send her the ones from 2008, or needs to download and decrypt each photo in order to determine when it was taken; which would be difficult since her computer space and bandwidth is limited. For situations like this Alice would want to be able to come up with another way to decrypt that gives Amazing the ability to see if an encrypted photo is from 2008 or not, but nothing else. We call encryption schemes that can decrypt to functions of messages rather than just messages in their entirety, functional encryption schemes.
 	        \par In order to construct functional encryption, we need another cryptographic primitive known as obfuscation. The goal of obfuscation is to take a program or circuit and make it unintelligible so that running the program on an input reveals nothing else about the input other than the output of the program. Currently, many methods of obfuscation rely on the conversion of circuits or programs into matrices and the encoding of those matrices with a data structure known as a graded encoding scheme that enables computation on encoded inputs so that only information about the final result of the computation can be learned.
-	\par In standard encryption (i.e. where we can only get the full message from decryption), we expect that the send and recipient of encrypted messages each have a secret key that allows each of them to encrypt or decrypt messages. Typically these secret keys were random sequences of ones and zeros, however with functional encryption we instead send obfuscated circuits as secret keys.  
-	 After we are convinced that functional encryption is theoretically possible, we can construct protocols that use it in new and interesting ways. There are also existing frameworks that have instantiated both functional encryption and obfuscation. The 5Gen-C framework allows for us to run experiments on the current efficiency of these primitives and protocols to determine the current feasibility of using them.
-	\par Much of the literature that discusses the construction of functional encryption can be dense and unapproachable for an undergraduate computer science student. This thesis was written by and for undergraduates with the intention of being an approachable resource for understanding the basics of functional encryption, obfuscation, how it is constructed, and its applications. This work draws heavily on \cite{Garg:2013} and \cite{GGH13}; and used software from Galois Inc. as described in \cite{5genc}.
+	\par In standard encryption (i.e. where we can only get the full message from decryption), we expect that the recipient of a message has a secret key that allows them to fully decrypt messages. Typically these secret keys are random sequences of ones and zeros, however with functional encryption we instead send obfuscated circuits as evauluation keys. After we are convinced that functional encryption is theoretically possible, we can construct protocols that use it in new and interesting ways. There are also existing frameworks that have instantiated both functional encryption and obfuscation. The 5Gen-C framework allows for us to run experiments on the efficiency of these primitives and protocols to determine the current feasibility of using them.
+	\par Much of the literature that discusses the construction of functional encryption can be dense and unapproachable for an undergraduate computer science student. This thesis was written by and for undergraduates with the intention of being an approachable resource for understanding the basics of functional encryption, obfuscation, how it is constructed, and its applications. Although this work is intended to be accessible to anyone interested in reading it, at certain points of this work we will assume that the reader has a basic understanding of modern cryptographic concepts as found in \cite{Katz:2007:IMC:1206501}. We also assume that the reader is somewhat familiar with group and ring theory as would be taught in an undergraduate abstract or modern algebra course. Although these assumptions are made of the reader, we cite information rather liberally, so even a reader without these prerequisites, with some extra effort, should be able to obtain a reasonable understanding of the topics discussed in this thesis. This work draws heavily on \cite{Garg:2013} and \cite{GGH13}; and used software from Galois Inc. as described in \cite{5genc}.
     
    
     
-    \chapter*{Preliminaries}
-     Although this work is intended to be accessible to undergraduate students, at certain points of this work we will assume that the reader has a basic understanding of modern cryptographic concepts as found in \cite{Katz:2007:IMC:1206501}. We also assume that the reader is somewhat familiar with group and ring theory as would be taught in an undergraduate abstract or modern algebra course. Although these assumptions are made of the reader, we cite information rather liberally, so even a reader without these prerequisites, with some extra effort, should be able to obtain a reasonable understanding of the topics discussed in this thesis.
+
     
     \chapter{Background}
     \section{Encryption}
@@ -870,20 +868,22 @@ Note: that we encrypt $b$ and $PK\sign^\text{max}$ so that it is in the proper f
     
     
     \chapter{5Gen-C}
-    \par While we have shown that multilinear maps, obfuscation, and functional encryption are all \textit{possible}; we have yet to discuss their feasibility. One such tool currently in development for actually using the primitives we have discussed is the 5Gen-C framework [\cite{5genc}].We begin this chapter with a brief overview of what tools are available in 5Gen-C and then go on to discuss experiments we have run to test efficiency of different encrypted circuits. 
+    \par While we have shown that multilinear maps, obfuscation, and functional encryption are all \textit{possible}; we have yet to discuss their feasibility. One tool currently in development for actually using the primitives we have discussed is the 5Gen-C framework [\cite{5genc}].We begin this chapter with a brief overview of what tools are available in 5Gen-C and then go on to discuss experiments we have run to test the efficiency of different encrypted circuits. 
     
       
     \section{5Gen-C Overview}
-    5Gen-C offers three major tools related to the primitives we have been discussing. \texttt{libmmap} which allows for easy implementation of multilinear maps, \texttt{mio} for obfuscating circuits as well as implementing functional encryption, and CXS which compiles circuits described in Haskell into a domain specific language for branching programs (\texttt{.acirc}). We describe the usage of these tools with a little more detail below.
+    5Gen-C includes three major tools related to the primitives we have been discussing. \texttt{libmmap} which allows for easy implementation of multilinear maps, \texttt{mio} for obfuscating circuits as well as implementing functional encryption, and \texttt{cxs} which compiles circuits described in Haskell into a domain specific language for circuits (\texttt{.acirc}). We describe the usage of these tools with a little more detail below.
     
     \subsection{libmmap}
-    libmmap is a library that allows for implementation of the GGHLite [\cite{GGHLite}] with \texttt{libgghlite} and defaults toCLT [\cite{CLT13}] with \texttt{libclt}. We will not dwell on \texttt{libmmap} since for our purposes we only use it is a backend library for the \texttt{mio} program for functional encryption described later. Essentially \texttt{libmmap} gives an interface for using multilinear maps with commands for getting the public parameter or secret key from instantiation, as well as for encoding plaintext elements, running operations on them, and zero testing the results. For more detail see [\cite{5genc}].
-    
-      
+    libmmap is a library that allows for implementation of the GGHLite [\cite{GGHLite}] with \texttt{libgghlite} and defaults to CLT [\cite{CLT13}] with \texttt{libclt}. We will not dwell on \texttt{libmmap} since for our purposes we only use it is a backend library for the \texttt{mio} program for functional encryption described later. Essentially \texttt{libmmap} gives an interface for using multilinear maps with commands for getting the public parameter or secret key from instantiation, as well as for encoding plaintext elements, running operations on them, and zero testing the results. For more detail see [\cite{5genc}]. The primary difference between the multilinear map CLT [\cite{CLT13}] is that CLT is an \textit{asymmetric} graded encoding scheme. Simply put, this means that where in our construction a level $i$ encoding of a plaintext $g$ is of the form:
+    $$S_i^\alpha =\bigg\{\bigg[\frac{a}{z^i} \bigg]_q \bigg| \; a \in \alpha + I \text{ and $a$ is small}\bigg\} $$
+    In an asymmetric graded encoding scheme, the prime $z$ is different at each level, so the set of valid level $i$ encodings is of the form
+    $$S_i^\alpha =\bigg\{\bigg[\frac{a}{\prod_{j\leq i} z_j} \bigg]_q \bigg| \; a \in \alpha + I \text{ and $a$ is small}\bigg\} $$
+      This will come up later during one of our experiments. 
    \subsection{CXS}
    
-   5Gen-C contains a program circuit-synthesis (hereby \texttt{cxs}), for compiling and optimizing circuits from a domain specific language (DSL) embedded in Haskell to \texttt{acirc} files ready for obfuscation. We use \texttt{cxs} to write Haskell like programs that describe a circuit functionality then run compile that program with \texttt{cxs} and a specific input size to get a circuit of the functionality described in the DSL that expects inputs of the specified size.
-   \par For example suppose we want a circuit for greater than that compares two inputs each length 1, as well as a circuit for greater than that compares two inputs each of length 2. Without \texttt{cxs} we would need to code up two different circuits in the form of a \texttt{acirc} program; but with \texttt{csx} we can describe greater than circuits of arbitrary input size and then compile it with \texttt{cxs} for input sizes 1 and 2 in order to get the two \texttt{acirc} files we want. To compile a circuit simply write a the circuit in Haskell (using special 5Gen-C packages), and then run \texttt{./cxs compile .acirc filename}.
+   5Gen-C contains a program circuit-synthesis (hereby \texttt{cxs}), for compiling and optimizing circuits from a domain specific language (DSL) embedded in Haskell to \texttt{acirc} files ready for obfuscation. We use \texttt{cxs} to write Haskell like programs that describe a circuit functionality then compile that program with \texttt{cxs} to get a circuit of the functionality described in the DSL that expects inputs of a specified size.
+   \par For example suppose we want a circuit for \textit{greater than} that compares two inputs each length 1 bit, as well as a circuit for greater than that compares two inputs each of length 2. Without \texttt{cxs} we would need to code up two different circuits in the form of a \texttt{acirc} program; but with \texttt{csx} we can describe \textit{greater than} circuits of arbitrary input size and then compile them with \texttt{cxs} for input sizes 1 and 2 in order to get the two \texttt{acirc} files we want. To compile a circuit simply write a the circuit in Haskell (using special 5Gen-C packages), and then run \texttt{./cxs compile .acirc filename}.
    \par For example, a circuit that compares two bits (i.e. $x_0 > x_1$ where $x_0,x_1$ are each either 1 or 0) compiles to the following \texttt{.acirc} file:
    
     %\newcommand{\input}[0]{\text{input}}
@@ -891,23 +891,24 @@ Note: that we encrypt $b$ and $PK\sign^\text{max}$ so that it is in the proper f
    \newcommand{\mul}[0]{\text{ mul }}
    %\newcommand{\and}[0]{\text{add}}
    \begin{align*}
-   0 &\text{ input } 0 : 3 \\
-1 &\text{ input } 1 : 3\\
-2 &\text{ const } 0 : 2 \\
-3 &\sub 2\ 1 : 1 \\
-4 &\mul 0\ 3 : 1\\
-5 &\text{ add } 0\ 1 : 1\\
-6 &\mul 0\ 1 : 2\\
-7 &\text{ add } 6\ 6 : 1\\
-8 &\sub 5\ 7 : 1\\
+  &\text{: outputs } 4 &&\text{ indicates which line contains the output bit} \\
+  &\text{: start }  & \\
+0&\ \text{input } 0\ : 3  &&\text{ 0 references $x_0$} \\
+1&\ \text{input } 1\ : 3  &&\text{ 1 references $x_1$} \\
+2&\ \text{const } 0\ : 2 &&\text{ sets a constant} \\
+3&\ \text{sub } 2\ 1\ : 1 &&\text{ computes 0 XOR 2, which is negation if 2 is set to the value ``1''} \\
+4&\ \text{mul } 0\ 3\ : 1 &&\text{ 4 AND 3 $\to$ 4 AND (NOT 1)} \\
+5&\ \text{add } 0\ 1\ : 1 &&\text{ extra computation with unclear purpose} \\
+6&\ \text{mul } 0\ 1\ : 2 &&\\ 
+7&\ \text{add } 6\ 6\ : 1&&\\
+8&\ \text{sub } 5\ 7\ : 1&&\\
    \end{align*} 
-   \texttt{.acirc} files are for the \texttt{.mio} program, but the above \texttt{.acirc} file represents the circuit $x_0 > x_1$ similar to a branching program, but with addition, multiplication, and subtraction (otherwise known as bitwise `OR', `AND', and `XOR') built in.
-         
+   \texttt{.acirc} files are for the \texttt{.mio} program, but the above \texttt{.acirc} file represents the circuit $x_0 > x_1$ similar to a branching program, but with addition, multiplication, and subtraction (otherwise known as bitwise `OR', `AND', and `XOR') built in.          
          
           \subsection{mio}
-    \par 5Gen-C contains a command that allows for implementing \textbf{m}ulti-\textbf{i}nput functional encryption and \textbf{o}bfuscation, called \texttt{mio}. Obfuscation with \texttt{mio} is the same as we have described, in chapter 3. \texttt{mio obf} takes as input a circuit (in the form of a \texttt{.acirc} program) and outputs an obfuscated circuit.
-    \par Right now, \texttt{mio obf} supports a few different obfuscation techniques that allow for obfuscation of circuits directly without first needing to convert them to matrix branching programs. Such techniques use methods similar to the ones we described in chapter 3, however instead of using matrices, entries into boolean expressions are encoded under a graded encoding scheme, and different randomization techniques are used to ensure security from mixed input or partial evaluation attacks. 5Gen-C allows for obfuscation with previously established methods such as Zimmerman (referred to as Zim) obfuscation and Lin obfuscation, but also derived a few new methods such as the so called Linnerman method (a combination of techniques from Zim and Lin) as well as a method that uses functional encryption referred to in 5gen-C as CMR which is used as default. We will not go much into these obfuscation methods but explanations can be found in [\cite{5genc}].
-    \par For multi-input functional encryption (hence forth MIFE), \texttt{mio mife} currently supports single key secret key MIFE which combines the Setup and KeyGen algorithms described in the generalized functional encryption described in chapter 4. We define sk-MIFE to be the following three polynomial time algorithms:
+    \par The \texttt{mio} tool implements \textbf{m}ulti-\textbf{i}nput functional encryption and \textbf{o}bfuscation, called \texttt{mio}. Obfuscation with \texttt{mio} is the same as we have described, in chapter 3. \texttt{mio obf} takes as input a circuit (in the form of a \texttt{.acirc} program) and outputs an obfuscated circuit.
+    \par Right now, \texttt{mio obf} supports a few different obfuscation techniques that allow for obfuscation of circuits directly without first needing to convert them to matrix branching programs. Such techniques use methods similar to the ones we described in chapter 3, however instead of using matrices, entries into boolean expressions are encoded under a graded encoding scheme, and different randomization techniques are used to ensure security from mixed input or partial evaluation attacks. 5Gen-C allows for obfuscation with previously established methods such as Zimmerman (referred to as Zim) obfuscation and Lin obfuscation, but also derived a few new methods such as the so called Linnerman method (a combination of techniques from Zim and Lin) as well as a method that uses functional encryption referred to in 5gen-C as CMR which is used as the default. We will not go much into these obfuscation methods but explanations can be found in [\cite{5genc}].
+    \par For multi-input functional encryption (hence forth MIFE), \texttt{mio mife} currently supports single key secret key MIFE which combines the Setup and KeyGen algorithms described in the generalized functional encryption discussed in \S 4.2. We define sk-MIFE to be the following three polynomial time algorithms:
     \begin{itemize}
        \item$ \text{Setup}(\lambda,C) \to (PP,SK_C)$:
         Takes as input a security parameter and circuit description and outputs a secret key and evaluation key. 
@@ -922,14 +923,159 @@ Note: that we encrypt $b$ and $PK\sign^\text{max}$ so that it is in the proper f
          
          
     \section{Experiments}
-    
-    
-    
+    In this section we cover different experiments ran in the process of making this thesis to get a feel for the 5gen-c framework and its capabilities. A major factor in being able to work with the 5gen-c library was being able to ask two of its developers (Brent Carmer and Alex Malozmoff), this software is still in development, so being able to work with developers was imperative to working with this exciting new software. 
+   
+   
+   \subsection{Unary Comparison}
+   \par When beginning this thesis, there were a few example circuits that had already been coded up in the DSL such as a point function, AES, and unary comparison. The example unary comparison circuit computes \textit{greater than}, but expects the first input to be in unary and the second input to be in \textit{inverted} unary. For example in 10 digit unary comparison (which can represent any number from 0 to 9) if the first input $x_0 = 5$ and the second input $x_1=3$ they would be expected in the following form:
+   \begin{align*}
+   x_0 &= 5 =_1 1111110000 \\
+   x_1 &= 3 =_1 0000111111
+   \end{align*}
+   The benefit of expecting inputs in this form is that comparison can be computed by bitwise ANDing each bit of the first and second input, and the ORing all the results. This means each input should only need to be multiplied once yielding low muliti-linearity. So working continuing with the previous example:
+   \begin{align*}
+   (x_0> x_1) &= (1\cdot 0) + (1 \cdot 0) + (1 \cdot 0) + (1 \cdot 0) + (1 \cdot 0) + (1 \cdot 1) + (1 \cdot 1) + (0 \cdot 1) +(0 \cdot 1) + \cdots + (0 \cdot 1) \\
+   &= 1 + 1\\
+   &= 1 \text{ since 1 OR 1 is 1}
+   \end{align*}
+   
+   The downside to expecting inputs in unary is there is a trade off between how precise each digit is (i.e. each digit representing 1 or 10 or 100...) and input length. Also, if input values are meant to be kept secret, then maximum possible input needs to be known during set up otherwise there will be issues if someone attempts to enter a number higher than the maximum that can be represented.
+   \par Due to these limitations with unary comparison, it seemed like it would be a good idea to implement a binary comparison circuit.  Over the course of a few months we program two binary comparison circuit generators with circuit-synthesis.
+   
+   \subsection{Cascading Binary Compariosn}
+   \newcommand{\AND}[0]{\text{AND}}
+   \newcommand{\OR}[0]{\text{OR}}
+   \newcommand{\NOT}[0]{\text{NOT}}
+   \newcommand{\XOR}[0]{\text{XOR}}
+   
+   The first method of for generating circuits that compute ``$>$'' on binary inputs was with a method that we will call cascading binary comparison. For a two inputs, $x = x_0||x_1,y= y_0||y_1$ of 2 bit each, cascading binary comparison checks if $x_0 > y_0$ with the boolean expression $x_0 \AND (\NOT y_0)$, and doing the same with $x_1,y_1$ but ANDing the output with $(x_0 \XOR y_0)$ which indicates that the first bits are the same. We can represent this with the following diagram:
+   
+   \begin{center}
+   \begin{tikzcd}
+ & \text{output} &  &  \\
+ & \text{or} \arrow[u] &  &  \\
+ &  & \text{and} \arrow[lu] &  \\
+\text{and} \arrow[ruu] & \text{xor} \arrow[ru] & \text{and} \arrow[u] &  \\
+ & \text{not} \arrow[lu] &  & \text{not} \arrow[lu] \\
+x_0 \arrow[uu] \arrow[ruu] & y_0 \arrow[u] \arrow[u] \arrow[u] \arrow[uu, bend right] & x_1 \arrow[uu] & y_1 \arrow[u]
+\end{tikzcd} 
+\end{center}
+   
+   We call this \textit{cascading} comparison because the value of $x_0 \XOR y_0$ is carried over to the next bit pair comparison. This method can be extended to larger inputs by continuing to carry the values of the previous bits' equality. For conciseness, we will use Logisim circuit syntax in our representation of circuits which appears as follows:
+   
+   
+   
+   
+   \begin{figure}[h]
+   \centering
+   \includegraphics[scale = .35]{logisimgates}
+   \caption{Logisim gates}
+   \label{subd}
+   \end{figure}
+   
+   \par In order, the above represents 1.) inputs 2.) AND gates 3.) NOT gates 4.) OR gates 5.) XOR gates and 6.) outputs. With this syntax it is easier to show a cascading comparison circuit extended to 4 bits:
+   
+      \begin{figure}[h]
+      \centering
+   \includegraphics[scale = .55]{comp2_4}
+   \caption{4 bit input cascading binary comparison}
+   \label{subd}
+   \end{figure}
+   
+   While the syntax may take a little while to get used to, the above works just as we described with the 2 bit input example, for each bit pair we check if $x_i > y_i$ at the gates labeled ``gi", we also check if $x_{\leq i} == y_{\leq i}$ at the gates labeled ``eqi''. We call perhaps the term \textit{cascading} is more clearly indicated by the structure of the gates labeled OR1, OR2, and OR3. Consider if we added one more bit of input so it was a 5 bit input comparison circuit:
+ 
+   \begin{figure}[h]
+	% the options are h = here, t = top, b = bottom, p = page of figures.
+	% you can add an exclamation mark to make it try harder, and multiple
+	% options if you have an order of preference, e.g.
+	% \begin{figure}[h!tbp]
+	   
+	       \centering
+	    % DO NOT ADD A FILENAME EXTENSION TO THE GRAPHIC FILE
+	   \includegraphics[scale = .5]{comp2_5}
+	     \caption{5 bit input cascading binary comparison}
+	 \label{subd}
+	\end{figure}
+	
+ \par Notice that in the 4 bit input cascading comparison circuit, the maximum number of AND gates between an input and an output is 3, (eq2, eq3, A3 in figure 5.2), in the 5 bit input cascading comparison circuit the maximum is 4 (A1, A2, A3, A4 as in figure 5.3). The pattern that adding a bit to the input size increases the number of AND gates continues to be linear, this indicates a linear relationship between number of AND gates (remember AND is the same as MUL) and input size. 
+ 
+ \subsection{Chunked Comparison Circuits}
+ \par Linear growth is not horrible, but if we can, we should make this circuit more efficient. In an attempt to do this we tried generating circuits that use the cascading comparison for constant sized chunks of inputs, and then recursively compare these chunks to yield a comparison circuit. Rather than the cascading structure of checking $(x_i> y_i) \AND (x_{<i} == y_{<i})$ we decided to take a recursive approach. 
+ \par Given two lists of input bits $ x =[x_0,x_1, \cdots x_n], \; y= [y_0,y_1,\cdots , y_n]$ and a chunk size ``cs'',
+our recursive chunked comparison circuit generation algorithm runs as follows:
+  \begin{itemize}
+ \item if $|x|>$cs then \textit{ //check if the lists are smaller than the chunk size (we can assume the lists are the same length)}
+ 	\begin{itemize}
+	\item recurse on (the first halves of $x$ and $y$, cs) $\to (g_1,eq_1)$ \textit{//get the values of if $x>y$ and $x==y$ on in first half}
+	\item recurse on (the second halves of $x$ and $y$, cs) $\to (g_2, eq_2)$ \textit{//get the values of $x>y$ and $x==y$ on in second half}
+	\item return $(g_1\ \OR\ (eq_1\ \AND\ g_2), \; eq_1\ \AND \ eq_2)$ \textit{//return values of $x>y$ and $x==y$ in this entire chunk}
+	\end{itemize} 
+\item else run the cascading comparison algorithm on $x$ and $y \to (g,eq)$ return the value of if $(x>y, \; x==y)$ in this chunk
+ \end{itemize}
+ 
+ \par Below is an 8 bit input comparison circuit constructed using the chunking algorithm:
+ 
+ \begin{figure}[h]
+ 	\centering
+	\includegraphics[scale = .6]{ccomp4_8}
+	\caption{8 bit input chunked binary comparison}
+	\label{subd}
+ \end{figure}
+ 
+ \par As you can see, each chunk is identical to the circuit depicted in figure 5.2, but the equality and greater than values of each chunk are checked at the top level. You can also see that we were able to double the input size of, but still only have a maximum of 4 AND gate from an input to the output (indicated by A1, A2, A3, A4 in figure 5.4). This logarithmic growth of the maximum AND gate as input size increases continues.   
+ 
+ 
+ \subsection{Multi-Linearity and Efficiency Tests}
+ \par Here we test the multi-linearity of our circuits. If $k$ is our multi-linearity, we should expect the number of AND gates to be related to $k$, or at least they should grow at a similar rate. Lucky for us, \texttt{mio mife} has a setting \texttt{get-kappa} that computes the multi-linearity of a circuit. Hence forth we will be referring to our comparison algorithms as \texttt{comp} and \texttt{ccomp8} referring to cascading comparison and chunked comparison of chunk size 8 respectively. 
+ 
+ 
+ \begin{table}[htbp] % begins the table floating environment. This enables LaTeX to fit the table where it works best and lets you add a caption.
+\caption[Multilinearity of Different Comparison Circuits]{Multilinearity of Chunked and Unchunked Comparison Circuits} 
+% The words in square brackets of the caption command end up in the Table of Tables. The words in curly braces are the caption directly over the table.
+\begin{center} 
+\begin{tabular}{c c c c c} 
+% the tabular environment is used to make the table itself. The {c c c c} specify that the table will have four columns and they will all be center-aligned. You can make the cell contents left aligned by replacing the Cs with Ls or right aligned by using Rs instead. Add more letters for more columns, and pipes (the vertical line above the backslash) for vertical lines. Another useful type of column is the p{width} column, which forces text to wrap within whatever width you specify e.g. p{1in}. Text will wrap badly in narrow columns though, so beware.
+\toprule % a horizontal line, slightly thicker than \hline, depends on the booktabs package
+  input length: &4 & 8 & 16 &32 \\ % the first row of the table. Separate columns with ampersands and end the line with two backslashes. An environment begun in one cell will not carry over to adjacent rows.
+  \midrule % another horizontal line
+	\texttt{comp} &40 &80 &160 &320\\
+	\texttt{ccomp4} &59 &158 &397 &956 \\
+	\texttt{ccomp8} &40 &119 &318 &797 \\
+		\bottomrule % yet another horizontal line
+\end{tabular}
+\end{center}
+\label{inheritance} % labels are useful when you have more than one table or figure in your document. See our online documentation for more on this.
+\end{table}
+
+\par Clearly, our hypotheses was wrong that $k$ would equal the maximum number of AND gates. We saw in figure 5.2 that \texttt{comp} with 4 bit inputs has 3 multiplication gates, yet \texttt{get-kappa} told is it has $k=40$. Not only that, but if $k$ gives any indication of the efficiency of obfuscating our circuit, it appears that \texttt{ccomp8} is approximately doubles the multi-linearity of \texttt{comp}. This leads us to our next question, does multi-linearity relate to the efficiency of obfuscation?
+\par To test this we measure how long it takes to run setup for our \texttt{comp} and \texttt{ccomp8} circuit with varying input sizes.
+
+ \begin{table}[htbp] % begins the table floating environment. This enables LaTeX to fit the table where it works best and lets you add a caption.
+\caption[]{Efficiency of Chunked and Unchunked Comparison Circuits (Hours: Minutes: Seconds)} 
+% The words in square brackets of the caption command end up in the Table of Tables. The words in curly braces are the caption directly over the table.
+\begin{center} 
+\begin{tabular}{c c c c c} 
+% the tabular environment is used to make the table itself. The {c c c c} specify that the table will have four columns and they will all be center-aligned. You can make the cell contents left aligned by replacing the Cs with Ls or right aligned by using Rs instead. Add more letters for more columns, and pipes (the vertical line above the backslash) for vertical lines. Another useful type of column is the p{width} column, which forces text to wrap within whatever width you specify e.g. p{1in}. Text will wrap badly in narrow columns though, so beware.
+\toprule % a horizontal line, slightly thicker than \hline, depends on the booktabs package
+  input length: &4 & 8 & 16 &32 \\ % the first row of the table. Separate columns with ampersands and end the line with two backslashes. An environment begun in one cell will not carry over to adjacent rows.
+  \midrule % another horizontal line
+	\texttt{comp} &00:00:02 &00:00:07 & 00:01:17 &19:54:50\\
+	\texttt{ccomp4} &00:00:01 &00:00:07 &00:04:38 & -- \\
+	\texttt{ccomp8} &00:00:01 &00:00:06 & 00:03:28 & -- \\
+		\bottomrule % yet another horizontal line
+\end{tabular}
+\end{center}
+\label{inheritance} % labels are useful when you have more than one table or figure in your document. See our online documentation for more on this.
+\end{table}
+
+\par As we can see in Table 5.2, \texttt{ccomp8} is significantly less efficient than \texttt{comp}, which is a case for the negative relationship between multi-linearity and efficiency; and shows that even though the \texttt{ccomp8} grows logarithmically rather than linearly like \texttt{comp}, it does not appear to reduce the $k$ value of the multilinear map or increase the efficiency of obfuscating the circuit. 
+\par While understanding why \texttt{ccomp} is less efficienct than \text{comp} is left for future work (see . There is a theory as to why a circuit's multilinearity is related to its efficiency. The explanation in [\cite{5genc}] is that the linearity $k$ indicates how many large primes $z_i$ are needed to encode the up to $k$ levels of the graded encoding scheme.  As a result, the larger $k$ is the more time the computer has to take during set up to find more large primes. 
+
 
  \bibliographystyle{APA/apa-good}  % or
  \bibliography{thesis}
  % Comment the above two lines and uncomment the next line to use biblatex-chicago.
  %\printbibliography[heading=bibintoc]
 
-% Finally, an index would go here... but it is also optional.
+
 \end{document}
