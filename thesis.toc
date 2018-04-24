@@ -44,10 +44,11 @@
 \contentsline {section}{\numberline {5.1}5Gen-C Overview}{35}
 \contentsline {subsection}{\numberline {5.1.1}libmmap}{35}
 \contentsline {subsection}{\numberline {5.1.2}CXS}{36}
-\contentsline {subsection}{\numberline {5.1.3}mio}{37}
+\contentsline {subsection}{\numberline {5.1.3}mio}{36}
 \contentsline {section}{\numberline {5.2}Experiments}{37}
 \contentsline {subsection}{\numberline {5.2.1}Unary Comparison}{38}
-\contentsline {subsection}{\numberline {5.2.2}Cascading Binary Compariosn}{38}
-\contentsline {subsection}{\numberline {5.2.3}Chunked Comparison Circuits}{39}
+\contentsline {subsection}{\numberline {5.2.2}Cascading Binary Comparison}{38}
+\contentsline {subsection}{\numberline {5.2.3}Chunked Comparison Circuits}{41}
 \contentsline {subsection}{\numberline {5.2.4}Multi-Linearity and Efficiency Tests}{41}
+\contentsline {subsection}{\numberline {5.2.5}Conclusion}{43}
 \contentsline {chapter}{References}{45}

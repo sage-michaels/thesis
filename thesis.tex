@@ -55,19 +55,19 @@
 \author{Sage R. Michaels}
 % The month and year that you submit your FINAL draft TO THE LIBRARY (May or December)
 \date{May 2018}
-\division{Mathematics and Natural Sciences}
+\division{Computer Science and Mathematics}
 \advisor{Dylan McNamee}
 %If you have two advisors for some reason, you can use the following
 %\altadvisor{Your Other Advisor}
 %%% Remember to use the correct department!
-\department{Mathematics}
+\department{Computer Science and Mathematics}
 % if you're writing a thesis in an interdisciplinary major,
 % uncomment the line below and change the text as appropriate.
 % check the Senior Handbook if unsure.
-\thedivisionof{The Established Interdisciplinary Committee for}
+%\thedivisionof{The Established Interdisciplinary Committee for}
 % if you want the approval page to say "Approved for the Committee",
 % uncomment the next line
-%\approvedforthe{Committee}
+\approvedforthe{Committee}
 
 \newcommand{\coloneqq}[0]{:=}
 \newcommand{\gen}[0]{\text{Gen}}
@@ -91,16 +91,16 @@
     \chapter*{Acknowledgements}
 	
 		
-	%I'd like to take a moment to thank all the people who have been a part of the great moments in my life, you know who you are even if your name does not appear below it does not detract from the glory of our time spent together. I'd like to specifically thank
-	%Cara Chae-Banks, Yoel ``Yoelie'' Ferdman, Siena Ward,  Alon ''Alonie'' Averbuj, Yarden Refaeli (aka DJ Fast Dad), Samuel ``SandBird'' Polterock , Rosa ``Avacado'' Brotherton, Josh ``Bayz'' Biase (aka DJ Flat Soda), Bryant Volk (aka DJ Strong Nerd), Manny Harpin, Michael Kaplan, and Cody Biesanz in no particular order for their incredible friendship.  
-	
-	%\par I'd also like to thank Sue Coles, Sierra Gomez-Saltzman, Kiote Coles, Tillie Castro, and especially Jody Saltzman and Dan Michaels for all the familial support and love over the years, there are no words for the gratitude I feel to have been raised in such an incredible family.
-	%\par I'd like to thank my thesis advisor Dylan McNamee for his patients, advice, pep talks, and positivity throughout this thesis process. The idea of writing a thesis has always horrified me, but you did a great job keeping it fun and calming me down when I got anxious.
+	I'd like to take a moment to thank all the people who have shared in many of the great moments in my life, housemates, study buddies, friends, and anyone who has torn it up on the dance-floor with me, even if your name does not appear below it does not detract from the glory of our time spent together. 
+	\par I'd like to specifically, thank in no particular order, Yoel Ferdman,  Siena Ward, Yarden Refaeli (aka DJ Fast Dad), Cara Chae-Banks, Samuel ``SandBird'' Polterock , Rosa ``Avacado'' Brotherton, Alon Averbuj, Josh ``Bayz'' Biase (aka DJ Flat Soda), and Bryant Volk (aka DJ Strong Nerd) for being some of the best friends I could have ever hoped for.	
+	\par I'd also like to thank my family Sue Coles, Kiote Coles, Sierra Gomez-Saltzman, Tillie Castro, and especially Jody Saltzman and Dan Michaels for all the familial support and love over the years, without whose support none of this would have been possible.
+	\par Finally, I'd like to thank my thesis advisor Dylan McNamee for his patients, advice, pep talks, and positivity throughout this thesis process.
+
 
 % The preface is optional
 % To remove it, comment it out or delete it.
     \chapter*{Abstract}
-	This is an example of a thesis setup to use the reed thesis document class.
+	Functional encryption is a powerful cryptographic primitive that extends the functionality of standard decryption. Currently the development of functional encryption is a rich area of cryptographic research, however much of the literature describing how functional encryption is used and constructed can be dense and unapproachable. This thesis works to make the theory behind multilinear maps, circuit obfuscation and how they are used to construct functional encryption in a way that is digestible to undergraduates. Once we have built up a theoretical understanding of functional encryption we describe a new protocol for secure online first price sealed bid auctions. Then we make use of 5Gen-C, a framework currently in development, to implement some of the first multi-input functional encryptions of binary comparison circuits (that calculates \textit{greater than}) for up to 32 by 32 bits. We also use 5Gen-C to compare the efficiency of two different methods of generating comparison circuits, and find that the cascading method is more efficient for obfuscation than our recursive approach. Last we use 5Gen-C to see how functional encryption and obfuscation are currently infeasible for complex computations due to the exponential increase in setup runtime as the multi linearity of the underlying multilinear map increases.
 	
 
     \tableofcontents
@@ -142,10 +142,10 @@
  Defined to be for $\lambda \in \mathbb{Z}$, Gen($\lambda ) \rightarrow (pk,sk)$ where $pk$ and $sk$ are random keys of length $\lambda$.
  
   $$\text{Enc}:K \times M \rightarrow C$$
-Defined for key $pk\in K$ and message $m\in M$; to be Enc$_{pk}(m) \rightarrow c$ for some cipher text $c\in C$
+Defined for key $pk\in K$ and message $m\in M$; to be Enc$(pk,m) \rightarrow c$ for some cipher text $c\in C$
  
  $$\text{Dec}:K \times C \rightarrow M$$
- Defined for key $sk \in K$ and cipher text $c\in C$; to be Dec$_{sk}(c) \rightarrow m$ for some message $m\in M$
+ Defined for key $sk \in K$ and cipher text $c\in C$; to be Dec$(sk,c) \rightarrow m$ for some message $m\in M$
  
  \end{definition}
  
@@ -156,10 +156,10 @@ Defined for key $pk\in K$ and message $m\in M$; to be Enc$_{pk}(m) \rightarrow c
 \begin{definition}[Correctness]
 In this setting we say an encryption scheme $\Pi$ is \textbf{correct} if for $n\in \mathbb{Z} , (sk,pk) \leftarrow$ Gen$(n)$ and $m\in M$ 
 
-$$\text{Dec}_{sk}(\text{Enc}_{pk}(m)) = m$$
+$$\text{Dec}(sk, (\text{Enc}(pk,m)) = m$$
 \end{definition}
 
-\par Suppose Alice and wants to send Bob a secret message $m$. To do this in the public key setting Bob would have to run Gen$(n) \rightarrow (pk, sk)$ and then send $pk$ to Alice. Then Alice gets $c:= $Enc$_{pk}(m)$ and sends $c$ over to Bob. Finally Bob gets $m':= $Dec$_{sk}(c)$. If the scheme is correct then $m' = m$ and Bob is able to read Alice's message. The above interaction is represented in the following diagram.
+\par Suppose Alice and wants to send Bob a secret message $m$. To do this in the public key setting Bob would have to run Gen$(n) \rightarrow (pk, sk)$ and then send $pk$ to Alice. Then Alice gets $c:= $Enc$(pk,m)$ and sends $c$ over to Bob. Finally Bob gets $m':= $Dec$(sk, c)$. If the scheme is correct then $m' = m$ and Bob is able to read Alice's message. The above interaction is represented in the following diagram.
 
 \begin{table}[ht]
   \centering
@@ -168,9 +168,9 @@ $$\text{Dec}_{sk}(\text{Enc}_{pk}(m)) = m$$
     Bob & & Alice \\ 
     $\gen(\lambda) \rightarrow (sk,pk)$ &&\\
     & $\xrightarrow{\quad pk \quad}$ & \\
-    & & $\enc_{pk}(m) \rightarrow c$ \\
+    & & $\enc(pk,m) \rightarrow c$ \\
     & $\xleftarrow{\quad c \quad}$& \\
-    $m' \coloneqq \dec_{pk}(c)$ && \\
+    $m' \coloneqq \dec(pk,c)$ && \\
   \end{tabular}
   }
    \caption{Public Key Encryption Protocol}
@@ -192,7 +192,7 @@ With standard encryption, decryption is all or nothing, either you have the secr
 \begin{definition}[Correctness]
 A Functional Encryption Scheme $\Pi$ is \textbf{correct} if for $m \in M$, some predetermined function $f$ with $M$ as its domain, and appropriate public key and \textit{evaluation} key $(PK,SK_f)\in K$ from $\Pi$'s key generation algorithm:
 
-$$\dec(SK_f, \enc_{PK}(m)) = f(m) $$
+$$\dec(SK_f, \enc(PK,m)) = f(m) $$
 \end{definition}
 
 It is easy to see that this definition encapsulates the older definition of correctness by making $f$ the identity function $f(m) = m$, but this syntax covers many other cryptographic primitives as well like attribute based encryption (ABE) and identity based encryption (IBE). To see how these primitives are sub cases of functional encryption lets formalize our idea of a functional encryption scheme. 
@@ -209,7 +209,7 @@ $$\text{Gen}: K \times \mathcal{F} \rightarrow K $$
 Defined for $f \in \mathcal{F}, MSK \in K$; to be Gen$(MSK,c) \rightarrow SK_f$ which is kept secret and is the secret key associated with the functionality of $f$.
 
 $$\enc: K \times M \rightarrow C$$
-Defined: For $PP\in K$ and $m \in M;$ to be $\enc_{PP}(m) \rightarrow c$
+Defined: For $PP\in K$ and $m \in M;$ to be $\enc(PP,m) \rightarrow c$
 
 $$\dec:K \times C \rightarrow M$$
 Defined for $SK_f \in K$ and $c \in C;$ to be $\dec(SK_f,c) \rightarrow m'$ if the scheme is correct then $m' = f(m)$ for some previously encrypted $m\in M$ and some $f\in \mathcal{F}$.
@@ -220,26 +220,37 @@ Defined for $SK_f \in K$ and $c \in C;$ to be $\dec(SK_f,c) \rightarrow m'$ if t
 
 \par Suppose Alice wants to store some text files ($\{m_1,m_2,\cdots, m_n \}$) on Bob's Cloud Storage to retrieve at some later date.
  Bob, owner of Bob's Cloud Storage, has a strong dislike for cats and does not want anything stored on
-  his cloud with the word ``cat'' in it. Alice and Bob contact Janet, an impartial third party, and share their desired functionalities: Alice wants to be able to fully decrypt (i.e. identity functionality), Bob wants to be able to check if the word ``cat'' is in anything stored on his server (we call this function checking for the word ``cat'' $f$). Janet runs Setup$(\lambda)\rightarrow (PP, MSK)$ and publishes the public parameter, and also runs Keygen$(MSK,id) \rightarrow SK_{id}$ and Keygen$(MSK,f) \rightarrow SK_f$. Then Janet securely sends $SK_{id}$ to Alice and $SK_{f}$ to Bob. Now Alice encrypts her text files Enc$_{PP}(m_1) \rightarrow c_1,$Enc$_{PP}(m_2) \rightarrow c_2, \cdots $,Enc$_{PP}(m_n) \rightarrow c_n,$ and sends $\{c_1,c_2, \cdots, c_n \}$ to Bob for storage. Bob then runs $\dec_{SK_f}(c_1) \rightarrow b_1 , \cdots, \dec_{SK_f}(c_n) \rightarrow b_n $ and allows storage of all $c_i$ that indicate the word ``cat'' is not being stored.  This interaction is illustrated in the following diagram:
+  his cloud with the word ``cat'' in it. Alice and Bob contact Janet, an impartial third party, and share their desired functionalities: Alice wants to be able to fully decrypt (i.e. identity functionality), Bob wants to be able to check if the word ``cat'' is in anything stored on his server (we call this function checking for the word ``cat'' $f$). Janet runs Setup$(\lambda)\rightarrow (PP, MSK)$ and publishes the public parameter, and also runs Keygen$(MSK,id) \rightarrow SK_{id}$ and Keygen$(MSK,f) \rightarrow SK_f$. Then Janet securely sends $SK_{id}$ to Alice and $SK_{f}$ to Bob. Now Alice encrypts her text files Enc$(PP, m_1) \rightarrow c_1,$Enc$(PP,m_2) \rightarrow c_2, \cdots $,Enc$(PP, m_n) \rightarrow c_n,$ and sends $\{c_1,c_2, \cdots, c_n \}$ to Bob for storage. Bob then runs $\dec(SK_f , c_1) \rightarrow b_1 , \cdots, \dec_{SK_f}(c_n) \rightarrow b_n $ and allows storage of all $c_i$ that indicate the word ``cat'' is not being stored.  This interaction is illustrated in figure 1.1.
   
-  
-\begin{tikzcd}
+  \begin{figure}[htbp]
+	% the options are h = here, t = top, b = bottom, p = page of figures.
+	% you can add an exclamation mark to make it try harder, and multiple
+	% options if you have an order of preference, e.g.
+	% \begin{figure}[h!tbp]
+	   
+	       \centering
+	    % DO NOT ADD A FILENAME EXTENSION TO THE GRAPHIC FILE
+	   \begin{tikzcd}
 \text{\large Bob} & \text{\large Janet} & \text{\large Alice} \\
 {} & \text{\small Setup}(\lambda) \rightarrow (MSK,PP) \arrow[r, "PP"] \arrow[l, "PP"'] & {} \\
 {} \arrow[r, "f"] & {} & {} \arrow[l, "\text{id}"'] \\
  & \text{\small KeyGen}(id,MSK) \rightarrow SK_{\text{id}} \arrow[r, "\text{secure}(SK_{\text{id}})"] & {} \\
 {} & \text{\small KeyGen}(f,MSK) \rightarrow SK_{f} \arrow[l, "\text{secure}(SK_f)"'] &  \\
- &  & \text{\small Enc}_{PP}(m_1)\rightarrow c_1 \\[-28]
+ &  & \text{\small Enc}(PP, m_1)\rightarrow c_1 \\[-28]
  &  & \vdots \\[-25pt]
- &  & \text{\small Enc}_{PP}(m_n)\rightarrow c_n \\
+ &  & \text{\small Enc}(PP, m_n)\rightarrow c_n \\
 {} &  & {} \arrow[ll] \{c_1, \cdots, c_n \} \\
-\text{\small Dec}_{SK_{f}}(c_1) \rightarrow b_1 &  &  \\[-28pt]
+\text{\small Dec}(SK_{f}, c_1) \rightarrow b_1 &  &  \\[-28pt]
 \vdots &  &  \\[-25pt]
-\text{ \small Dec}_{SK_{f}}(c_n) \rightarrow b_n &  & 
+\text{ \small Dec}(SK_{f},c_n) \rightarrow b_n &  & 
 \end{tikzcd}
 
-$\\$
-Since Alice has $SK_\text{id}$ if she want to access a poem that she had written and stored on Bob's server, she can request that Bob send over her data, at which point she can run Dec$_{SK_\text{id}}$ on the cipher text containing her poem so that she can read it in full.  Of course having to download all the data she had stored is not optimal, and neither is having to decrypt all the cipher texts to find the poem she is looking for, but this is just a toy example for us to get a taste for using functional encryption. We will get into more detailed protocols in chapter 4.
+
+	     \caption{Diagram describing protocol for Alice securely storing files on Bob's cloud services using functional encryption}
+	 \label{subd}
+	\end{figure}
+
+\par Since Alice has $SK_\text{id}$ if she want to access a poem that she had written and stored on Bob's server, she can request that Bob send over her data, at which point she can run Dec$(SK_\text{id}, c_p)$ on the cipher text $c_p$ containing her poem so that she can read it in full.  Of course having to download all the data she had stored is not optimal, and neither is having to decrypt all the cipher texts to find the poem she is looking for, but this is just a toy example for us to get a taste for using functional encryption. We will get into more detailed protocols in chapter 4.
 
 
 \par It should be noted that the impartial 3rd party does not need to be fully trusted since Janet doesn't have any of Alice's cipher texts to decrypt, but it is important that Janet is impartial since otherwise should could collaborate with Alice to store a Cat Encyclopedia on Bob's Servers, or could collaborate with Bob to learn more about what Alice is storing than what Alice and Bob have agreed upon. 
@@ -699,7 +710,7 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
        \item Perfect Completeness: A proof system is perfectly complete if an honest prover can generate a proof $\pi$ that $x$ exists in language $L$ such that an honest verifier is always convinced that $\pi \implies x\in L$.
        \item Statistical Soundness: A proof system is sound if it is infeasible for a prover to generate a false proof that convinces an honest verifier
        \item Computational Zero Knowledge: A proof system is computational zero-knowledge if the proof does not reveal any information about the witness to any adversary.
-       \item Low Depth: We say a proof is low depth if the verifier can be implemented in NC.
+       \item Low Depth: We say a proof is low depth if the verifier can be implemented in NC$^1$.
          \end{itemize}
     
     
@@ -762,7 +773,7 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
     \section{Application}
     
     
-    In this section we talk a little more about use cases for functional encryption. Here we will discuss high level implementations of functional encryption for uses in the real world. As of now software, such as 5gen-C which we will be discussing in chapter 5, are limited to encrypting functions with low multi-linearity, we will get back to this later, but here we construct protocols using functional encryption that are infeasible with current technology and methods of obfuscation.
+    In this section we talk a little more about use cases for functional encryption. We will discuss high level implementations of functional encryption for uses in the real world. As of now software, such as 5gen-C which we will be discussing in chapter 5, are limited to encrypting functions with low multi-linearity, we will get back to this later, but here we construct protocols using functional encryption that are infeasible with current technology and methods of obfuscation.
     \subsection{Sealed-Bid First-Price Auction}
     Here we describe how functional encryption can be used to implement fair and secure sealed-bid first-price auctions. A sealed-bid first-price (hereby referred to as SBFP) auction is an auction where each bidder submits a one bid where the amount is kept secret from the other bidders. Once all bids are submitted, the highest bidder pays their price and wins the auction. Often the seller at these auctions will have a predetermined floor price where if the winning bid is below this floor, the item does not sell. 
     \par A common setting for SBFP auctions is when firms apply for government contracts, in this case a government agency announces that they are looking to contract for a certain service such as road repair, at which points firms bid the amount they would expect to be paid to do the road repairs, and then once all bids are submitted the government is required by law to contract to the ``lowest responsible'' bidder which means the lowest \textit{priced}, qualified firm.
@@ -879,8 +890,8 @@ Note: that we encrypt $b$ and $PK\sign^\text{max}$ so that it is in the proper f
     $$S_i^\alpha =\bigg\{\bigg[\frac{a}{z^i} \bigg]_q \bigg| \; a \in \alpha + I \text{ and $a$ is small}\bigg\} $$
     In an asymmetric graded encoding scheme, the prime $z$ is different at each level, so the set of valid level $i$ encodings is of the form
     $$S_i^\alpha =\bigg\{\bigg[\frac{a}{\prod_{j\leq i} z_j} \bigg]_q \bigg| \; a \in \alpha + I \text{ and $a$ is small}\bigg\} $$
-      This will come up later during one of our experiments. 
-   \subsection{CXS}
+      Where each $z_i$ is a large prime. 
+      \subsection{CXS}
    
    5Gen-C contains a program circuit-synthesis (hereby \texttt{cxs}), for compiling and optimizing circuits from a domain specific language (DSL) embedded in Haskell to \texttt{acirc} files ready for obfuscation. We use \texttt{cxs} to write Haskell like programs that describe a circuit functionality then compile that program with \texttt{cxs} to get a circuit of the functionality described in the DSL that expects inputs of a specified size.
    \par For example suppose we want a circuit for \textit{greater than} that compares two inputs each length 1 bit, as well as a circuit for greater than that compares two inputs each of length 2. Without \texttt{cxs} we would need to code up two different circuits in the form of a \texttt{acirc} program; but with \texttt{csx} we can describe \textit{greater than} circuits of arbitrary input size and then compile them with \texttt{cxs} for input sizes 1 and 2 in order to get the two \texttt{acirc} files we want. To compile a circuit simply write a the circuit in Haskell (using special 5Gen-C packages), and then run \texttt{./cxs compile .acirc filename}.
@@ -890,19 +901,17 @@ Note: that we encrypt $b$ and $PK\sign^\text{max}$ so that it is in the proper f
    \newcommand{\sub}[0]{\text{ sub }}
    \newcommand{\mul}[0]{\text{ mul }}
    %\newcommand{\and}[0]{\text{add}}
+   
    \begin{align*}
   &\text{: outputs } 4 &&\text{ indicates which line contains the output bit} \\
   &\text{: start }  & \\
-0&\ \text{input } 0\ : 3  &&\text{ 0 references $x_0$} \\
-1&\ \text{input } 1\ : 3  &&\text{ 1 references $x_1$} \\
-2&\ \text{const } 0\ : 2 &&\text{ sets a constant} \\
-3&\ \text{sub } 2\ 1\ : 1 &&\text{ computes 0 XOR 2, which is negation if 2 is set to the value ``1''} \\
-4&\ \text{mul } 0\ 3\ : 1 &&\text{ 4 AND 3 $\to$ 4 AND (NOT 1)} \\
-5&\ \text{add } 0\ 1\ : 1 &&\text{ extra computation with unclear purpose} \\
-6&\ \text{mul } 0\ 1\ : 2 &&\\ 
-7&\ \text{add } 6\ 6\ : 1&&\\
-8&\ \text{sub } 5\ 7\ : 1&&\\
+0&\ \text{input } 0\ : 3  &&\text{// 0 references $x_0$} \\
+1&\ \text{input } 1\ : 3  &&\text{// 1 references $x_1$} \\
+2&\ \text{const } 0\ : 2 &&\text{// sets a constant} \\
+3&\ \text{sub } 2\ 1\ : 1 &&\text{// computes 0 XOR 2, which is negation if 2 is set to the value ``1''} \\
+4&\ \text{mul } 0\ 3\ : 1 &&\text{// 4 AND 3 $\to$ 4 AND (NOT 1)= ``$x_0 >x_1$''} \\
    \end{align*} 
+  
    \texttt{.acirc} files are for the \texttt{.mio} program, but the above \texttt{.acirc} file represents the circuit $x_0 > x_1$ similar to a branching program, but with addition, multiplication, and subtraction (otherwise known as bitwise `OR', `AND', and `XOR') built in.          
          
           \subsection{mio}
@@ -934,22 +943,22 @@ Note: that we encrypt $b$ and $PK\sign^\text{max}$ so that it is in the proper f
    \end{align*}
    The benefit of expecting inputs in this form is that comparison can be computed by bitwise ANDing each bit of the first and second input, and the ORing all the results. This means each input should only need to be multiplied once yielding low muliti-linearity. So working continuing with the previous example:
    \begin{align*}
-   (x_0> x_1) &= (1\cdot 0) + (1 \cdot 0) + (1 \cdot 0) + (1 \cdot 0) + (1 \cdot 0) + (1 \cdot 1) + (1 \cdot 1) + (0 \cdot 1) +(0 \cdot 1) + \cdots + (0 \cdot 1) \\
+   (x_0> x_1) &= (1\cdot 0) + (1 \cdot 0) + (1 \cdot 0) + (1 \cdot 0) + (1 \cdot 0) \\ & \; \;+ (1 \cdot 1) + (1 \cdot 1) + (0 \cdot 1) +(0 \cdot 1) + \cdots + (0 \cdot 1) \\
    &= 1 + 1\\
    &= 1 \text{ since 1 OR 1 is 1}
    \end{align*}
    
    The downside to expecting inputs in unary is there is a trade off between how precise each digit is (i.e. each digit representing 1 or 10 or 100...) and input length. Also, if input values are meant to be kept secret, then maximum possible input needs to be known during set up otherwise there will be issues if someone attempts to enter a number higher than the maximum that can be represented.
-   \par Due to these limitations with unary comparison, it seemed like it would be a good idea to implement a binary comparison circuit.  Over the course of a few months we program two binary comparison circuit generators with circuit-synthesis.
+   \par Due to these limitations with unary comparison, it seemed like it would be a good idea to implement a binary comparison circuit.  Over the course of a few months we programed two binary comparison circuit generators with circuit-synthesis, one that generates cascading binary comparison circuits, and one that generates recursively chunked binary comparison circuits.
    
-   \subsection{Cascading Binary Compariosn}
+   \subsection{Cascading Binary Comparison}
    \newcommand{\AND}[0]{\text{AND}}
    \newcommand{\OR}[0]{\text{OR}}
    \newcommand{\NOT}[0]{\text{NOT}}
    \newcommand{\XOR}[0]{\text{XOR}}
    
-   The first method of for generating circuits that compute ``$>$'' on binary inputs was with a method that we will call cascading binary comparison. For a two inputs, $x = x_0||x_1,y= y_0||y_1$ of 2 bit each, cascading binary comparison checks if $x_0 > y_0$ with the boolean expression $x_0 \AND (\NOT y_0)$, and doing the same with $x_1,y_1$ but ANDing the output with $(x_0 \XOR y_0)$ which indicates that the first bits are the same. We can represent this with the following diagram:
-   
+   The first technique we tried for generating circuits that compute ``$>$'' on binary inputs was with a method that we will call cascading binary comparison. For a two 2 bit inputs, $x = x_0||x_1,y= y_0||y_1$, cascading binary comparison checks if $x_0 > y_0$ with the boolean expression $x_0\; \AND\; (\NOT \; y_0)$, and does the same with $x_1,y_1$ but AND's the output with $(x_0\ \XOR\ y_0)$ which indicates that the first bits are the same. We can represent this with the following diagram:
+   \\
    \begin{center}
    \begin{tikzcd}
  & \text{output} &  &  \\
@@ -961,7 +970,7 @@ x_0 \arrow[uu] \arrow[ruu] & y_0 \arrow[u] \arrow[u] \arrow[u] \arrow[uu, bend r
 \end{tikzcd} 
 \end{center}
    
-   We call this \textit{cascading} comparison because the value of $x_0 \XOR y_0$ is carried over to the next bit pair comparison. This method can be extended to larger inputs by continuing to carry the values of the previous bits' equality. For conciseness, we will use Logisim circuit syntax in our representation of circuits which appears as follows:
+   We call this \textit{cascading} comparison because the value of $x_0\ \XOR \ y_0$ is carried over to the next bit pair comparison. This method can be extended to larger inputs by continuing to carry the values of the previous bits' equality. For conciseness, we will use Logisim circuit syntax in our representation of circuits which appears as follows:
    
    
    
@@ -969,22 +978,23 @@ x_0 \arrow[uu] \arrow[ruu] & y_0 \arrow[u] \arrow[u] \arrow[u] \arrow[uu, bend r
    \begin{figure}[h]
    \centering
    \includegraphics[scale = .35]{logisimgates}
-   \caption{Logisim gates}
+   \caption{Logisim gates for: 1.) inputs 2.) AND gates 3.) NOT gates 4.) OR gates 5.) XOR gates and 6.) output }
    \label{subd}
    \end{figure}
    
-   \par In order, the above represents 1.) inputs 2.) AND gates 3.) NOT gates 4.) OR gates 5.) XOR gates and 6.) outputs. With this syntax it is easier to show a cascading comparison circuit extended to 4 bits:
+   \par With Logisim syntax it is easier to show how a cascading comparison circuit can be extended to 4 bits in figure 5.2.
    
-      \begin{figure}[h]
+      \begin{figure}[htbp]
       \centering
    \includegraphics[scale = .55]{comp2_4}
    \caption{4 bit input cascading binary comparison}
    \label{subd}
    \end{figure}
    
-   While the syntax may take a little while to get used to, the above works just as we described with the 2 bit input example, for each bit pair we check if $x_i > y_i$ at the gates labeled ``gi", we also check if $x_{\leq i} == y_{\leq i}$ at the gates labeled ``eqi''. We call perhaps the term \textit{cascading} is more clearly indicated by the structure of the gates labeled OR1, OR2, and OR3. Consider if we added one more bit of input so it was a 5 bit input comparison circuit:
+   While the syntax may take a little while to get used to, the circuit depicted in figure 5.2  works just as we described with the 2 bit input example, for each bit pair we check if $x_i > y_i$ at the gates labeled ``g$i$", we also check if $x_{\leq i} == y_{\leq i}$ at the gates labeled ``eq$i$''. We describe these circuits with the term \textit{cascading} due to the structure of the gates labeled OR1, OR2, and OR3. 
+   \par Consider if we added one more bit of input so it was a 5 bit input comparison circuit as shown in figure 5.3.
  
-   \begin{figure}[h]
+   \begin{figure}[htbp]
 	% the options are h = here, t = top, b = bottom, p = page of figures.
 	% you can add an exclamation mark to make it try harder, and multiple
 	% options if you have an order of preference, e.g.
@@ -997,79 +1007,100 @@ x_0 \arrow[uu] \arrow[ruu] & y_0 \arrow[u] \arrow[u] \arrow[u] \arrow[uu, bend r
 	 \label{subd}
 	\end{figure}
 	
- \par Notice that in the 4 bit input cascading comparison circuit, the maximum number of AND gates between an input and an output is 3, (eq2, eq3, A3 in figure 5.2), in the 5 bit input cascading comparison circuit the maximum is 4 (A1, A2, A3, A4 as in figure 5.3). The pattern that adding a bit to the input size increases the number of AND gates continues to be linear, this indicates a linear relationship between number of AND gates (remember AND is the same as MUL) and input size. 
+Notice that in the 4 bit input cascading comparison circuit, the maximum number of AND gates between an input and an output is 3, (eq2, eq3, A3 in figure 5.2), in the 5 bit input cascading comparison circuit the maximum is 4 (A1, A2, A3, A4 as in figure 5.3). If we were to continue to extend the circuit to $n$ input bits, we would see that adding a bit to the input size increases the number of AND gates by 1, this indicates a linear relationship between number of AND gates (remember AND is the same as MUL) and input size. 
  
  \subsection{Chunked Comparison Circuits}
- \par Linear growth is not horrible, but if we can, we should make this circuit more efficient. In an attempt to do this we tried generating circuits that use the cascading comparison for constant sized chunks of inputs, and then recursively compare these chunks to yield a comparison circuit. Rather than the cascading structure of checking $(x_i> y_i) \AND (x_{<i} == y_{<i})$ we decided to take a recursive approach. 
+ \par While linear growth of circuits is not horrible, it is reasonable to try to optimize the circuit to a shallower depth to speed up obfuscation. In an attempt to optimize comparison circuits for obfuscation we use the cascading comparison for constant sized chunks of inputs, and then recursively compare these chunks to yield a comparison circuit for arbitrary input length. Rather than the cascading structure of checking $(x_i> y_i) \AND (x_{<i} == y_{<i})$ we try a recursive approach. 
  \par Given two lists of input bits $ x =[x_0,x_1, \cdots x_n], \; y= [y_0,y_1,\cdots , y_n]$ and a chunk size ``cs'',
 our recursive chunked comparison circuit generation algorithm runs as follows:
   \begin{itemize}
- \item if $|x|>$cs then \textit{ //check if the lists are smaller than the chunk size (we can assume the lists are the same length)}
+ \item if $|x|>$cs \textit{ //check if the lists are smaller than the chunk size (we can assume the lists are the same length)}
  	\begin{itemize}
-	\item recurse on (the first halves of $x$ and $y$, cs) $\to (g_1,eq_1)$ \textit{//get the values of if $x>y$ and $x==y$ on in first half}
-	\item recurse on (the second halves of $x$ and $y$, cs) $\to (g_2, eq_2)$ \textit{//get the values of $x>y$ and $x==y$ on in second half}
-	\item return $(g_1\ \OR\ (eq_1\ \AND\ g_2), \; eq_1\ \AND \ eq_2)$ \textit{//return values of $x>y$ and $x==y$ in this entire chunk}
+	\item recurse on (the first halves of $x$ and $y$, cs) $\to (g_1,eq_1)$ \textit{//get the values of if $x>y$ and $x==y$ for the first half of the inputs}
+	\item recurse on (the second halves of $x$ and $y$, cs) $\to (g_2, eq_2)$ \textit{//get the values of $x>y$ and $x==y$ for the second half of the inputs}
+	\item return $(g_1\ \OR\ (eq_1\ \AND\ g_2), \; eq_1\ \AND \ eq_2)$ \textit{// return values of $x>y$ and $x==y$ for this entire chunk}
 	\end{itemize} 
-\item else run the cascading comparison algorithm on $x$ and $y \to (g,eq)$ return the value of if $(x>y, \; x==y)$ in this chunk
+\item else run the cascading comparison algorithm on $x$ and $y \to (g,eq)$ \textit{ //return the value of if $(x>y, \; x==y)$ in this chunk}
  \end{itemize}
  
- \par Below is an 8 bit input comparison circuit constructed using the chunking algorithm:
  
- \begin{figure}[h]
+ \begin{figure}[htbp]
  	\centering
 	\includegraphics[scale = .6]{ccomp4_8}
 	\caption{8 bit input chunked binary comparison}
 	\label{subd}
  \end{figure}
  
- \par As you can see, each chunk is identical to the circuit depicted in figure 5.2, but the equality and greater than values of each chunk are checked at the top level. You can also see that we were able to double the input size of, but still only have a maximum of 4 AND gate from an input to the output (indicated by A1, A2, A3, A4 in figure 5.4). This logarithmic growth of the maximum AND gate as input size increases continues.   
+ \par As you can see in figure 5.4, each chunk is identical to the circuit depicted in figure 5.2, but the equality and greater than values of each chunk are checked at the top level. You can also see that we were able to double the input size of, but still only have a maximum of 4 AND gate from an input to the output (indicated by A1, A2, A3, A4 in figure 5.4). The maximum number of AND gates grows logarithmically as input size increases. We would expect this to mean that chunked comparison is faster to obfuscate than cascading comparison for large input circuits.   
  
  
  \subsection{Multi-Linearity and Efficiency Tests}
- \par Here we test the multi-linearity of our circuits. If $k$ is our multi-linearity, we should expect the number of AND gates to be related to $k$, or at least they should grow at a similar rate. Lucky for us, \texttt{mio mife} has a setting \texttt{get-kappa} that computes the multi-linearity of a circuit. Hence forth we will be referring to our comparison algorithms as \texttt{comp} and \texttt{ccomp8} referring to cascading comparison and chunked comparison of chunk size 8 respectively. 
- 
- 
- \begin{table}[htbp] % begins the table floating environment. This enables LaTeX to fit the table where it works best and lets you add a caption.
-\caption[Multilinearity of Different Comparison Circuits]{Multilinearity of Chunked and Unchunked Comparison Circuits} 
-% The words in square brackets of the caption command end up in the Table of Tables. The words in curly braces are the caption directly over the table.
-\begin{center} 
-\begin{tabular}{c c c c c} 
-% the tabular environment is used to make the table itself. The {c c c c} specify that the table will have four columns and they will all be center-aligned. You can make the cell contents left aligned by replacing the Cs with Ls or right aligned by using Rs instead. Add more letters for more columns, and pipes (the vertical line above the backslash) for vertical lines. Another useful type of column is the p{width} column, which forces text to wrap within whatever width you specify e.g. p{1in}. Text will wrap badly in narrow columns though, so beware.
-\toprule % a horizontal line, slightly thicker than \hline, depends on the booktabs package
-  input length: &4 & 8 & 16 &32 \\ % the first row of the table. Separate columns with ampersands and end the line with two backslashes. An environment begun in one cell will not carry over to adjacent rows.
-  \midrule % another horizontal line
-	\texttt{comp} &40 &80 &160 &320\\
-	\texttt{ccomp4} &59 &158 &397 &956 \\
-	\texttt{ccomp8} &40 &119 &318 &797 \\
-		\bottomrule % yet another horizontal line
-\end{tabular}
-\end{center}
-\label{inheritance} % labels are useful when you have more than one table or figure in your document. See our online documentation for more on this.
-\end{table}
-
-\par Clearly, our hypotheses was wrong that $k$ would equal the maximum number of AND gates. We saw in figure 5.2 that \texttt{comp} with 4 bit inputs has 3 multiplication gates, yet \texttt{get-kappa} told is it has $k=40$. Not only that, but if $k$ gives any indication of the efficiency of obfuscating our circuit, it appears that \texttt{ccomp8} is approximately doubles the multi-linearity of \texttt{comp}. This leads us to our next question, does multi-linearity relate to the efficiency of obfuscation?
-\par To test this we measure how long it takes to run setup for our \texttt{comp} and \texttt{ccomp8} circuit with varying input sizes.
-
+ \par We start by testing if reduced circuit depth increases the efficiency of obfuscating the circuit. To test this hypothesis we measure how long it takes to run setup for our two circuit generating algorithms \texttt{comp} (cascading comparison) and \texttt{ccomp8} (chunked comparison with chunk size 8) on circuits with varying input sizes. 
  \begin{table}[htbp] % begins the table floating environment. This enables LaTeX to fit the table where it works best and lets you add a caption.
 \caption[]{Efficiency of Chunked and Unchunked Comparison Circuits (Hours: Minutes: Seconds)} 
 % The words in square brackets of the caption command end up in the Table of Tables. The words in curly braces are the caption directly over the table.
 \begin{center} 
-\begin{tabular}{c c c c c} 
+\begin{tabular}{c c c c c c c} 
 % the tabular environment is used to make the table itself. The {c c c c} specify that the table will have four columns and they will all be center-aligned. You can make the cell contents left aligned by replacing the Cs with Ls or right aligned by using Rs instead. Add more letters for more columns, and pipes (the vertical line above the backslash) for vertical lines. Another useful type of column is the p{width} column, which forces text to wrap within whatever width you specify e.g. p{1in}. Text will wrap badly in narrow columns though, so beware.
 \toprule % a horizontal line, slightly thicker than \hline, depends on the booktabs package
-  input length: &4 & 8 & 16 &32 \\ % the first row of the table. Separate columns with ampersands and end the line with two backslashes. An environment begun in one cell will not carry over to adjacent rows.
+  Total Input Length: &4 &8 &16 &32 &64 &128 \\ % the first row of the table. Separate columns with ampersands and end the line with two backslashes. An environment begun in one cell will not carry over to adjacent rows.
   \midrule % another horizontal line
-	\texttt{comp} &00:00:02 &00:00:07 & 00:01:17 &19:54:50\\
-	\texttt{ccomp4} &00:00:01 &00:00:07 &00:04:38 & -- \\
-	\texttt{ccomp8} &00:00:01 &00:00:06 & 00:03:28 & -- \\
+	\texttt{comp} &00:18:56 &00:44:30 &01:03:37 & 02:38:05 & 06:05:42 &19:54:50\\
+	%\texttt{ccomp4} &00:00:01 &00:00:07 &00:04:38 & -- \\
+	\texttt{ccomp8} &00:18:35 &11:43:57 &01:03:18 &03:39:36 &11:51:58 & 42:32:49 \\
 		\bottomrule % yet another horizontal line
 \end{tabular}
 \end{center}
 \label{inheritance} % labels are useful when you have more than one table or figure in your document. See our online documentation for more on this.
 \end{table}
 
-\par As we can see in Table 5.2, \texttt{ccomp8} is significantly less efficient than \texttt{comp}, which is a case for the negative relationship between multi-linearity and efficiency; and shows that even though the \texttt{ccomp8} grows logarithmically rather than linearly like \texttt{comp}, it does not appear to reduce the $k$ value of the multilinear map or increase the efficiency of obfuscating the circuit. 
-\par While understanding why \texttt{ccomp} is less efficienct than \text{comp} is left for future work (see . There is a theory as to why a circuit's multilinearity is related to its efficiency. The explanation in [\cite{5genc}] is that the linearity $k$ indicates how many large primes $z_i$ are needed to encode the up to $k$ levels of the graded encoding scheme.  As a result, the larger $k$ is the more time the computer has to take during set up to find more large primes. 
+\par As we can see in Table 5.1, \texttt{ccomp8} is about twice as inefficient as \texttt{comp}. Why could this be? While the depth of \texttt{ccomp8} might be shallower than \texttt{comp}, perhaps its multi-linearity (hence forth referred to as $k$) is higher resulting in the setup algorithm needing to find more large primes (as mentioned in section 5.1.1), which is a very expensive computation. 
+
+\par In order to test the multilinearity of our circuits we use the \texttt{get-kappa} setting of \texttt{mio mife} that computes the multi-linearity of our circuits. As we can see in table 5.2 the $k$ values of \texttt{ccomp8} are higher than the corresponding $k$ values of \texttt{comp} by a factor of 2. 
+\par At first this was confusing for us, after all, chunking reduces the depth of our circuit and eliminates a lot of AND gates that occur in series in the cascading comparison circuit. However, it's important to remember that $k$ is not just the maximum number of AND (binary MUL) operations in our computation since multiplying a level $i$ and a level $j$ encoding under a graded encoding scheme yields a level $i+j$ encoding. Thus reducing the depth of a circuit does not necessarily make it more efficient to obfuscate.
+\par It is also worth noting that the obfuscation scheme itself increases the $k$ value of the obfuscated circuit. While the inner workings of the CMR MIFE scheme [\cite{5genc}] are outside the scope of this thesis, it suffices to say that the $k$ value of a circuit serves as a lower bound on the $k$ value of the obfuscation, so it is more complicated than just tracking the encoding levels from input to output of a circuit.
+\par While it is unclear if the relationship between multi-linearity and setup time is causal or not, figure 5.5 shows what looks like a positive linear relationship between them where the slope of the best fit line is approximately 8 minutes as $k$ increase by 1. This constant blow up is the major limitation in obfuscation and functional encryption today since it makes any sort of significant computation infeasible. However, encryption and decryption remain reasonable, for instance \texttt{comp} had a setup time of just over 6 hours, but decryption only took 19 minutes. 
+
+  \begin{figure}[htbp]
+	% the options are h = here, t = top, b = bottom, p = page of figures.
+	% you can add an exclamation mark to make it try harder, and multiple
+	% options if you have an order of preference, e.g.
+	% \begin{figure}[h!tbp]
+	   
+	       \centering
+	    % DO NOT ADD A FILENAME EXTENSION TO THE GRAPHIC FILE
+	   \includegraphics[scale = .46]{SRTvK}
+	     \caption{Setup Run Time (Minutes) vs K for \texttt{comp}}
+	 \label{subd}
+	\end{figure}
+ 
+  
+ 
+ \begin{table}[h] % begins the table floating environment. This enables LaTeX to fit the table where it works best and lets you add a caption.
+\caption[Multilinearity of Different Comparison Circuits]{Multilinearity of Chunked and Unchunked Comparison Circuits} 
+% The words in square brackets of the caption command end up in the Table of Tables. The words in curly braces are the caption directly over the table.
+\begin{center} 
+\begin{tabular}{c c c c c c c} 
+% the tabular environment is used to make the table itself. The {c c c c} specify that the table will have four columns and they will all be center-aligned. You can make the cell contents left aligned by replacing the Cs with Ls or right aligned by using Rs instead. Add more letters for more columns, and pipes (the vertical line above the backslash) for vertical lines. Another useful type of column is the p{width} column, which forces text to wrap within whatever width you specify e.g. p{1in}. Text will wrap badly in narrow columns though, so beware.
+\toprule % a horizontal line, slightly thicker than \hline, depends on the booktabs package
+  input lengths: &4 &8 & 16 & 32 &64 &128\\ % the first row of the table. Separate columns with ampersands and end the line with two backslashes. An environment begun in one cell will not carry over to adjacent rows.
+  \midrule % another horizontal line
+	\texttt{comp} &10 &20 &40 &80 &160 &320\\
+	%\texttt{ccomp4} &59 &158 &397 &956 \\
+	\texttt{ccomp8} &10 &20 &40 &119 &318 &797\\
+		\bottomrule % yet another horizontal line
+\end{tabular}
+\end{center}
+\label{inheritance} % labels are useful when you have more than one table or figure in your document. See our online documentation for more on this.
+\end{table}
+
+
+
+
+
+\subsection{Conclusion}
+\par In conclusion, functional encryption is in the early stages of implementation. Right now, functional encryption is limited by the large constant blow up of setup run time related to the increase in the linearity of the circuit. We have also briefly discussed that decryption can be done rather efficiently. As a result, protocols like the online sealed bid first price auction described in section 4.3.2 is feasible so long as the Auction Coordinator has enough processing power to run setup, since decryption is efficient enough for most computers. 
+
 
 
  \bibliographystyle{APA/apa-good}  % or
