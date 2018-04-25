@@ -51,7 +51,7 @@
 \newtheorem{assumption}{Hardness Assumption}
 % \usepackage{times} % other fonts are available like times, bookman, charter, palatino
 
-\title{Multi-Input Functional Encryption and Obfuscation}
+\title{Functional Encryption and Obfuscation}
 \author{Sage R. Michaels}
 % The month and year that you submit your FINAL draft TO THE LIBRARY (May or December)
 \date{May 2018}
@@ -64,7 +64,7 @@
 % if you're writing a thesis in an interdisciplinary major,
 % uncomment the line below and change the text as appropriate.
 % check the Senior Handbook if unsure.
-%\thedivisionof{The Established Interdisciplinary Committee for}
+\thedivisionof{The Established Interdisciplinary Committee for}
 % if you want the approval page to say "Approved for the Committee",
 % uncomment the next line
 \approvedforthe{Committee}
@@ -91,16 +91,16 @@
     \chapter*{Acknowledgements}
 	
 		
-	I'd like to take a moment to thank all the people who have shared in many of the great moments in my life, housemates, study buddies, friends, and anyone who has torn it up on the dance-floor with me, even if your name does not appear below it does not detract from the glory of our time spent together. 
-	\par I'd like to specifically, thank in no particular order, Yoel Ferdman,  Siena Ward, Yarden Refaeli (aka DJ Fast Dad), Cara Chae-Banks, Samuel ``SandBird'' Polterock , Rosa ``Avacado'' Brotherton, Alon Averbuj, Josh ``Bayz'' Biase (aka DJ Flat Soda), and Bryant Volk (aka DJ Strong Nerd) for being some of the best friends I could have ever hoped for.	
-	\par I'd also like to thank my family Sue Coles, Kiote Coles, Sierra Gomez-Saltzman, Tillie Castro, and especially Jody Saltzman and Dan Michaels for all the familial support and love over the years, without whose support none of this would have been possible.
-	\par Finally, I'd like to thank my thesis advisor Dylan McNamee for his patients, advice, pep talks, and positivity throughout this thesis process.
+	I'd like to take a moment to thank all the people who have shared in many of the great moments in my life, housemates, study buddies, friends, professors, and anyone who has torn it up on the dance-floor with me, even if your name does not appear below it does not detract from the glory of our time spent together. 
+	\par I'd like to specifically, thank in no particular order, Yoel Ferdman,  Siena Ward, Yarden Refaely\footnote{aka DJ Fast Dad}, Cara Chae-Banks, Samuel ``SandBird'' Polterock, Max Vinetz, Rosa ``RoBro'' Brotherton, Alon Averbuj, Josh ``Bayz'' Biase\footnote{aka DJ Flat Soda}, and Bryant Volk\footnote{aka DJ Strong Nerd} for the beautiful friendships we have maintained in all the years we have spent apart.  	
+	\par I'd also like to thank my family Sue Coles, Kiote Coles, Sierra Gomez-Saltzman, Tillie Castro, and especially Jody Saltzman and Dan Michaels for all the love over the years, without whose support none of this would have been possible.
+	\par Finally, I'd like to thank my thesis advisor (and Unix mentor) Dylan McNamee for his patience, advice, pep talks, and positivity throughout this thesis process. 
 
 
 % The preface is optional
 % To remove it, comment it out or delete it.
     \chapter*{Abstract}
-	Functional encryption is a powerful cryptographic primitive that extends the functionality of standard decryption. Currently the development of functional encryption is a rich area of cryptographic research, however much of the literature describing how functional encryption is used and constructed can be dense and unapproachable. This thesis works to make the theory behind multilinear maps, circuit obfuscation and how they are used to construct functional encryption in a way that is digestible to undergraduates. Once we have built up a theoretical understanding of functional encryption we describe a new protocol for secure online first price sealed bid auctions. Then we make use of 5Gen-C, a framework currently in development, to implement some of the first multi-input functional encryptions of binary comparison circuits (that calculates \textit{greater than}) for up to 32 by 32 bits. We also use 5Gen-C to compare the efficiency of two different methods of generating comparison circuits, and find that the cascading method is more efficient for obfuscation than our recursive approach. Last we use 5Gen-C to see how functional encryption and obfuscation are currently infeasible for complex computations due to the exponential increase in setup runtime as the multi linearity of the underlying multilinear map increases.
+	Functional encryption is a powerful cryptographic primitive that extends the functionality of the decryption algorithm in standard encryption schemes. Currently the development of functional encryption is a rich area of cryptographic research, however much of the literature describing how functional encryption is used and constructed can be dense and unapproachable. This thesis works to make the theory behind multilinear maps, circuit obfuscation and how they are used to construct functional encryption in a way that is digestible to undergraduates. Once we have built up a theoretical understanding of functional encryption we describe a new protocol for secure online first price sealed bid auctions. Then we make use of 5Gen-C, a framework currently in development, to implement some of the first multi-input functional encryptions of binary comparison circuits (that calculates \textit{greater than}) for upto 32 by 32 bit inputs. We also use 5Gen-C to compare the efficiency of two different methods of generating comparison circuits, and find that the cascading method is more efficient for obfuscation than our recursive approach. Last we use 5Gen-C to see how functional encryption and obfuscation are currently infeasible for complex computations due to the exponential increase in setup runtime as the multilinearity of the underlying multilinear map increases.
 	
 
     \tableofcontents
@@ -120,7 +120,7 @@
 	        Historically, encryption has been the cryptographic primitive that allows for two (or more) parties to exchange private information through untrusted channels. That is to say, if Alice wishes to send Bob an invitation to a party, but does not want anyone else to see it, Alice could encrypt the invitation in such a way that only Bob could decrypt it, and then send it over to Bob. If the message is properly encrypted then Alice can sends the message by any convenient means without worrying who else might see the message, since \textit{only} Bob can make sense of it through decryption. Indeed we use this type of encryption all the time for sending emails, sms text messages, online shopping, and e-banking so long as we are using the correct apps and settings.
 	        \par However, in a world where individuals store much of their data on the cloud, the method of encryption just described might be either too limiting or give away too much information. For example, suppose Alice has so many digital photos that she has to store them on Amazing Cloud Services. While Alice likes Amazing Cloud Services, she does not want them to be able to look through all her photos, so she encrypts each photo, along with their affiliated information such as location and date taken, before uploading it to the cloud. Perhaps one day Alice wants to look at all her photos taken in 2008, how should she go about getting these photos from Amazing? Since all the photos are encrypted, Amazing cannot actually look and see which photos were taken when. With the standard notion of encryption, Alice either needs to sacrifice her privacy and teach Amazing Cloud Services how to decrypt her photos so they can send her the ones from 2008, or needs to download and decrypt each photo in order to determine when it was taken; which would be difficult since her computer space and bandwidth is limited. For situations like this Alice would want to be able to come up with another way to decrypt that gives Amazing the ability to see if an encrypted photo is from 2008 or not, but nothing else. We call encryption schemes that can decrypt to functions of messages rather than just messages in their entirety, functional encryption schemes.
 	        \par In order to construct functional encryption, we need another cryptographic primitive known as obfuscation. The goal of obfuscation is to take a program or circuit and make it unintelligible so that running the program on an input reveals nothing else about the input other than the output of the program. Currently, many methods of obfuscation rely on the conversion of circuits or programs into matrices and the encoding of those matrices with a data structure known as a graded encoding scheme that enables computation on encoded inputs so that only information about the final result of the computation can be learned.
-	\par In standard encryption (i.e. where we can only get the full message from decryption), we expect that the recipient of a message has a secret key that allows them to fully decrypt messages. Typically these secret keys are random sequences of ones and zeros, however with functional encryption we instead send obfuscated circuits as evauluation keys. After we are convinced that functional encryption is theoretically possible, we can construct protocols that use it in new and interesting ways. There are also existing frameworks that have instantiated both functional encryption and obfuscation. The 5Gen-C framework allows for us to run experiments on the efficiency of these primitives and protocols to determine the current feasibility of using them.
+	\par In standard encryption (i.e. where we can only get the full message from decryption), we expect that the recipient of a message has a secret key that allows them to fully decrypt messages. Typically these secret keys are random sequences of ones and zeros, however with functional encryption we instead send obfuscated circuits as evaluation keys. After we are convinced that functional encryption is theoretically possible, we can construct protocols that use it in new and interesting ways. There are also existing frameworks that have instantiated both functional encryption and obfuscation. The 5Gen-C framework allows us to run experiments on the efficiency of these primitives and protocols to determine the current feasibility of using them.
 	\par Much of the literature that discusses the construction of functional encryption can be dense and unapproachable for an undergraduate computer science student. This thesis was written by and for undergraduates with the intention of being an approachable resource for understanding the basics of functional encryption, obfuscation, how it is constructed, and its applications. Although this work is intended to be accessible to anyone interested in reading it, at certain points of this work we will assume that the reader has a basic understanding of modern cryptographic concepts as found in \cite{Katz:2007:IMC:1206501}. We also assume that the reader is somewhat familiar with group and ring theory as would be taught in an undergraduate abstract or modern algebra course. Although these assumptions are made of the reader, we cite information rather liberally, so even a reader without these prerequisites, with some extra effort, should be able to obtain a reasonable understanding of the topics discussed in this thesis. This work draws heavily on \cite{Garg:2013} and \cite{GGH13}; and used software from Galois Inc. as described in \cite{5genc}.
     
    
@@ -133,7 +133,7 @@
     that message are able to read it. Historically this was done by means of obscurity, in the sense that correspondents assumed only they knew the specific method by which messages between them would be encrypted. The problem with encryption via obscurity is that as soon as a method of encryption becomes popular, it also becomes obsolete.
     \subsection{Standard Encryption}
     Now, cryptographers work to develop encryption schemes that are computationally infeasible for adversaries to break even if the method of encryption is known (this is known as Kerckhoff's Principle). To do this, encryption functions are made public but use random secret keys to conceal the message. The best keys are ones that are decently long and chosen randomly over some distribution (often uniformly), so it is infeasible for an adversary to check every possible key or guess the right key using information about communicating parties.
-       \par In defining an encryption scheme we call the set of all valid keys $K$: ``the key space''; the set of all valid messages $M$: ``the message space'', and the set of all valid cipher texts (encrypted messages) $C$: ``the cipher space''.
+       \par In defining an encryption scheme we call the set of all valid keys $K$: ``the key space''; the set of all valid messages $M$: ``the message space'', and the set of all valid ciphertexts (encrypted messages) $C$: ``the cipher space''.
 
 \begin{definition}[Standard Encryption Scheme]
      
@@ -142,10 +142,10 @@
  Defined to be for $\lambda \in \mathbb{Z}$, Gen($\lambda ) \rightarrow (pk,sk)$ where $pk$ and $sk$ are random keys of length $\lambda$.
  
   $$\text{Enc}:K \times M \rightarrow C$$
-Defined for key $pk\in K$ and message $m\in M$; to be Enc$(pk,m) \rightarrow c$ for some cipher text $c\in C$
+Defined for key $pk\in K$ and message $m\in M$; to be Enc$(pk,m) \rightarrow c$ for some ciphertext $c\in C$
  
  $$\text{Dec}:K \times C \rightarrow M$$
- Defined for key $sk \in K$ and cipher text $c\in C$; to be Dec$(sk,c) \rightarrow m$ for some message $m\in M$
+ Defined for key $sk \in K$ and ciphertext $c\in C$; to be Dec$(sk,c) \rightarrow m$ for some message $m\in M$
  
  \end{definition}
  
@@ -177,7 +177,7 @@ $$\text{Dec}(sk, (\text{Enc}(pk,m)) = m$$
   \end{table}
 
 
-\par We also care about the security of an encryption scheme. That is to say, we want to ensure that an encryption scheme is \textit{good} at hiding the information that we are encrypting. There are many different types of security, here we will focus on CPA-Security. Informally, we say an encryption scheme is secure against chosen plaintext attacks  (hereby CPA-Secure) if an adversary is unable to differentiate the cipher texts from two known and distinct messages. 
+\par We also care about the security of an encryption scheme. That is to say, we want to ensure that an encryption scheme is \textit{good} at hiding the information that we are encrypting. There are many different types of security, here we will focus on CPA-Security. Informally, we say an encryption scheme is secure against chosen plaintext attacks  (hereby CPA-Secure) if an adversary is unable to differentiate the ciphertexts from two known and distinct messages. 
 \\
 \\ More formally, we define CPA security with the following game: \\
 \begin{definition}{CPA-Game and Security}
@@ -188,20 +188,20 @@ $$\text{Dec}(sk, (\text{Enc}(pk,m)) = m$$
 
 \subsection{Functional Encryption}
 
-With standard encryption, decryption is all or nothing, either you have the secret key and can find out the message, or you do not have the secret key so you can not learn anything about the encrypted message. With functional encryption we broaden the possibilities of what is communicated between senders in an encryption scheme. We start with a definition and then formalize the scheme.
+With standard encryption, decryption is all or nothing, either you have the secret key and can find out the message, or you do not have the secret key so you can not learn anything about the encrypted message. With functional encryption we formalize and broaden the functionality of the decryption algorithm so that it can yield specific functions of messages from ciphertext as opposed to just the entire message. We start with a definition and then formalize the scheme.
 \begin{definition}[Correctness]
 A Functional Encryption Scheme $\Pi$ is \textbf{correct} if for $m \in M$, some predetermined function $f$ with $M$ as its domain, and appropriate public key and \textit{evaluation} key $(PK,SK_f)\in K$ from $\Pi$'s key generation algorithm:
 
 $$\dec(SK_f, \enc(PK,m)) = f(m) $$
 \end{definition}
 
-It is easy to see that this definition encapsulates the older definition of correctness by making $f$ the identity function $f(m) = m$, but this syntax covers many other cryptographic primitives as well like attribute based encryption (ABE) and identity based encryption (IBE). To see how these primitives are sub cases of functional encryption lets formalize our idea of a functional encryption scheme. 
+It is easy to see that this definition encapsulates the older definition of correctness by making $f$ the identity function $f(m) = m$, but this syntax covers many other cryptographic primitives as well like attribute based encryption (ABE) and identity based encryption (IBE). To see how these primitives are subcases of functional encryption lets formalize our idea of a functional encryption scheme. 
 
 
 
 
 \begin{definition}[Functional Encryption Scheme]
-Given a message space $M$, a cipher space $C$, a family of functions $\mathcal{F}$, and a key space $K$ , a functional encryption scheme $\Pi$ is defined to be the following four algorithms:
+Given a message space $M$, a cipher space $C$, a family of functions $\mathcal{F}$, and a key space $K$, a functional encryption scheme $\Pi$ is defined to be the following four algorithms:
 
 $$\text{Setup}: \Z \rightarrow K \times K$$
 Defined for $\lambda \in \Z$; to be Setup($\lambda) \rightarrow (PP,MSK)$, generates a public parameter and master secret key both in $K$
@@ -250,13 +250,13 @@ Defined for $SK_f \in K$ and $c \in C;$ to be $\dec(SK_f,c) \rightarrow m'$ if t
 	 \label{subd}
 	\end{figure}
 
-\par Since Alice has $SK_\text{id}$ if she want to access a poem that she had written and stored on Bob's server, she can request that Bob send over her data, at which point she can run Dec$(SK_\text{id}, c_p)$ on the cipher text $c_p$ containing her poem so that she can read it in full.  Of course having to download all the data she had stored is not optimal, and neither is having to decrypt all the cipher texts to find the poem she is looking for, but this is just a toy example for us to get a taste for using functional encryption. We will get into more detailed protocols in chapter 4.
+\par Since Alice has $SK_\text{id}$ if she want to access a poem that she had written and stored on Bob's server, she can request that Bob send over her data, at which point she can run Dec$(SK_\text{id}, c_p)$ on the ciphertext $c_p$ containing her poem so that she can read it in full.  Of course having to download all the data she had stored is not optimal, and neither is having to decrypt all the ciphertexts to find the poem she is looking for, but this is just a toy example for us to get a taste for using functional encryption. We will get into more detailed protocols in chapter 4.
 
 
-\par It should be noted that the impartial 3rd party does not need to be fully trusted since Janet doesn't have any of Alice's cipher texts to decrypt, but it is important that Janet is impartial since otherwise should could collaborate with Alice to store a Cat Encyclopedia on Bob's Servers, or could collaborate with Bob to learn more about what Alice is storing than what Alice and Bob have agreed upon. 
+\par It should be noted that the impartial 3rd party does not need to be fully trusted since Janet doesn't have any of Alice's ciphertexts to decrypt, but it is important that Janet is impartial since otherwise should could collude with Alice to store a Cat Encyclopedia on Bob's Servers, or could collaborate with Bob to learn more about what Alice is storing than what Alice and Bob have agreed upon. 
 
 
-\par As with the standard notion of encryption, we want to be able to discuss the security of a functional encryption scheme. While we would like a functional encryption scheme to be CPA secure against eavesdroppers who do not have secret keys, we also need to be sure that parties with secret keys are unable to learn more about cipher texts than what they learn just from  the decryption function. As before our security definition is game based, although this time we call it indistinguishability security.\\
+\par As with the standard notion of encryption, we want to be able to discuss the security of a functional encryption scheme. While we would like a functional encryption scheme to be CPA secure against eavesdroppers who do not have secret keys, we also need to be sure that parties with secret keys are unable to learn more about ciphertexts than what they learn just from  the decryption function. As before our security definition is game based, although this time we call it indistinguishability security.\\
 
 \begin{definition}{Indistinguishability Security}
 \par Let $($Setup,Gen,Enc,Dec$)$ be a functional encryption scheme and $(PP,MSK)\leftarrow$Setup$(\lambda)$. Then for an adversary $\mathcal{A}$ 
@@ -268,30 +268,30 @@ Defined for $SK_f \in K$ and $c \in C;$ to be $\dec(SK_f,c) \rightarrow m'$ if t
 \par As before we say $\mathcal{A}$ is successful if $b = b'$, and we say a functional encryption scheme is indistinguishability secure if no adversary is able to succeed with probability greater than $1/2$.
 \end{definition}
 
-\par Simply put, our security definition says that no adversary should be able to use a secret key $SK_f$ to learn anything else about a cipher text than the output of $f$ on the encrypted message. We require that $f(m_1)=f(m_0)$ for all queries because we want individuals with secret keys to be able to functionally decrypt, but this would differentiate any two messages where $f(m_0) \not= f(m_1)$. This security definition encapsulates CPA security since if an adversary can distinguish two messages just from their cipher text then they would be able to consistently succeed at the indistinguishability game. We will not be doing any security proofs in this work, so this is about the extent to which we will cover security definitions of functional encryption, but for further discussion on security definitions see [\cite{funcenc}].
+\par Simply put, our security definition says that no adversary should be able to use a secret key $SK_f$ to learn anything else about a ciphertext than the output of $f$ on the encrypted message. We require that $f(m_1)=f(m_0)$ for all queries because we want individuals with secret keys to be able to functionally decrypt, but this would differentiate any two messages where $f(m_0) \not= f(m_1)$. This security definition encapsulates CPA security since if an adversary can distinguish two messages just from their ciphertext then they would be able to consistently succeed at the indistinguishability game. We will not be doing any security proofs in this work, so this is about the extent to which we will cover security definitions of functional encryption, but for further discussion on security definitions see [\cite{funcenc}].
 
-\par Research into functional encryption is currently at early stages, later we will describe the details of how it works, and where it's currently limited. Even at such an early stage cryptographic research, functional encryption has proven to be a powerful tool giving us a variety of functionaries with only small alterations of syntax such as attribute based encryption, identity based encryption , and multi-party input functional encryption [\cite{funcenc}] which we will work with later on. 
+\par Research into functional encryption is currently at early stages, later we will describe the details of how it works and where it's currently limited. Even at such an early stage cryptographic research, functional encryption has proven to be a powerful tool giving us a variety of functionalities with only small alterations of syntax such as attribute based encryption, identity based encryption , and multi-party input functional encryption [\cite{funcenc}] which we will work with later on. 
 
     
     
 
     \section{Obfuscation}
-    A concern that needs to be addressed in order for us to construct functional encryption is: how can we ensure that some adversary given a secret key $SK_f$ for functionality $f$ cannot alter $SK_f$ after it has been generated to reveal more information about cipher texts than intended? 
-    \par For example, suppose $f(x_1,x_2) = x_1 + x_2$, since cryptographer's assume Kerckoff's principle that the way $PK_f$ is generated should be public, an adversary might be able to take advantage of the ordering of the sum in $f$ in order to learn the value of $x_1$ and $x_2$.
+    A concern that needs to be addressed in order for us to construct functional encryption is: how can we ensure that some adversary given a secret key $SK_f$ for a function $f$ cannot alter $SK_f$ after it has been generated to reveal more information about ciphertexts than intended? 
+    \par For example, suppose $f(x_1,x_2) = x_1 + x_2$, since cryptographers assume Kerckoff's principle that the way $PK_f$ is generated should be public, an adversary might be able to take advantage of the ordering of the sum in $f$ in order to learn the value of $x_1$ and $x_2$.
     \par To prevent the functionality of $SK_f$ from being altered, we want to obfuscate $f$ so that no adversary can take advantage of how $SK_f$ is generated from $f$ to alter the key's functionality. It is easy to obfuscate functions, programs, encodings, etc... but it is difficult to \textit{provably} obfuscate anything, after all defining obfuscation is not easy to conceptualize. In this section we discuss different attempts at formalizing obfuscation and in chapter 3 we will construct it.
     
     \subsection{Black Box Obfuscation}
      \par Circuit (and program) obfuscation is a cryptographic method that seeks to make a circuit unintelligible to anyone looking at only its obfuscation. The goal of black box obfuscation as defined in [\cite{vbb}] is that a circuit that has been black box obfuscated should reveal no more about its inner workings than a table of inputs and outputs for the same circuit (we call this table an Oracle).
          
-     \par Let's take a moment to talk about why cryptographers would want black box obfuscation as a tool. Currently public key encryption relies on expensive computations, (for example in RSA the private keys are just inverses of public keys in some group large enough for this to be difficult to compute). However, private key encryption is much more efficient since it's just running some sort of permutation on the message using the secret key and then descrambling the cipher text with the same secret key. Using black box obfuscation if would be possible to obfuscate a private key encryption function with a secret key $sk$ baked in $\mathcal{O}(\enc_{sk}(\cdot)) \rightarrow \enc(\cdot)$ where $\enc(\cdot)$ can be made public without risk of anyone learning $sk$ keeping the ability to decrypt in the hands of those who started off with the secret key. Thus Black Box Obfuscation would make efficient private key encryption into efficient public key encryption.
+     \par Let's take a moment to talk about why cryptographers would want black box obfuscation as a tool. Currently public key encryption relies on expensive computations, (for example in RSA the private keys are just inverses of public keys in some group large enough for factoring to be difficult to compute). However, private key encryption is much more efficient since it's just running some sort of permutation on the message using the secret key and then descrambling the ciphertext with the same secret key. Using black box obfuscation it would be possible to obfuscate a private key encryption function with a secret key $sk$ baked in $\mathcal{O}(\enc_{sk}(\cdot)) \rightarrow \enc(\cdot)$ where $\enc(\cdot)$ can be made public without risk of anyone learning $sk$ keeping the ability to decrypt in the hands of those who started off with the secret key. Thus Black Box Obfuscation would make efficient private key encryption into efficient public key encryption.
     
     
     
     \subsection{Indistinguishability Obfuscation}
    
    
-    While Black Box Obfuscation was proved impossible in [\cite{vbb}], cryptographers weakened their definition of obfuscation to try and see what \textit{is} possible in the field of obfuscation. This led to a new notion of obfuscation called Indistinguishability Obfuscation. 
-    \par Before defining indistinguishability obfuscation it is worth noting that a distinguisher is any polynomial time algorithm that can differentiate two things. For example, a distinguisher for apples and oranges might look at the color of what it has been given and output  Orange if the color is orange or Apple if the color of what it's been given is red/green/yellow, however another distinguisher for apples and oranges might just flip a coin and output Apple if the coin comes up heads and Orange otherwise, the second distinguisher would probably not be a very good distinguisher. Distinguishers are only defined on the two things that they distinguish, apples or oranges, green or blue, paper or not paper.
+    While Black Box Obfuscation was proved impossible in [\cite{vbb}], cryptographers weakened their definition of obfuscation to try and see what \textit{is} possible in the field of obfuscation. This led to a new notion of obfuscation called \textit{indistinguishability obfuscation}. 
+    \par Before defining indistinguishability obfuscation it is worth noting that a distinguisher is any polynomial time algorithm that can differentiate two things. For example, a distinguisher for apples and oranges might look at the color of what it has been given and output  \textit{orange} if the color is orange or \textit{apple} if the color of what it has been given is red/green/yellow, however another distinguisher for apples and oranges might just flip a coin and output \textit{apple} if the coin comes up heads and \textit{orange} otherwise. Note the second distinguisher would probably not be a very good at distinguishing apples from oranges. Distinguishers are only defined on the two things that they distinguish, apples or oranges, green or blue, paper or not paper.
        \newcommand{\iO}[0]{\textit{i}\mathcal{O}}
     
     \begin{definition}{Indistinguishability Obfuscation}
@@ -299,7 +299,7 @@ Defined for $SK_f \in K$ and $c \in C;$ to be $\dec(SK_f,c) \rightarrow m'$ if t
     $$\Pr[\mathcal{D}(\iO(C_0)) = 1] -\Pr[\mathcal{D}(\iO(C_1)) = 1] \leq \text{negl}$$
     \end{definition}
     
-    \par This definition can be a little confusing to understand. In short, Indistinguishability Obfuscation guarantees that two circuits with the same functionality are indistinguishable from one another once run through an indistinguishability obfuscater. 
+    \par This definition can be a little confusing to understand. In short, I \textit{indistinguishability obfuscation} guarantees that two circuits with the same functionality are indistinguishable from one another once run through an indistinguishability obfuscater. 
     \par What can be more confusing is why this would be useful since we require the two circuits to be functionally the same. The most simple usage is in removing watermarks from programs. Suppose Dan buys a fancy piece of software called Macrosoft Word for his company. Macrosoft is worried about their software being pirated so they put a watermark in Dan's copy of Macrosoft Word that does not change the functionality of his copy of the program, but indicates that it is Dan's copy. Suppose Dan wants to make Macrosoft Word free for everyone and decides to post it on a torrenting website. If Dan posts his copy as is, Macrosoft and their copyright lawyers will be able to see that it was Dan who illegally shared his copy of their software. Instead, if Dan first runs his copy of Macrosoft word through an indistinguishability obfuscater before uploading it, Macrosoft and their lawyers will be unable to tell if it was Dan's copy that was posted, or another customer's.
     \par This might seem like a weak definition, but indistinguishability obfuscation has become a powerful cryptographic tool, and has proven to be the best possible obfuscation, in [\cite{Goldwasser:2007:BO:1760749.1760765}]. As a result cryptographers often treat indistinguishability obfuscation the same as Black Box Obfuscation. While this could lead to issues in the future and there is lots of room for work to be done in quantifying degrees of obfuscation, we will fall back on the assumption that the best possible obfuscation is good enough for our purposes.
     \par In cryptography, a common way to hide information is by randomization, yet to implement obfuscation we need a way of randomizing computations so that they cannot be reverse engineered since the order of computation could be utilized by a distinguisher to differentiate two circuits with the same functionality. To do this we utilize a data  structure called a graded encoding scheme which relies heavily on multilinear maps. 
@@ -329,7 +329,7 @@ Defined for $SK_f \in K$ and $c \in C;$ to be $\dec(SK_f,c) \rightarrow m'$ if t
 \text{Carol:}& \; e(pk_a,pk_b)^c = g_2^{a \cdot b \cdot c} = sk
 \end{align*}
 
-\par The important thing to understand is that this bilinear map makes it possible for 3 parties to share a secret without risk of an eavesdropper also being able to know the secret. 
+\par The important thing to understand is that this bilinear map makes it possible for three parties to share a secret without risk of an eavesdropper also being able to know the secret. 
 
 %To generalize, a $k$-multilinear map allows us to encode $k$ secrets easily, so if each party involved in the exchange knows a secret this allows for $k+1$ non interactive key exchange.
 
@@ -455,7 +455,7 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
    \par Now we are ready for the formal definition of graded encoding schemes, after which we will formalize the procedures that we expect along with such a graded encoding scheme.
          
     \begin{definition}{k-Graded Encoding Scheme}
-    \par A k-Graded Encoding System consists of a ring $R$ and a system of sets $$\mathcal{S}= \{S_i^{(\alpha)} = \alpha + I \; | \forall \alpha \in R, \; 0 \leq i \leq k \}$$, such that:
+    \par A k-Graded Encoding System consists of a ring $R$ and a system of sets $$\mathcal{S}= \{S_i^{(\alpha)} = \alpha + I \; | \forall \alpha \in R, \; 0 \leq i \leq k \}$$ such that:
     \begin{enumerate}
     \item For every fixed index i, the sets $\{S_i^{(\alpha)}| \alpha \in R \}$ are disjoint (meaning they form a partition of $S_v := \cup_\alpha S_v^{(\alpha)}$)
     
@@ -463,7 +463,7 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
     $$u_1 + u_2 \in S_i^{(\alpha_1 + \alpha_2)} \text{ and } -u_1 \in S_i^{(-\alpha_1)}$$
     where $\alpha_1 + \alpha_2$ and $-\alpha_1$ are addition and negation in $R$.
     
-    \item There is an associative binary operation '$\times$' ( on $\{ 0,1 \}*$) such that for every $\alpha_1,\alpha_2 \in R$ every $i_1,i_2$ with $i_1+i_2 \leq k$ and every $u_1 \in S_{i_1}^{(\alpha_1)}$ and $u_2 \in S_{i_2}^{(\alpha_2)}$ it holds that 
+    \item There is an associative binary operation '$\times$' $($ on $\{ 0,1 \}*)$ such that for every $\alpha_1,\alpha_2 \in R$ every $i_1,i_2$ with $i_1+i_2 \leq k$ and every $u_1 \in S_{i_1}^{(\alpha_1)}$ and $u_2 \in S_{i_2}^{(\alpha_2)}$ it holds that 
     $$u_1 \times u_2 \in S_{i_1 + i_2}^{(\alpha_1 \cdot \alpha_2)} $$
     Where $\alpha_1 \cdot \alpha_2$ is multiplication in $R$, and $i_1 + i_2$ is integer addition.
     \end{enumerate}
@@ -491,7 +491,7 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
 	
     \end{itemize}
     
-    \par So we are able to encode elements, as well as do computation on them. The only procedure we have yet to cover is one that allows us to \textit{learn} from our computation. This procedure is rather involved, so we cover it in depth in section 2.2.5.
+    \par So we are able to encode elements as well as do computation on them. The only procedure we have yet to cover is one that allows us to \textit{learn} from our computation. This procedure is rather involved, so we cover it in depth in section 2.2.5.
     
     \subsection{Zero Test}
    \par It is important to note that while randomizing encodings makes the scheme harder to break in many ways, it also makes getting information from encoded values much more difficult. In fact it makes it so much more difficult to get information from encoded values that we can only check to see if it is or isn't zero. In other words, we need a way to determine wether or not $\encode{k}{u}$ is in $0 + I = I = \langle g \rangle$. We call this operation the zero test. To do this we need to define a new \textit{zero test} parameter which we will denote $p_{zt}$.
@@ -540,13 +540,13 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
     \par Given $\mathcal{S},u_1,u_2,\cdots,u_{k+1},$ and $\boldsymbol{u}$, determine if $\boldsymbol{u}$ is $\tilde{u}$ or $\bar{u}$.
     \end{definition}
     
-    As with our other DDH definitions, when we assume this is hard, we are really saying that in a $k$-graded encoding scheme, it is hard to determine the product of $k+1$ level one encodings. 
+    As with our other DDH definitions, when we assume this is hard we are really saying that in a $k$-graded encoding scheme it is hard to determine the product of $k+1$ level one encodings. 
     
     \begin{definition}{Graded Discrete Log}
     \par Given $a\in S_i^{(\alpha)}$ for $\alpha \in R_q$ and $0<i$, obtain a level-zero encoding of $\alpha$.
-    \end{definition},
+    \end{definition}
     
-    We will not go much into how \textit{good} these assumption are, but we will say that this encoding scheme is far less studied than, say, RSA and so the cryptanalysis is much less extensive, so it is vulnerable to new attacks. However there has been some cryptanalysis done on graded encoding schemes [\cite{GGH13}] and overall, it seems that depending on what type of security is needed, different variations on the scheme can be used to protect against different attacks. The important thing to be weary of when using graded encoding schemes is just that it will be a while longer before all the ``easy'' attacks have been found. While this insecurity is suboptimal for many applications, we will say that graded encoding schemes are good enough for our purposes.
+    We will not go much into how \textit{good} these assumption are, but we will say that this encoding scheme is far less studied than, say, RSA and so the cryptanalysis is much less extensive, so it may be vulnerable to new attacks. However there has been some cryptanalysis done on graded encoding schemes [\cite{GGH13}] and overall it seems that depending on what type of security is needed, variations on the scheme can be used to protect against different attacks. The important thing to be wary of when using graded encoding schemes is just that it will be a while longer before all the ``easy'' attacks have been found. While this insecurity is suboptimal for many applications, we will say that graded encoding schemes are good enough for our purposes.
     
     
     
@@ -554,10 +554,12 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
     
     \chapter{Indistinguishability Obfuscation}
     In this chapter we use the result of Barrington's theorem [\cite{Barrington:1986:BPB:12130.12131}] to describe small circuits in such a way that they can be encoded under a graded encoding scheme and randomized to yield circuit obfuscation for NC$^1$. Then we use fully homomorphic encryption (section 3.3.1) and non interactive zero knowledge proofs (section 3.3.3) to broaden indistinguishability obfuscation for NC$^1$ to obfuscation for polynomial sized circuits.
+    
+    
     \section{Circuit Representation}
-    While multilinear maps are a central tool used for the obfuscation of circuits, it is difficult to see how when most of us think of circuits as boolean expressions of the form
+    While multilinear maps are a central tool used for the obfuscation of circuits, it is difficult to see how they could be used with circuits when most conceptualize circuits as boolean expressions of the form:
     $$C(x,y,z) = (x \cdot y) + z $$
-    which denotes the circuit ($x$ and $y$) or $z$. A first thought might be to encode $x,y$ and $z$ with a $k$-graded encoding scheme, however this would not hide the operations used in $C$, only the values of the starting parameters. For circuit obfuscation we want it to be hard to determine how $C$ computes on inputs.
+    Where the above denotes the circuit ($x$ and $y$) or $z$. A first thought might be to encode $x,y$ and $z$ with a $k$-graded encoding scheme, however this would not hide the operations used in $C$, only the values of the starting parameters. For circuit obfuscation we want it to be hard to determine how $C$ computes on inputs.
     
     \subsection{Branching Programs}
     
@@ -619,13 +621,13 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
      
      \subsection{Kilian's Protocol}
       %\newcommand{\inp}[0]{\text{inp}}
-     The first attempt of making indistinguishability obfuscation out for randomized branching programs was Kilian's protocol described below. 
+     The first attempt of making indistinguishability obfuscation from randomized branching programs was Kilian's protocol described below. 
      \par Suppose Alice is the obfuscater and Bob is the evaluator. Alice wants to obfuscate circuit $C\in \mathcal{C}$ where $\mathcal{C}$ is the circuit family of all circuits with the same domain and codomain as $C$. Alice starts with a universal circuit $U(\cdot, \cdot)$ which has the property that given the encoding of a circuit $C \in \mathcal{C}$, $U(C,m) = C(m)$ for all valid messages $m$. (for more detail see [\cite{Kilian:1988:FCO:62212.62215}])
      \par Alice then gets the randomized branching program of $U$:
      $$\mathcal{RBP}_U = (\inp(i),\tilde{A_{i,0}},\tilde{A_{i,1}})_{i=1}^n$$
      Then Alice selects all $\tilde{A}_{i,x_{\inp(i)}}$ for all $i$ with $\inp(i)$ corresponding to a bit in the encoding of $C$. Once this is done Alice sends the partially selected random branching program to Bob who selects matrices corresponding to his input $y$. 
      \par It's worth thinking about why this is a good start for obfuscation. When Bob receives the branching program he has no way of knowing which of the two matrices Alice selected, all he sees of the matrices corresponding to her inputs are $\tilde{A}_i$, just the matrix itself and its order in the product. Also, the randomization prevents Bob from being able to reorder the matrices of the branching program 
-     \par While this is a good start toward obfuscation and may in fact seem like all we need to obfuscate a circuit, we need guarantees that intermediate results are not revealed through the programs execution. 
+     \par While this is a good start toward obfuscation and may in fact seem like all we need to obfuscate a circuit, we need guarantees that intermediate results are not revealed through the program's execution. 
     
     \subsection{Encoded Branching Programs}
     
@@ -642,7 +644,7 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
     In this section we use the construction of indistinguishability obfuscation for NC$^1$ along with Fully Homomorphic Encryption (FHE) to get obfuscation for polynomial sized circuits.
     
     \subsection{Fully Homomorphic Encryption}
-    We will not get into much detail as to how FHE is constructed, instead we will describe what is expected of an FHE scheme. Like with our previously described forms of encryption, a FHE scheme is a 4-tuple of algorithms containing the standard key generation, encryption, and decryption functions. However, with FHE we include another function \textit{evaluate} that takes as input a public key, a function, and a collection of ciphertexts and outputs the encrypted value of the function run on the encrypted input messages. 
+    We will not get into much detail as to how FHE is constructed, instead we will describe what is expected of an FHE scheme. Like with our previously described forms of encryption, an FHE scheme is a 4-tuple of algorithms containing the standard key generation, encryption, and decryption functions. However, with FHE we include another function \textit{evaluate} that takes as input a public key, a function, and a collection of ciphertexts and outputs the encrypted value of the function run on the encrypted input messages. 
     
     \begin{definition}{Fully Homomorphic Encryption}
     \par For message space $\mathcal{M}$, cipher space $C$, key space $K$, and circuit family $\mathcal{F}$ we define a Fully Homomorphic Encryption scheme to be the following functions:
@@ -653,18 +655,18 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
      \item KeyGen$_\text{FHE}:\Z \to K \times K$ \\
      Defined KeyGen$_\text{FHE}(\lambda)\to (pk,sk)$ where $\lambda$ is the security parameter and $pk,sk$ are a public and secret key respectively 
      \item Enc$_\text{FHE}:K \times \mathcal{M}\to C$ \\
-     Defined Enc$_\text{FHE}(pk,m) \to c$ meaning anyone with the public key can encrypt a message and get back a cipher text
+     Defined Enc$_\text{FHE}(pk,m) \to c$ meaning anyone with the public key can encrypt a message and get back a ciphertext
      \item Dec$_\text{FHE}:K \times C \to \mathcal{M}$ \\
      Defined Dec$_\text{FHE}(sk,c) \to m$ and it is expected that FHE schemes respect the public key encryption definition of correctness so Dec$_\text{FHE}(sk,$Enc$_\text{FHE}(pk,m))=m$ and where the running time of Dec$_\text{FHE}$ depends only on the security parameter $\lambda$ and not the input.
      \item Eval$_\text{FHE}:K \times \mathcal{F} \times C \times C \times \cdots \times C \to C$ \\
      Defined Eval$\fhe(pk,f,c_1,c_2,\cdots,c_\ell) = c_f$ for $f\in \mathcal{F}$.
     \end{itemize}
-    \par We say a FHE scheme is correct if for $c_1 =$Enc$\fhe(pk,m_1), \cdots, c_\ell =$ Enc$\fhe(pk,m_\ell)$,
+    \par We say an FHE scheme is correct if for $c_1 =$Enc$\fhe(pk,m_1), \cdots, c_\ell =$ Enc$\fhe(pk,m_\ell)$,
     $$\text{$\dec_\text{FHE}(sk,$ Eval$\fhe(pk,f,c_1,c_2, \cdots, c_\ell)) = f(m_1,m_2,\cdots,m_\ell)$ }$$ 
     \end{definition}
     
-    \par As opposed to the notion of functional encryption introduced in the first chapter, with FHE decryption is all or nothing just like with standard encryption. A good use for FHE would be if Alice wants to have a large amount of data on Bob's cloud storage, an untrusted server, and wants to be able to run computations on this stored data remotely. If Alice encrypts her data using a FHE scheme, she can then as Bob to run Eval commands on the data and then send it over to her, when she can then download the output of the evaluation command, and decrypt to find it's value. This works well because Alice does not need to download all the data onto her computer, decrypt, and then run the computation; she can decrypt her data before the overall computation is complete if she is curious about a intermediate result, and her data is kept secure since she is the only one able to decrypt with the secret key.
-    \par FHE would not be good for Alice if she wants to give her friend Bob access to a function of the data (like an average or the median) but does not want Bob to be able to see intermediate results of the computation. In fact, if encrypted using an FHE scheme, giving Bob the secret key would not only allow him to evaluate the average and then decrypt (Dec$_\text{FHE}(sk,$Eval$_\text{FHE}(pk,\text{average},c_1,\cdots,c_\ell))$, but also decrypt any sub result of the computation he wants (Dec$_\text{FHE}(sk,c)$ for any $c$) including the raw data itself thus compromising the security of Alice's data. As we discussed in section 1.1.2 this would be a great situation for using functional encryption.
+    \par Unlike functional encryption (introduced in the section 1.1.2 ), FHE decryption is all or nothing just like with standard encryption. A good use for FHE would be if Alice wants to have a large amount of data on Bob's cloud storage, an untrusted server, and wants to be able to run computations on this stored data remotely. If Alice encrypts her data using an FHE scheme, she can then asks Bob to run Eval commands on the data and then send it over to her, when she can then download the output of the evaluation command, and decrypt to find its value. This works well because Alice does not need to download all the data onto her computer, decrypt, and then run the computation; she can decrypt her data before the overall computation is complete if she is curious about an intermediate result, and her data is kept secure since only Alice is able to decrypt with the secret key that only she has.
+    \par FHE would not be good for Alice if she wants to give her friend Bob access to a function of the data (like an average or the median) but does not want Bob to be able to see intermediate results of the computation. In fact, if encrypted using an FHE scheme, giving Bob the secret key would not only allow him to evaluate the average and then decrypt (Dec$_\text{FHE}(sk,$Eval$_\text{FHE}(pk,\text{average},c_1,\cdots,c_\ell))$, but also decrypt any sub result of the computation he wants (Dec$_\text{FHE}(sk,c)$ for any $c$) including the raw data itself thus compromising the security of Alice's data. As we discussed in section 1.1.2, this would be a great situation for using functional encryption.
     
     
     \subsection{Toward Poly-sized Circuit Obfuscation}
@@ -697,7 +699,7 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
     \text{and} \\
    $C_1(X =x_0||x_1) = x_1 \text{ or } x_0$
     \end{center}
-    Where $C_0 = C_1$ since `or' is commutative, so these are valid circuits to test if our scheme meets the indistinguishability obfuscation definition. Now let the encodings of $C_0$ and $C_1$ both be of length $\ell = p(\lambda)$ for some polynomial $p$, and let them be written in the same ordering specified above where the first $k$ bits of the encoding of $C_0$ represents the term ``$x_0$" and likewise the first $k' \approx k$ bits of the encoding of $C_1$ represent the term ``$x_1$". Then if we run Obfuscate$(C_0)\to PP_0$ and Obfuscate$(C_1) \to PP_1$ and give $PP_b$ to the adversary $\mathcal{A}$ for $b \leftarrow \{0,1\}$ chosen uniformly, consider the following attack.
+    Where $C_0 = C_1$ since `or' is commutative, so these are valid circuits to test if our scheme meets the indistinguishability obfuscation definition. Now let the encodings of $C_0$ and $C_1$ both be of length $\ell = p(\lambda)$ for some polynomial $p$, and let them be written in the same ordering specified above where the first $k$ bits of the encoding of $C_0$ represents the term ``$x_0$" and likewise the first $k' \approx k$ bits of the encoding of $C_1$ represent the term ``$x_1$". Then if we run Obfuscate$(C_0)\to PP_0$ and Obfuscate$(C_1) \to PP_1$ and give $PP_b$ to the adversary $\mathcal{A}$ for $b \leftarrow \{0,1\}$ chosen uniformly, consider the following attack:
     \par Upon receiving $PP_b =(\mathcal{P}_b,PK\fhe^b,g_b),\; \mathcal{A}$ wants to differentiate $PP_0$ from $PP_1$ by which bit appears first in the encoding of their associated circuits. To do this $\mathcal{A}$ generates a mask $w$ of length $\ell$ such that the first $k$ bits of the mask are all 1 and the last $\ell - k$ bits are all 0 so that it's of the form $w = 11\cdots 100 \cdots 0$. Then $\mathcal{A}$ encrypts the mask $w_\enc =$ Encrypt$\fhe(PK\fhe^b, w)$ and then multiplies the encrypted circuit $g_b$ by the encrypted mask by getting $g_b' =$Eval$\fhe(PK\fhe,\prod,w_\enc,g_b)$ and then for message $m=01$ output $\mathcal{P}_b($Eval$\fhe(PK\fhe,U_\lambda(\cdot,m),g_b')\to b'$. 
     \par Note that if $b' = 0$ then $x_0$ appears first in the encoding giving away that $\mathcal{A}$ received an obfuscation of $C_0$, and similarly $b'=1$ implies that $\mathcal{A}$ received an obfuscation of $C_1$. Thus this construction doesn't meet our security definition of indistinguishability obfuscation. To fix this construction we need a way of ensuring that evaluation is run on $g$ and \textit{only} $g$ without any alterations. In order to do this we need another cryptographic primitive.
        
@@ -705,7 +707,7 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
        
        Non interactive zero knowledge (hence forth abbreviated NIZK) proofs are a cryptographic primitive between a \textit{prover} and a \textit{verifier}. We will not give any sort of formal construction of how NIZK proofs are made, rather we focus on what they ensure. Informally, we expect a NIZK proof to work as follows:
        \par Let Peggy be our prover and Victer be our verifier. Given a statement and a witness to that statement a Peggy should be able to generate a proof $\pi$ such that when $\pi$ is given to Victer, he is convinced that $\pi$ is a valid proof and yet anyone given $\pi$ should be unable to use $\pi$ to gain any information about the witness to the statement.
-       \par More formally a NIZK proof is a one time interaction between a prover and verifier of sending a proof $\pi$ from the prover to the verifier where $\pi$ has the following properties:
+       \par More formally a NIZK proof is a one-ciphertexttime interaction between a prover and verifier of sending a proof $\pi$ from the prover to the verifier where $\pi$ has the following properties:
        \begin{itemize}
        \item Perfect Completeness: A proof system is perfectly complete if an honest prover can generate a proof $\pi$ that $x$ exists in language $L$ such that an honest verifier is always convinced that $\pi \implies x\in L$.
        \item Statistical Soundness: A proof system is sound if it is infeasible for a prover to generate a false proof that convinces an honest verifier
@@ -718,8 +720,8 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
     
     \subsection{Obfuscation for Poly-Sized Circuits}
     
-    \par How might we use low depth NIZK proofs to fix our previous construction of $i\mathcal{O}_p$? As stated at the end of section 3.3.2, we need a way of ensuring that our decryption program only decrypts cipher texts where the message has been \textit{fully} evaluated by our encrypted circuit $g$.
-    \par We edit the scheme described in 3.3.2 by revising how our program $P$ runs. We define $P$ to be a function that not only takes a cipher text $e$ as before, but now also takes a proof $\pi$ and a message $m$ such that for $(PK\fhe,SK\fhe) \leftarrow$ Setup$\fhe(\lambda)$:
+    \par How might we use low depth NIZK proofs to fix our previous construction of $i\mathcal{O}_p$? As stated at the end of section 3.3.2, we need a way of ensuring that our decryption program only decrypts ciphertexts where the message has been \textit{fully} evaluated by our encrypted circuit $g$.
+    \par We edit the scheme described in 3.3.2 by revising how our program $P$ runs. We define $P$ to be a function that not only takes a ciphertext $e$ as before, but now also takes a proof $\pi$ and a message $m$ such that for $(PK\fhe,SK\fhe) \leftarrow$ Setup$\fhe(\lambda)$:
     
    
    \par$P(e,m,\pi) =$
@@ -730,12 +732,12 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
    \end{itemize}
     
     
-    \par In essence, the evaluator acts as a prover for the statement ``Did you appropriately generate your cipher text?" and the program $P$ acts as the verifier for proofs $\pi$ of that statement. Here ``appropriately generated" means the entire encrypted circuit $g$ was run on the specified message $m$. Since we know indistinguishability obfuscation is the best possible obfuscation we can assume that any adversary with $\ionc(P)$ can't alter the hard coded $g$ in $P$. As a result of this alteration to $P$, we expect the evaluator to generate a low depth NIZK proof that their cipher text was generated appropriately.
+    \par In essence, the evaluator acts as a prover for the statement ``Did you appropriately generate your ciphertext?" and the program $P$ acts as the verifier for proofs $\pi$ of that statement. Here ``appropriately generated" means the entire encrypted circuit $g$ was run on the specified message $m$. Since we know indistinguishability obfuscation is the best possible obfuscation we can assume that any adversary with $\ionc(P)$ can't alter the hard coded $g$ in $P$. As a result of this alteration to $P$, we expect the evaluator to generate a low depth NIZK proof that their ciphertext was generated appropriately.
     \par The only other thing we need to check is that our program $P\in$NC so that we can use $\ionc$ on it. As before we know/assume Decrypt$\in$NC, and if we use a low-depth NIZK proof system for step 1 then the verifier$\in$NC so $P\in$NC. Thus we have constructed $i\mathcal{O}_P$ an indistinguishability obfuscater for poly-size circuits. While we will not construct a proof of security, [\cite{Garg:2013}] has a well written hybrid argument that says if our FHE scheme is CPA-Secure and if $i\mathcal{O}_\text{NC$^1$}$  is an indistinguishability obfuscater, then the construction above is secure indistinguishability obfuscation for polynomial sized circuits.
     
     \chapter{Functional Encryption}
     
-    In this chapter we revisit the definition of functional encryption and then use our understanding of obfuscation to construct it. We then use functional encryption and other cryptographic primitives to describe a protocol for sealed bid first price auctions where only the value of the winning bid can be learned by the auctioneer.    
+    In this chapter we revisit the definition of functional encryption and then use our understanding of obfuscation to construct it. We then use functional encryption and other cryptographic primitives to describe a protocol for sealed bid first price auctions where only the auction winner and the value of their bid can be learned by the auctioneer.    
     \section{Definition}
     Now that we have built up an understanding of multilinear maps and circuit obfuscation, we are ready to talk about functional encryption. Recall the following definition of functional encryption where secret keys are generated for each function.
     \begin{definition}{Functional Encryption}
@@ -743,8 +745,8 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
     \begin{itemize}
     \item Setup$_{FE}(1^\lambda) \to (PP, MSK)$ takes security parameter and outputs Public Parameter and Master Secret Key 
     \item KeyGen$_{FE}(MSK,f)\to SK_f$ takes Master Secret Key and a function $f\in \mathcal{F}$ and outputs a corresponding secret key $SK_f$
-    \item Encrypt$_{FE}(PP,m) \to c$ takes Public Parameter and a message $m\in M$ and outputs cipher text $c$
-    \item Decrypt$_{FE}(SK_f,c)\to m'$ takes secret key and cipher text and outputs message $m'$
+    \item Encrypt$_{FE}(PP,m) \to c$ takes Public Parameter and a message $m\in M$ and outputs ciphertext $c$
+    \item Decrypt$_{FE}(SK_f,c)\to m'$ takes secret key and ciphertext and outputs message $m'$
     \end{itemize}
     \par We say a functional encryption scheme is correct if $$\forall m \in M, \; \text{Decrypt$(SK_f$,Encrypt$(PP,m))$ = $f(m)$}$$
     \end{definition}
@@ -766,8 +768,8 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
 
     
     \end{itemize}
-    \par It might take some rereading of the simplified construction above to understand what is going on. Essentially, our $SK_f$ is an obfuscated program which fully decrypts a cipher text, then outputs the result of running $f$ on the decrypted message. The idea of fully decrypting the cipher text and then evaluating the function on the decrypted message is why we need obfuscation for this scheme to work since working with an obfuscated program should give no more information than just its input and output behaviors (at-least as we said before this is how indistinguishability obfuscation is often treated). 
-    \par As before we will not get into the proof of security, but in [\cite{Garg:2013}] there is a proof that if our NIZK system is computationally zero knowledge, our PKE is CPA-Secure, and our $i\mathcal{O}$ is indeed an indistinguishability obfuscater; then our functional encryption scheme is indistinguishability secure (as described in section 1.1.2).
+    \par It might take some rereading of the simplified construction above to understand what is going on. Essentially, our $SK_f$ is an obfuscated program which fully decrypts a ciphertext, then outputs the result of running $f$ on the decrypted message. The idea of fully decrypting the ciphertext and then evaluating the function on the decrypted message is why we need obfuscation for this scheme to work since working with an obfuscated program should give no more information than just its input and output behaviors (atleast as we said before this is how indistinguishability obfuscation is often treated). 
+    \par As before we will not get into the proof of security, but in [\cite{Garg:2013}] there is a proof that if our NIZK system is computationally zero knowledge, our PKE is CPA-Secure, and our $i\mathcal{O}$ is indeed an indistinguishability obfuscater; then our functional encryption scheme is indistinguishability-secure (as described in section 1.1.2).
     
     
     \section{Application}
@@ -777,12 +779,12 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
     \subsection{Sealed-Bid First-Price Auction}
     Here we describe how functional encryption can be used to implement fair and secure sealed-bid first-price auctions. A sealed-bid first-price (hereby referred to as SBFP) auction is an auction where each bidder submits a one bid where the amount is kept secret from the other bidders. Once all bids are submitted, the highest bidder pays their price and wins the auction. Often the seller at these auctions will have a predetermined floor price where if the winning bid is below this floor, the item does not sell. 
     \par A common setting for SBFP auctions is when firms apply for government contracts, in this case a government agency announces that they are looking to contract for a certain service such as road repair, at which points firms bid the amount they would expect to be paid to do the road repairs, and then once all bids are submitted the government is required by law to contract to the ``lowest responsible'' bidder which means the lowest \textit{priced}, qualified firm.
-    \par The auction setting we will set up a functional encryption scheme for is one where \textit{only} the highest bid should be known to the seller. Perhaps we could consider the case of a sensitive artist selling their own artwork at an auction, or friends bidding on another friend's artwork, some of which do not particularly like the art, but do not want to appear rude by bidding extremely low. Each of these situations is perfect for functional encryption since we only want the seller to be able to learn what the encrypted value of the highest valued cipher-text is. 
+    \par The auction setting we will set up a functional encryption scheme for is one where \textit{only} the highest bid should be known to the seller. Perhaps we could consider the case of a sensitive artist selling their own artwork at an auction, or friends bidding on another friend's artwork, some of which do not particularly like the art, but do not want to appear rude by bidding extremely low. Each of these situations is perfect for functional encryption since we only want the seller to be able to learn the names of each bidder, who the highest bidder is, and the encrypted value of the winning ciphertext is. 
     
     
     \subsection{Auction Construction}
     \newcommand{\sign}[0]{_\text{sign}}
-    \par A major issue we will need to work around is that because $i\mathcal{O}$ is currently limited to functions with binary outputs, we can not extract the bid amount from the winning bid's cipher text without compromising the security of other cipher texts. To work around this we utilize signatures to bind bidders to their encrypted bids, so that the seller can confirm that the winner pays the amount that they bid.
+    \par A major issue we will need to work around is that because $i\mathcal{O}$ is currently limited to functions with binary outputs, we can not extract the bid amount from the winning bid's ciphertext without compromising the security of other ciphertexts. To work around this we utilize signatures to bind bidders to their encrypted bids, so that the seller can confirm that the winner pays the amount that they bid.
     \par Thus we assume that we have access to a valid and binding digital signature scheme, as described in [\cite{Katz:2007:IMC:1206501}], consisting of the polynomial time algorithms: 
     
     
@@ -820,13 +822,13 @@ Generates a public and secret key for signatures
 %
 %
 %
-    \\ \\ \textbf{Program Initialization:} The circuits be used for keys in functional encryption are as follows:
+    \\ \\ \textbf{Program Initialization:} The circuits used for keys in functional encryption are as follows:
     \begin{itemize}
     \item $G(x,y)$ is a circuit that takes two integers encoded in binary and outputs  1 if $$x>y$$
     \item $E(x,y)$ is a circuit that takes two integers encoded in binary and outputs 1 if $$
     x==y$$
     \end{itemize}
-    Then descriptions of $G,E$ and Verify$\sign$ are distributed to the bidders and seller, if a participant agrees with the functionality of the programs they sign each encoding and send the encoding and signature to the auction coordinator (hereby AC) who checks that all the signatures are valid. This ensures that all participants agree with what information about their bids can be learned from decryption. once these programs are turned into functional encryption secret keys. \\
+    Then descriptions of $G,E$ and Verify$\sign$ are distributed to the bidders and seller, if a participant agrees with the functionality of the programs they sign each encoding and send the encoding and signature to the auction coordinator (hereby AC) who checks that all the signatures are valid. This ensures that all participants agree with what information about their bids can be learned from decryption. \\
     \\
        \textbf{Auction:} 
        
@@ -866,13 +868,13 @@ Generates a public and secret key for signatures
 	\end{itemize}
 	
 	The above program uses $SK_G$ to find the maximum valued bid, and $SK_E$ to see if there are multiple maximal bids in which case there will need to be some type of tie breaker, like another round of bidding. 
-	\item Since $i\mathcal{O}$ is limited to binary outputs, we can not get the value of the bid out of the cipher text directly. Instead we have required bidders to also encrypt a signature so that we can use $SK_\text{Verify}$ to verify the validity of the signature and commit the bidder to their encrypted bid. For the seller to learn the value of the maximum bid, the seller must tell the winning bidder (whose name is encoded in $m^\text{max}$) that they are the winner and ask them to send over the value of their bid $b$. The seller then needs to verify that the bid amount $b$ is in fact the same amount that was encrypted in $c^\text{max}_\text{bid}$ so the seller runs $$\text{ Decrypt$_\text{FE}\big(SK_\text{Verify},$Encrypt$_\text{FE}(PK_\text{FE},PK\sign^\text{max}),$ Encrypt$_\text{FE}(PP, b),c\sign^\text{max}$\big)} \to v $$
+	\item Since $i\mathcal{O}$ is limited to binary outputs, we can not get the value of the bid from the ciphertext directly. Instead we have required bidders to also encrypt a signature so that we can use $SK_\text{Verify}$ to verify the validity of the signature and commit the bidder to their encrypted bid. For the seller to learn the value of the maximum bid, the seller must tell the winning bidder (whose name is encoded in $m^\text{max}$) that they are the winner and ask them to send over the value of their bid $b$. The seller then needs to verify that the bid amount $b$ is in fact the same amount that was encrypted in $c^\text{max}_\text{bid}$ so the seller runs $$\text{ Decrypt$_\text{FE}\big(SK_\text{Verify},$Encrypt$_\text{FE}(PK_\text{FE},PK\sign^\text{max}),$ Encrypt$_\text{FE}(PP, b),c\sign^\text{max}$\big)} \to v $$
 Note: that we encrypt $b$ and $PK\sign^\text{max}$ so that it is in the proper format for using $SK_\text{Verify}$
 
 \par If $v==1$ this means that $b$ is the amount of the maximum bid and so the seller knows with confidence that the winning bidder will pay the amount they initially bid. If $v == 0$ then the bidder has submitted a bid inconsistent with the bid encoded in $c_\text{bid}^\text{max}$ at which point the max bidder will probably need to either submit a consistent bid value or be penalized.
        \end{itemize}
        
-       \par A few things about this scheme should be noted. While bid amounts can only be revealed by having the bidder send in their bid after the auction, an ordering of \textit{all} the bids can easily be found by using $SK_G$ to sort the cipher texts by bid amount. This means that a seller can find out who bid not only the highest, but the lowest as well. This means the seller can learn more than just the identity of the highest bidder from the auction, which may not be an issue for users, but should be understood by anyone looking to utilize this auction protocol.    
+       \par A few things about this scheme should be noted. While bid amounts can only be revealed by having the bidder send in their bid after the auction, an ordering of \textit{all} the bids can easily be found by using $SK_G$ to sort the ciphertexts by bid amount. This means that a seller can find out who bid not only the highest, but the lowest as well. This means the seller can learn more than just the identity of the highest bidder from the auction, which may not be an issue for users, but should be understood by anyone looking to utilize this auction protocol.    
     
     
     
@@ -893,8 +895,8 @@ Note: that we encrypt $b$ and $PK\sign^\text{max}$ so that it is in the proper f
       Where each $z_i$ is a large prime. 
       \subsection{CXS}
    
-   5Gen-C contains a program circuit-synthesis (hereby \texttt{cxs}), for compiling and optimizing circuits from a domain specific language (DSL) embedded in Haskell to \texttt{acirc} files ready for obfuscation. We use \texttt{cxs} to write Haskell like programs that describe a circuit functionality then compile that program with \texttt{cxs} to get a circuit of the functionality described in the DSL that expects inputs of a specified size.
-   \par For example suppose we want a circuit for \textit{greater than} that compares two inputs each length 1 bit, as well as a circuit for greater than that compares two inputs each of length 2. Without \texttt{cxs} we would need to code up two different circuits in the form of a \texttt{acirc} program; but with \texttt{csx} we can describe \textit{greater than} circuits of arbitrary input size and then compile them with \texttt{cxs} for input sizes 1 and 2 in order to get the two \texttt{acirc} files we want. To compile a circuit simply write a the circuit in Haskell (using special 5Gen-C packages), and then run \texttt{./cxs compile .acirc filename}.
+   5Gen-C contains a program circuit-synthesis (hereby \texttt{cxs}), for compiling and optimizing circuits from a domain specific language (DSL) embedded in Haskell to \texttt{acirc} files ready for obfuscation. We use \texttt{cxs} to write Haskell-like programs that describe a circuit functionality then compile that program with \texttt{cxs} to get a circuit of the functionality described in the DSL that expects inputs of a specified size.
+   \par For example, suppose we want a circuit for \textit{greater than} that compares two inputs each of length 1 bit, as well as a circuit for \textit{greater than} that compares two inputs each of length 2. Without \texttt{cxs} we would need to code up two different circuits in the form of an \texttt{acirc} program; but with \texttt{cxs} we can describe \textit{greater than} circuits of arbitrary input size and then compile them with \texttt{cxs} for input sizes 1 and 2 in order to get the two \texttt{acirc} files we want. To compile a circuit simply write the circuit in Haskell (using special 5Gen-C packages), and then run \texttt{./cxs compile .acirc filename}.
    \par For example, a circuit that compares two bits (i.e. $x_0 > x_1$ where $x_0,x_1$ are each either 1 or 0) compiles to the following \texttt{.acirc} file:
    
     %\newcommand{\input}[0]{\text{input}}
@@ -922,17 +924,17 @@ Note: that we encrypt $b$ and $PK\sign^\text{max}$ so that it is in the proper f
        \item$ \text{Setup}(\lambda,C) \to (PP,SK_C)$:
         Takes as input a security parameter and circuit description and outputs a secret key and evaluation key. 
         \item $\enc(PP,i,m) \to c$:
-        Takes as input a secret key, input slot, and message; and outputs a cipher text. For an MIFE of ``$x_0>x_1$'' the input slot 0 would indicate that the message should be encrypted to take the place of ``$x_0$'' while an input slot of 1 would indicate to encrypt for ``$x_1$''.    
+        Takes as input a secret key, input slot, and message; and outputs a ciphertext. For an MIFE of ``$x_0>x_1$'' the input slot 0 would indicate that the message should be encrypted to take the place of ``$x_0$'' while an input slot of 1 would indicate to encrypt for ``$x_1$''.    
         \item $\dec(SK_C,[c_0,c_1,\cdots,c_n]) \to b$:
-        Takes as input an evaluation key and an ordered list of cipher texts and outputs a bit $b = C(m_0,m_1,\cdots,m_n)$.
+        Takes as input an evaluation key and an ordered list of ciphertexts and outputs a bit $b = C(m_0,m_1,\cdots,m_n)$.
         \end{itemize}
-   \par The major differences between sk-MIFE and generalized MIFE is that the cipher texts are generated specific to an evaluation circuit. This means that ciphertexts can \textit{only} be functionally decrypted for the specific $C$ input into the setup algorithm. For example, if $G$ is a circuit that evaluates $x_0>x_1$, all cipher texts generated from $\enc(PP,i,m) \to c_i$ for $SK_G \leftarrow$ Setup$(\lambda,G)$ will only ever be able to be decrypted to evaluating $G$, this means all functionalities that we might want to decrypt to must be built into the circuit initially entered into the Setup algorithm.
+   \par The major differences between sk-MIFE and generalized MIFE is that the ciphertexts are generated specific to an evaluation circuit. This means that ciphertexts can \textit{only} be functionally decrypted for the specific $C$ input into the setup algorithm. For example, if $G$ is a circuit that evaluates $x_0>x_1$, all ciphertexts generated from $\enc(PP,i,m) \to c_i$ for $SK_G \leftarrow$ Setup$(\lambda,G)$ will only ever be able to be decrypted to evaluating $G$, this means all functions that we might want to decrypt to must be built into the circuit initially entered into the Setup algorithm.
 
          
          
          
     \section{Experiments}
-    In this section we cover different experiments ran in the process of making this thesis to get a feel for the 5gen-c framework and its capabilities. A major factor in being able to work with the 5gen-c library was being able to ask two of its developers (Brent Carmer and Alex Malozmoff), this software is still in development, so being able to work with developers was imperative to working with this exciting new software. 
+    In this section we cover different experiments ran in the process of writing this thesis to get a feel for the 5gen-c framework and its capabilities. A major factor in being able to work with the 5gen-c library was being able to ask two of its developers (Brent Carmer and Alex Malozmoff), this software is still in development, so being able to work with developers was imperative to working with this exciting new software. 
    
    
    \subsection{Unary Comparison}
