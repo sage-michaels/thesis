@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  25 APR 2018 02:03
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  3 MAY 2018 14:49
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -723,6 +723,17 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <12> not available
 ]
 Chapter 2.
 
+Overfull \hbox (43.66669pt too wide) in paragraph at lines 382--383
+[]\OT1/cmr/m/it/12 For $\OML/cmm/m/it/12 g[] \OMS/cmsy/m/n/12 2 \OML/cmm/m/it/1
+2 G[] \OMS/cmsy/m/n/12 8\OML/cmm/m/it/12 i \OMS/cmsy/m/n/12 2 \OT1/cmr/m/n/12 [
+\OML/cmm/m/it/12 k\OT1/cmr/m/n/12 ]$[] \OT1/cmr/m/it/12 and $\OML/cmm/m/it/12 
+ \OMS/cmsy/m/n/12 2 \U/msb/m/n/12 Z[]$ \OT1/cmr/m/it/12 then $\OML/cmm/m/it/12 
+e\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 g[]; g[]; []  ; g[]; []  ; g[]\OT1/cmr/m/n/1
+2 ) = \OML/cmm/m/it/12 e\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 g[]; g[]; []  ; g[]; 
+[]  ; g[]\OT1/cmr/m/n/12 )[][] 
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 382--383
 
  []
@@ -751,7 +762,7 @@ Underfull \vbox (badness 6859) has occurred while \output is active []
 Underfull \vbox (badness 6910) has occurred while \output is active []
 
  [24]
-Overfull \hbox (20.84097pt too wide) in paragraph at lines 665--666
+Overfull \hbox (20.84097pt too wide) in paragraph at lines 666--667
 []\OT1/cmr/m/it/12 We say an FHE scheme is cor-rect if for $\OML/cmm/m/it/12 c[
 ] \OT1/cmr/m/n/12 =$\OT1/cmr/m/it/12 Enc$[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 pk
 ; m[]\OT1/cmr/m/n/12 )\OML/cmm/m/it/12 ; []  ; c[] \OT1/cmr/m/n/12 =$ \OT1/cmr/
@@ -760,19 +771,19 @@ mr/m/it/12 ,
  []
 
 [25]
-Overfull \hbox (24.83122pt too wide) in paragraph at lines 678--679
+Overfull \hbox (24.83122pt too wide) in paragraph at lines 679--680
 \OT1/cmr/m/n/12 and a fully ho-mo-mor-phic en-cryp-tion scheme $($Setup$[]\OML/
 cmm/m/it/12 ;$ \OT1/cmr/m/n/12 Encrypt$[]\OML/cmm/m/it/12 ;$ \OT1/cmr/m/n/12 Ev
 al$[]\OML/cmm/m/it/12 ;$ \OT1/cmr/m/n/12 Decrypt$[])$
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 679--681
+Underfull \hbox (badness 10000) in paragraph at lines 680--682
 
  []
 
 
-Overfull \hbox (48.0693pt too wide) in paragraph at lines 691--692
+Overfull \hbox (48.0693pt too wide) in paragraph at lines 692--693
 []\OT1/cmr/m/n/12 Compute $\OML/cmm/m/it/12 e \OT1/cmr/m/n/12 = $ Eval$[](\OML/
 cmm/m/it/12 PK[]; U[]\OT1/cmr/m/n/12 (\OMS/cmsy/m/n/12 ^^A\OML/cmm/m/it/12 ; m\
 OT1/cmr/m/n/12 )\OML/cmm/m/it/12 ; g\OT1/cmr/m/n/12 ) = \OML/cmm/m/it/12 U[]\OT
@@ -781,7 +792,7 @@ t/12 PK[]; U[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 C; m\OT1/cmr/m/n/12 ))$
  []
 
 [26] [27]
-Overfull \hbox (7.51302pt too wide) in paragraph at lines 715--716
+Overfull \hbox (7.51302pt too wide) in paragraph at lines 716--717
 []\OT1/cmr/m/n/12 Computational Zero Knowl-edge: A proof sys-tem is com-pu-ta-t
 ional zero-knowledge
  []
@@ -791,17 +802,17 @@ Chapter 4.
 [29
 
 ] [30]
-Underfull \hbox (badness 10000) in paragraph at lines 804--807
+Underfull \hbox (badness 10000) in paragraph at lines 805--808
 
  []
 
 [31]
-Underfull \hbox (badness 10000) in paragraph at lines 823--828
+Underfull \hbox (badness 10000) in paragraph at lines 824--829
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 833--836
+Underfull \hbox (badness 10000) in paragraph at lines 834--837
 
  []
 
@@ -810,7 +821,7 @@ Chapter 5.
 [35
 
 ] [36] [37]
-Underfull \hbox (badness 10000) in paragraph at lines 964--966
+Underfull \hbox (badness 10000) in paragraph at lines 965--967
 
  []
 
@@ -821,19 +832,19 @@ Underfull \vbox (badness 1715) has occurred while \output is active []
 <logisimgates.png, id=177, 801.99625pt x 138.5175pt>
 File: logisimgates.png Graphic file (type png)
  <use logisimgates.png>
-Package pdftex.def Info: logisimgates.png used on input line 984.
+Package pdftex.def Info: logisimgates.png used on input line 985.
 (pdftex.def)             Requested size: 280.70288pt x 48.48184pt.
 
 <comp2_4.png, id=179, 590.205pt x 419.5675pt>
 File: comp2_4.png Graphic file (type png)
  <use comp2_4.png>
-Package pdftex.def Info: comp2_4.png used on input line 993.
+Package pdftex.def Info: comp2_4.png used on input line 994.
 (pdftex.def)             Requested size: 324.61375pt x 230.76283pt.
 
 <comp2_5.png, id=180, 690.58pt x 538.01pt>
 File: comp2_5.png Graphic file (type png)
  <use comp2_5.png>
-Package pdftex.def Info: comp2_5.png used on input line 1009.
+Package pdftex.def Info: comp2_5.png used on input line 1010.
 (pdftex.def)             Requested size: 345.28915pt x 269.00433pt.
 
 Underfull \vbox (badness 1931) has occurred while \output is active []
@@ -842,15 +853,15 @@ Underfull \vbox (badness 1931) has occurred while \output is active []
 <ccomp4_8.png, id=192, 743.77875pt x 635.37375pt>
 File: ccomp4_8.png Graphic file (type png)
  <use ccomp4_8.png>
-Package pdftex.def Info: ccomp4_8.png used on input line 1033.
+Package pdftex.def Info: ccomp4_8.png used on input line 1034.
 (pdftex.def)             Requested size: 446.27069pt x 381.22719pt.
 
-Overfull \hbox (12.6507pt too wide) in paragraph at lines 1033--1034
+Overfull \hbox (12.6507pt too wide) in paragraph at lines 1034--1035
  [][] 
  []
 
 
-Overfull \hbox (3.68607pt too wide) in paragraph at lines 1047--1057
+Overfull \hbox (3.68607pt too wide) in paragraph at lines 1048--1058
  [] 
  []
 
@@ -858,17 +869,20 @@ Overfull \hbox (3.68607pt too wide) in paragraph at lines 1047--1057
 File: SRTvK.png Graphic file (type png)
 
 <use SRTvK.png>
-Package pdftex.def Info: SRTvK.png used on input line 1076.
+Package pdftex.def Info: SRTvK.png used on input line 1077.
 (pdftex.def)             Requested size: 443.26138pt x 228.21034pt.
 
-Overfull \hbox (9.64139pt too wide) in paragraph at lines 1076--1077
+Overfull \hbox (9.64139pt too wide) in paragraph at lines 1077--1078
  [][] 
  []
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[43 <./SRTvK.png>] (./thesis.bbl [44]
+
+Underfull \vbox (badness 1748) has occurred while \output is active []
+
+ [43 <./SRTvK.png>] (./thesis.bbl [44]
 Underfull \hbox (badness 10000) in paragraph at lines 44--48
 \OT1/cmtt/m/n/12 https : / / rdc . reed . edu / c / etheses / s / r ? _pp = 20 
 & query = fully % 20homomorphic %
@@ -884,7 +898,7 @@ LaTeX Warning: There were multiply-defined labels.
 Here is how much of TeX's memory you used:
  14771 strings out of 493014
  298731 string characters out of 6133351
- 341061 words of memory out of 5000000
+ 341062 words of memory out of 5000000
  17973 multiletter control sequences out of 15000+600000
  19242 words of font info for 76 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -909,7 +923,7 @@ e/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl12.pfb></usr/local/texlive
 6/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2016/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/local/texlive/2016/t
 exmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on thesis.pdf (56 pages, 549772 bytes).
+Output written on thesis.pdf (56 pages, 554849 bytes).
 PDF statistics:
  280 PDF objects out of 1000 (max. 8388607)
  190 compressed objects within 2 object streams

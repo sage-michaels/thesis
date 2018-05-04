@@ -50,5 +50,5 @@
 \contentsline {subsection}{\numberline {5.2.2}Cascading Binary Comparison}{38}
 \contentsline {subsection}{\numberline {5.2.3}Chunked Comparison Circuits}{41}
 \contentsline {subsection}{\numberline {5.2.4}Multi-Linearity and Efficiency Tests}{41}
-\contentsline {subsection}{\numberline {5.2.5}Conclusion}{43}
+\contentsline {subsection}{\numberline {5.2.5}Conclusion}{44}
 \contentsline {chapter}{References}{45}

@@ -94,7 +94,7 @@
 	I'd like to take a moment to thank all the people who have shared in many of the great moments in my life, housemates, study buddies, friends, professors, and anyone who has torn it up on the dance-floor with me, even if your name does not appear below it does not detract from the glory of our time spent together. 
 	\par In no particular order I'd like to specifically thank: Yoel Ferdman,  Siena Ward, Yarden Refaely\footnote{aka DJ Fast Dad}, Cara Chae-Banks, Samuel ``SandBird'' Polterock, Max Vinetz, Rosa ``RoBro'' Brotherton, Alon Averbuj, Josh ``Bayz'' Biase\footnote{aka DJ Flat Soda}, and Bryant Volk\footnote{aka DJ Strong Nerd} for the beautiful friendships we have maintained in all the years we have spent apart.  	
 	\par I'd also like to thank my family Sue Coles, Kiote Coles, Sierra Gomez-Saltzman, Tillie Castro, and especially Jody Saltzman and Dan Michaels for all the love over the years, without whose support none of this would have been possible.
-	\par Finally, I'd like to thank my thesis advisor (and Unix mentor) Dylan McNamee for his patience, advice, pep talks, and positivity throughout this thesis process. 
+	\par Finally, I'd like to thank my thesis advisor (and UNIX mentor) Dylan McNamee for his patience, advice, pep talks, and positivity throughout this thesis process. 
 
 
 % The preface is optional
@@ -170,7 +170,7 @@ $$\text{Dec}(sk, (\text{Enc}(pk,m)) = m$$
     & $\xrightarrow{\quad pk \quad}$ & \\
     & & $\enc(pk,m) \rightarrow c$ \\
     & $\xleftarrow{\quad c \quad}$& \\
-    $m' \coloneqq \dec(pk,c)$ && \\
+    $m' \coloneqq \dec(sk,c)$ && \\
   \end{tabular}
   }
    \caption{Public Key Encryption Protocol}
@@ -263,7 +263,7 @@ Defined for $SK_f \in K$ and $c \in C;$ to be $\dec(SK_f,c) \rightarrow m'$ if t
 \par Let $($Setup,Gen,Enc,Dec$)$ be a functional encryption scheme and $(PP,MSK)\leftarrow$Setup$(\lambda)$. Then for an adversary $\mathcal{A}$ 
 \begin{itemize}
 \item We give $PP,$ Enc, and Dec to $\mathcal{A}$ who can then query for a secret key that computes $f_i$. After receiving a query for $f_i$ we run Gen$(MSK,f_i) \to SK_{f_i}$ and send $SK_{f_i}$ to $\mathcal{A}$.
-\item Eventually $\mathcal{A}$ sends us two messages $m_0,m_1$ where $f_i(m_0)=f_i(m_1)$ for all functions queried so far. We then run Dec$(MSK,m_b)\to c_b$ for $b\in \{ 0,1 \}$ chosen with probability $1/2$ and send $c_b$ to $\mathcal{A}$.
+\item Eventually $\mathcal{A}$ sends us any two messages $m_0,m_1$ where $f_i(m_0)=f_i(m_1)$ for all functions queried so far. We then run Dec$(MSK,m_b)\to c_b$ for $b\in \{ 0,1 \}$ chosen with probability $1/2$ and send $c_b$ to $\mathcal{A}$.
 \item $\mathcal{A}$ can continue to send us queries for functions $f_i$ where $f_i(m_0) = f_i(m_1)$ which we will generate and send keys for. After some time $\mathcal{A}$ outputs a bit $b'$.
 \end{itemize}
 \par As before we say $\mathcal{A}$ is successful if $b = b'$, and we say a functional encryption scheme is indistinguishability secure if no adversary is able to succeed with probability greater than $1/2$.
@@ -296,7 +296,7 @@ Defined for $SK_f \in K$ and $c \in C;$ to be $\dec(SK_f,c) \rightarrow m'$ if t
        \newcommand{\iO}[0]{\textit{i}\mathcal{O}}
     
     \begin{definition}{Indistinguishability Obfuscation}
-    \par Given circuits $C_0,\ C_1$ where $|C_0| \approx |C_1|, C_0(x) = C_1(x)$ for all valid $x$, and an obfuscater $\iO(\cdot)$; we say that $\iO$ is an \textbf{indistinguishability obfuscater} if for all Distinguishers $\mathcal{D}$
+    \par Given circuits $C_0,\ C_1$ where $|C_0| \approx |C_1|\footnote{ $|C|$ denotes the length of the binary encoding of circuit $C$}, C_0(x) = C_1(x)$ for all valid $x$, and an obfuscater $\iO(\cdot)$; we say that $\iO$ is an \textbf{indistinguishability obfuscater} if for all Distinguishers $\mathcal{D}$
     $$\Pr[\mathcal{D}(\iO(C_0)) = 1] -\Pr[\mathcal{D}(\iO(C_1)) = 1] \leq \text{negl}$$
     \end{definition}
     
@@ -340,11 +340,11 @@ Defined for $SK_f \in K$ and $c \in C;$ to be $\dec(SK_f,c) \rightarrow m'$ if t
     \par First we define the following problems.
     
     \begin{definition}{Bilinear Computational Diffie-Hellman Problem}
-    \par Let $G_1,G_2$ be cyclic groups of prime order $p$ and $e:G_1 \times G_1 \to G_2$ be a bilinear map. For $a,b,c,\in \Z_p$ chosen uniformly and $g_1,g_2$ generators of $G_1,G_2$ respectively. The Computational Diffie-Hellman problem is: given $e,g_1,g_1^a,g_1^b$ and ,$g_1^c$; compute $$e(g_1,g_1^{a\cdot b \cdot c}) = g_2^{a\cdot b \cdot c}$$
+    \par Let $G_1,G_2$ be cyclic groups of prime order $p$ and $e:G_1 \times G_1 \to G_2$ be a bilinear map. For $a,b,c,\in \Z_p$ chosen uniformly and $g_1,g_2$ generators of $G_1,G_2$ respectively. The Computational Diffie-Hellman problem is: given $e,g_1,g_1^a,g_1^b$ and $g_1^c$; compute $$e(g_1,g_1^{a\cdot b \cdot c}) = g_2^{a\cdot b \cdot c}$$
     \end{definition}
     
     The computational Diffie-Hellman problem might seem a bit confusing, but it is pretty much just a formalization of what we realized after discussing tripartite key exchange: multiplying two secrets is easy using bilinear maps, but that multiplying by a third secret is difficult. Thus we have
-    \begin{assumption}{Bilinear CDD}
+    \begin{assumption}{Bilinear CDH}
     \par The bilinear computational Diffie-Hellman problem is hard.
         \end{assumption}
         
@@ -376,10 +376,10 @@ Defined for $SK_f \in K$ and $c \in C;$ to be $\dec(SK_f,c) \rightarrow m'$ if t
     In order to construct indistinguishability obfuscation or functional encryption, we need to be able to do computations in public on encoded secrets in such a way that only information about the final output can be discerned. We want to be able to encode, add, multiply and negate secrets; as well as learn about the final result of the computation.
     \par In the previous chapter, we saw that bilinear maps allow us to multiply two encoded secrets securely, but if we want to be able to do more complex computations involving multiple multiplications, or sums of products, or products of sums, we need a new cryptographic tool that allows for greater functionality. 
     \begin{definition}{Cryptographic Multilinear Map}
-    \par Let $G_1,G_2, \cdots, G_k,G_T$ be cyclic groups each of the same prime order $p$ with generators $g_1,g_2,\cdots g_k$ respectively.. Then we say a map $e:G_1 \times G_2 \times \cdots \times G_k \rightarrow G_T$ is a k-multilinear map if
+    \par Let $G_1,G_2, \cdots, G_k,G_T$ be cyclic groups each of the same prime order $p$ with generators $g_1,g_2,\cdots g_k$ respectively. Then we say a map $e:G_1 \times G_2 \times \cdots \times G_k \rightarrow G_T$ is a k-multilinear map if
     
     \begin{enumerate}
-    \item For $g_i \in G_i \: \forall i \in [k]$\footnote{$[k]$ denotes the set $\{ 1, 2,\cdots, k \}$} where $[k]$ is the set $\{1,2,\cdots,k \}$, and $\alpha \in \mathbb{Z}_p$ then $e(g_1, g_2, \cdots,g_\ell^\alpha , \cdots , g_k) =e(g_1, g_2, \cdots, g_\ell , \cdots , g_k)^\alpha \\$
+    \item For $g_i \in G_i \: \forall i \in [k]$\footnote{$[k]$ denotes the set $\{ 1, 2,\cdots, k \}$} and $\alpha \in \mathbb{Z}_p$ then $e(g_1, g_2, \cdots,g_\ell^\alpha , \cdots , g_k) =e(g_1, g_2, \cdots, g_\ell , \cdots , g_k)^\alpha \\$
     \item if $g_i$ generates $G_i$ then $e(g_1,g_2,\cdots , g_k)$ generates $G_T$. We say that $e$ is \textbf{non-degenerate} if this property holds.
     \end{enumerate}
     \end{definition}
@@ -430,7 +430,7 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
     
     
     \begin{definition}{Level $i$ Encoding}
-    \par Let $R$ be a cyclotomic ring (i.e. a ring of the form $\mathbb{Z}[X]/(X^n +1)$), $R_q = R/qR$ for large prime $q\in R,  \; g\in R_q$ be small, $z \in R_q$ chosen randomly (so it won't be small), and $I = \langle g\rangle$ the principal prime ideal of $g$. We define a valid level $i$ encoding of $\alpha \in R_g \cong \Z_p$ to be anything in the set
+    \par Let $R$ be a cyclotomic ring (i.e. a ring of the form $\mathbb{Z}[X]/(X^n +1)$), $R_q = R/qR$ for large prime $q\in \mathbb{Q},  \; g\in R_q$ be small, $z \in R_q$ chosen randomly (so it won't be small), and $I = \langle g\rangle$ the principal prime ideal of $g$. We define a valid level $i$ encoding of $\alpha \in R_g \cong \Z_p$ to be anything in the set
     $$S_i^\alpha =\bigg\{\bigg[\frac{a}{z^i} \bigg]_q \bigg| \; a \in \alpha + I \text{ and $a$ is small}\bigg\}$$
     \end{definition}
     For more details into the definition of short, long, and why it is safe to assume $z$ is invertible in this ring, see [\cite{GGH13}], we will instead show how this encoding allows us to achieve multilinear map-like functionality. 
@@ -495,10 +495,10 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
     \par So we are able to encode elements as well as do computation on them. The only procedure we have yet to cover is one that allows us to \textit{learn} from our computation. This procedure is rather involved, so we cover it in depth in section 2.2.5.
     
     \subsection{Zero Test}
-   \par It is important to note that while randomizing encodings makes the scheme harder to break in many ways, it also makes getting information from encoded values much more difficult. In fact it makes it so much more difficult to get information from encoded values that we can only check to see if it is or isn't zero. In other words, we need a way to determine wether or not $\encode{k}{u}$ is in $0 + I = I = \langle g \rangle$. We call this operation the zero test. To do this we need to define a new \textit{zero test} parameter which we will denote $p_{zt}$.
+   \par It is important to note that while randomizing encodings makes the scheme harder to break in many ways, it also makes getting information from encoded values much more difficult. In fact it makes it so much more difficult to get information from encoded values that we can only check to see if it is or isn't zero. In other words, we need a way to determine whether or not $\encode{k}{u}$ is in $0 + I = I = \langle g \rangle$. We call this operation the zero test. To do this we need to define a new \textit{zero test} parameter which we will denote $p_{zt}$.
    
    \begin{definition}{Zero Test}
-   \par Let $R$ be a cyclotomic ring, $R_q = R/qR$ for prime $q\in R, \;$ small $g, h \in R_q$,  $z \in R_q$ chosen uniformly (not small), and $I = \langle g\rangle$ the principal prime ideal of $g$. Define the zero test parameter to be
+   \par Let $R$ be a cyclotomic ring, $R_q = R/qR$ for prime $q\in \mathbb{Q}, \;$ small $g, h \in R_q$,  $z \in R_q$ chosen uniformly (not small), and $I = \langle g\rangle$ the principal prime ideal of $g$. Define the zero test parameter to be
       
    $$p_{zt} = \bigg[\frac{h \cdot z^k}{g}\bigg]_q $$
    
@@ -583,7 +583,8 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
     Where the $A_{i,b}$'s are permutation matrices in $\{0,1\}^{5 \times 5}$, and inp$(i)\in [\ell]$ is the input bit position examined at step $i$ of the branching program. The function computed by this branching program is
     $$f_{BP,A_0,A_1}(x):= \begin{cases}
     1 \quad \quad \text{if } \prod_{i=1}^n A_{i,x_{inp(i)}} = I \\
-    0 \quad \quad \text{otherwise} 
+    0 \quad \quad \text{if } \prod_{i=1}^n A_{i,x_{inp(i)}} = I^F\footnote{the identity matrix with a flipped diagonal} \\
+    \perp \quad \quad \text{ otherwise}
     \end{cases}$$
     \end{definition}
     
@@ -745,7 +746,7 @@ $$\prod_{j=1}^{k+1}\alpha_j \cdot e(g_1,g_2,\cdots,g_k)  \quad \text{from} \quad
     \newcommand{\fe}[0]{_\text{FE}}
     \par A functional encryption scheme for a class of functions $\mathcal{F} = \mathcal{F}(\lambda)$ over message space $M \in M_\lambda$ (i.e. messages of length polynomial to $\lambda$) consists of four algorithms $FE = \{$ Setup$\fe$, KeyGen$\fe$, Encrypt$\fe$, Decrypt$\fe \}$ where:
     \begin{itemize}
-    \item Setup$_{FE}(1^\lambda) \to (PP, MSK)$ takes security parameter and outputs Public Parameter and Master Secret Key 
+    \item Setup$_{FE}(\lambda) \to (PP, MSK)$ takes security parameter and outputs Public Parameter and Master Secret Key 
     \item KeyGen$_{FE}(MSK,f)\to SK_f$ takes Master Secret Key and a function $f\in \mathcal{F}$ and outputs a corresponding secret key $SK_f$
     \item Encrypt$_{FE}(PP,m) \to c$ takes Public Parameter and a message $m\in M$ and outputs ciphertext $c$
     \item Decrypt$_{FE}(SK_f,c)\to m'$ takes secret key and ciphertext and outputs message $m'$
@@ -894,7 +895,7 @@ Note: that we encrypt $b$ and $PK\sign^\text{max}$ so that it is in the proper f
     $$S_i^\alpha =\bigg\{\bigg[\frac{a}{z^i} \bigg]_q \bigg| \; a \in \alpha + I \text{ and $a$ is small}\bigg\} $$
     In an asymmetric graded encoding scheme, the prime $z$ is different at each level, so the set of valid level $i$ encodings is of the form
     $$S_i^\alpha =\bigg\{\bigg[\frac{a}{\prod_{j\leq i} z_j} \bigg]_q \bigg| \; a \in \alpha + I \text{ and $a$ is small}\bigg\} $$
-      Where each $z_i$ is a large prime. 
+      Where each $z_i$ is a large randomly selected prime. 
       \subsection{CXS}
    
    5Gen-C contains a program circuit-synthesis (hereby \texttt{cxs}), for compiling and optimizing circuits from a domain specific language (DSL) embedded in Haskell to \texttt{acirc} files ready for obfuscation. We use \texttt{cxs} to write Haskell-like programs that describe a circuit functionality then compile that program with \texttt{cxs} to get a circuit of the functionality described in the DSL that expects inputs of a specified size.
@@ -1051,7 +1052,7 @@ our recursive chunked comparison circuit generation algorithm runs as follows:
   \midrule % another horizontal line
 	\texttt{comp} &00:18:56 &00:44:30 &01:03:37 & 02:38:05 & 06:05:42 &19:54:50\\
 	%\texttt{ccomp4} &00:00:01 &00:00:07 &00:04:38 & -- \\
-	\texttt{ccomp8} &00:18:35 &11:43:57 &01:03:18 &03:39:36 &11:51:58 & 42:32:49 \\
+	\texttt{ccomp8} &00:18:35 &00:43:57 &01:03:18 &03:39:36 &11:51:58 & 42:32:49 \\
 		\bottomrule % yet another horizontal line
 \end{tabular}
 \end{center}
@@ -1063,7 +1064,7 @@ our recursive chunked comparison circuit generation algorithm runs as follows:
 \par In order to test the multilinearity of our circuits we use the \texttt{get-kappa} setting of \texttt{mio mife} that computes the multi-linearity of our circuits. As we can see in table 5.2 the $k$ values of \texttt{ccomp8} are higher than the corresponding $k$ values of \texttt{comp} by a factor of 2. 
 \par At first this was confusing for us, after all, chunking reduces the depth of our circuit and eliminates a lot of AND gates that occur in series in the cascading comparison circuit. However, it's important to remember that $k$ is not just the maximum number of AND (binary MUL) operations in our computation since multiplying a level $i$ and a level $j$ encoding under a graded encoding scheme yields a level $i+j$ encoding. Thus reducing the depth of a circuit does not necessarily make it more efficient to obfuscate.
 \par It is also worth noting that the obfuscation scheme itself increases the $k$ value of the obfuscated circuit. While the inner workings of the CMR MIFE scheme [\cite{5genc}] are outside the scope of this thesis, it suffices to say that the $k$ value of a circuit serves as a lower bound on the $k$ value of the obfuscation, so it is more complicated than just tracking the encoding levels from input to output of a circuit.
-\par While it is unclear if the relationship between multi-linearity and setup time is causal or not, figure 5.5 shows what looks like a positive linear relationship between them where the slope of the best fit line is approximately 8 minutes as $k$ increase by 1. This constant blow up is the major limitation in obfuscation and functional encryption today since it makes any sort of significant computation infeasible. However, encryption and decryption remain reasonable, for instance \texttt{comp} for 64 bits of input had a setup time of just over 6 hours, but decryption only took 19 minutes. 
+\par While it is unclear if the relationship between multi-linearity and setup time is causal or not, figure 5.5 shows what looks like a positive linear relationship between them where the slope of the best fit line is approximately 8 minutes as $k$ increase by 1. This constant blow up is the major limitation in obfuscation and functional encryption today since it makes any sort of significant computation infeasible. However, encryption and decryption remain reasonable, for instance \texttt{comp} for 64 bits of input had a setup time of just over 6 hours, but decryption only took 19 minutes.\footnote{run on an Ubuntu virtual machine running with 20 cores of a Mac Pro with 3.35 Xeon x5680 processor with 12 hardware threads, 12MB cache and 64GB memory} 
 
   \begin{figure}[htbp]
 	% the options are h = here, t = top, b = bottom, p = page of figures.
